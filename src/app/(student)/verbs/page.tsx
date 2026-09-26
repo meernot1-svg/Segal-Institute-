@@ -1,0 +1,257 @@
+import Link from "next/link";
+import { Prisma } from "@prisma/client";
+import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth";
+import { VerbsToolbar } from "@/components/verbs-toolbar";
+import { VerbActions } from "@/components/verb-actions";
+import { SpeakButton } from "@/components/speak-button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+export const dynamic = "force-dynamic";
+
+const PAGE_SIZE = 24;
+
+type SearchParams = {
+  q?: string;
+  status?: string;
+  difficulty?: string;
+  letter?: string;
+  page?: string;
+};
+
+export default async function VerbsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const user = (await getCurrentUser())!;
+  const sp = await searchParams;
+  const q = (sp.q || "").trim();
+  const status = sp.status || "all";
+  const difficulty = sp.difficulty || "all";
+  const letter = (sp.letter || "").toLowerCase();
+  const page = Math.max(1, parseInt(sp.page || "1", 10) || 1);
+
+  const where: Prisma.VerbWhereInput = {};
+  if (q) {
+    where.OR = [{ v1: { contains: q } }, { meaning: { contains: q } }];
+  }
+  if (letter && letter.length === 1) {
+    where.v1 = { startsWith: letter };
+  }
+  if (difficulty !== "all") {
+    where.difficulty = parseInt(difficulty, 10);
+  }
+  switch (status) {
+    case "learned":
+      where.progress = { some: { profileId: user.id, status: "learned" } };
+      break;
+    case "unlearned":
+      where.NOT = { progress: { some: { profileId: user.id, status: "learned" } } };
+      break;
+    case "difficult":
+      where.progress = { some: { profileId: user.id, status: "difficult" } };
+      break;
+    case "favorites":
+      where.favorites = { some: { profileId: user.id } };
+      break;
+  }
+
+  const [total, verbs] = await Promise.all([
+    db.verb.count({ where }),
+    db.verb.findMany({
+      where,
+      orderBy: { v1: "asc" },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+      include: {
+        progress: { where: { profileId: user.id }, select: { status: true } },
+        favorites: { where: { profileId: user.id }, select: { id: true } },
+      },
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+  return (
+    <div className="mx-auto max-w-6xl">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Verbs
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {total.toLocaleString()} verbs · mark each learned or difficult as you go.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <VerbsToolbar q={q} status={status} difficulty={difficulty} letter={letter} />
+      </div>
+
+      {verbs.length === 0 ? (
+        <div className="mt-10 rounded-xl border border-border bg-card p-12 text-center">
+          <p className="font-medium text-foreground">No verbs match your filters.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Try clearing the search or switching filters.
+          </p>
+        </div>
+      ) : (
+        <>
+          {/* Desktop table */}
+          <div className="mt-6 hidden overflow-hidden rounded-xl border border-border md:block">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/60 text-left">
+                <tr className="text-xs text-muted-foreground">
+                  <th className="px-4 py-3 font-medium">V1</th>
+                  <th className="px-4 py-3 font-medium">V2</th>
+                  <th className="px-4 py-3 font-medium">V3</th>
+                  <th className="px-4 py-3 font-medium">Meaning</th>
+                  <th className="px-4 py-3 font-medium">Level</th>
+                  <th className="px-4 py-3 text-right font-medium">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border bg-card">
+                {verbs.map((v) => {
+                  const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
+                  const fav = v.favorites.length > 0;
+                  return (
+                    <tr key={v.id} className="group align-middle">
+                      <td className="px-4 py-3">
+                        <Link href={`/verbs/${v.id}`} className="inline-flex items-center gap-2">
+                          <span className="font-medium text-foreground group-hover:text-brand-emerald-deep">
+                            {v.v1}
+                          </span>
+                          <SpeakButton text={v.v1} className="opacity-0 transition-opacity group-hover:opacity-100" />
+                        </Link>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">{v.v2}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{v.v3}</td>
+                      <td className="px-4 py-3 max-w-[280px] truncate text-muted-foreground" title={v.meaning}>
+                        {v.meaning}
+                      </td>
+                      <td className="px-4 py-3">
+                        <DiffBadge level={v.difficulty} />
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex justify-end">
+                          <VerbActions verbId={v.id} initialStatus={st} initialFavorited={fav} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile cards */}
+          <div className="mt-6 grid gap-3 md:hidden">
+            {verbs.map((v) => {
+              const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
+              const fav = v.favorites.length > 0;
+              return (
+                <div key={v.id} className="rounded-xl border border-border bg-card p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <Link href={`/verbs/${v.id}`} className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="font-display text-lg font-semibold text-foreground">{v.v1}</p>
+                        <SpeakButton text={v.v1} />
+                      </div>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">{v.v2}</span>
+                        <span className="mx-1.5 text-border">/</span>
+                        <span className="font-medium text-foreground">{v.v3}</span>
+                      </p>
+                      <p className="mt-1.5 truncate text-sm text-muted-foreground">{v.meaning}</p>
+                    </Link>
+                    <DiffBadge level={v.difficulty} />
+                  </div>
+                  <div className="mt-3 border-t border-border pt-3">
+                    <VerbActions verbId={v.id} initialStatus={st} initialFavorited={fav} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <Pagination page={page} totalPages={totalPages} searchParams={sp} />
+        </>
+      )}
+    </div>
+  );
+}
+
+function DiffBadge({ level }: { level: number }) {
+  const map = {
+    1: { label: "Easy", className: "bg-accent text-brand-emerald-deep" },
+    2: { label: "Medium", className: "bg-amber-50 text-amber-700" },
+    3: { label: "Hard", className: "bg-red-50 text-red-700" },
+  } as const;
+  const m = map[(level as 1 | 2 | 3) ?? 1] || map[1];
+  return <Badge variant="outline" className={cn("border-transparent", m.className)}>{m.label}</Badge>;
+}
+
+function Pagination({
+  page,
+  totalPages,
+  searchParams,
+}: {
+  page: number;
+  totalPages: number;
+  searchParams: SearchParams;
+}) {
+  if (totalPages <= 1) return null;
+  const build = (p: number) => {
+    const params = new URLSearchParams();
+    for (const [k, v] of Object.entries(searchParams)) {
+      if (v) params.set(k, v);
+    }
+    params.set("page", String(p));
+    return `/verbs?${params.toString()}`;
+  };
+  const start = Math.max(1, page - 2);
+  const end = Math.min(totalPages, start + 4);
+  const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+  return (
+    <nav className="mt-6 flex items-center justify-between gap-2" aria-label="Pagination">
+      <div className="text-sm text-muted-foreground">
+        Page <span className="font-medium text-foreground">{page}</span> of {totalPages}
+      </div>
+      <div className="flex items-center gap-1">
+        {page > 1 ? (
+          <Link href={build(page - 1)} className="inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Previous page">
+            <ChevronLeft className="size-4" />
+          </Link>
+        ) : (
+          <span className="inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground/40">
+            <ChevronLeft className="size-4" />
+          </span>
+        )}
+        {pages.map((p) => (
+          <Link
+            key={p}
+            href={build(p)}
+            className={cn(
+              "inline-flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm font-medium transition-colors",
+              p === page
+                ? "bg-primary text-primary-foreground"
+                : "border border-border text-muted-foreground hover:bg-accent hover:text-foreground"
+            )}
+          >
+            {p}
+          </Link>
+        ))}
+        {page < totalPages ? (
+          <Link href={build(page + 1)} className="inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Next page">
+            <ChevronRight className="size-4" />
+          </Link>
+        ) : (
+          <span className="inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground/40">
+            <ChevronRight className="size-4" />
+          </span>
+        )}
+      </div>
+    </nav>
+  );
+}
