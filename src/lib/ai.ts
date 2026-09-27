@@ -21,7 +21,9 @@ const MOCK =
   process.env.ENABLE_MOCK_AI === "true" || !process.env.AI_API_KEY;
 
 const BASE_URL = process.env.AI_BASE_URL || "https://openrouter.ai/api/v1";
-const MODEL = process.env.AI_MODEL || "meta-llama/llama-3.3-70b-instruct";
+// Default to a free, reliable OpenRouter model. Override with AI_MODEL env var
+// if you want a specific (paid) model.
+const MODEL = process.env.AI_MODEL || "liquid/lfm-2.5-2.6b:free";
 
 export function isMockMode() {
   return MOCK;
