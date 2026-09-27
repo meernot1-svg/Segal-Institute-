@@ -54,7 +54,10 @@ async function callOpenRouter(messages: ChatMessage[]): Promise<string> {
         model: MODEL,
         messages,
         temperature: 0.7,
-        max_tokens: 1500,
+        // 4096 because some free models (e.g. liquid LFM) require "reasoning"
+        // tokens that consume part of the budget before the actual content is
+        // produced. With a smaller limit, finish_reason="length" and content=null.
+        max_tokens: 4096,
       }),
       signal: controller.signal,
     });
