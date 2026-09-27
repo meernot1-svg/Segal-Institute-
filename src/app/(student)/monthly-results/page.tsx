@@ -12,7 +12,7 @@ export default async function MonthlyResultsPage() {
     where: { studentId: user.id },
     orderBy: { periodKey: "desc" },
     take: 24,
-    select: { id: true, periodKey: true, generatedCard: true, createdAt: true },
+    select: { id: true, periodKey: true, generatedCard: true, imageUrl: true, createdAt: true },
   });
 
   return (
@@ -51,6 +51,12 @@ export default async function MonthlyResultsPage() {
                 <p dir="auto" className="prose-reading mt-4 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
                   {r.generatedCard}
                 </p>
+                {r.imageUrl && (
+                  <details className="mt-4">
+                    <summary className="cursor-pointer text-xs text-muted-foreground">View original result sheet</summary>
+                    <img src={r.imageUrl} alt={`Original result sheet for ${r.periodKey}`} className="mt-2 max-h-96 w-full rounded-lg border border-border object-contain" />
+                  </details>
+                )}
               </CardContent>
             </Card>
           ))}

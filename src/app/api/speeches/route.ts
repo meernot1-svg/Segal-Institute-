@@ -12,8 +12,11 @@ export async function GET() {
     select: {
       id: true,
       title: true,
+      description: true,
       studentName: true,
       content: true,
+      videoUrl: true,
+      videoData: true,
       kind: true,
       createdAt: true,
     },

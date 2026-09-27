@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
-import { todayISO, monthKey } from "@/lib/format";
+import { todayISO, monthKey, formatCurrency } from "@/lib/format";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, BookA, ListChecks, TrendingUp, CalendarDays, ArrowRight, Receipt, Mic2, FileText, Trophy } from "lucide-react";
 
@@ -141,5 +141,5 @@ function QuickLink({ href, icon: Icon, title, body }: { href: string; icon: Reac
 }
 
 function fmt(n: number) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+  return formatCurrency(n);
 }

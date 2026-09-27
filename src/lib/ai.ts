@@ -78,6 +78,88 @@ async function callOpenRouter(messages: ChatMessage[]): Promise<string> {
   return out.trim();
 }
 
+// Vision-capable model (separate from the text-only default model).
+// dots-studio/dots-3-note-preview:free is a free OpenRouter model that
+// supports image input (text + image modalities). Override with AI_VISION_MODEL.
+const VISION_MODEL = process.env.AI_VISION_MODEL || "dots-studio/dots-3-note-preview:free";
+
+type VisionContent =
+  | { type: "text"; text: string }
+  | { type: "image_url"; image_url: { url: string } };
+
+async function callOpenRouterVision(
+  systemPrompt: string,
+  textPrompt: string,
+  imageDataUrl: string,
+): Promise<string> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 90_000);
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}/chat/completions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.AI_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://segal-institute.vercel.app",
+        "X-Title": branding.name,
+      },
+      body: JSON.stringify({
+        model: VISION_MODEL,
+        messages: [
+          { role: "system", content: systemPrompt },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: textPrompt } as VisionContent,
+              { type: "image_url", image_url: { url: imageDataUrl } } as VisionContent,
+            ],
+          },
+        ],
+        temperature: 0.3,
+        max_tokens: 4096,
+      }),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`AI vision request failed (${res.status}): ${errText.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  const out = data?.choices?.[0]?.message?.content;
+  if (!out || typeof out !== "string" || !out.trim()) {
+    throw new Error("AI vision returned an empty response");
+  }
+  return out.trim();
+}
+
+export function getVisionModel() {
+  return VISION_MODEL;
+}
+
+/**
+ * Send an image (as a data URL) to a vision-capable model along with a text
+ * prompt. Returns the model's text response. Falls back to a mock if no key.
+ */
+export async function completeWithVision(
+  systemPrompt: string,
+  textPrompt: string,
+  imageDataUrl: string,
+): Promise<string> {
+  if (!MOCK) {
+    try {
+      return await callOpenRouterVision(systemPrompt, textPrompt, imageDataUrl);
+    } catch (e) {
+      console.error("[ai] completeWithVision() failed:", e instanceof Error ? e.message : e);
+      throw e;
+    }
+  }
+  return `[Mock vision mode] Could not read the image because no AI_API_KEY is set. Upload a text result instead, or set AI_API_KEY.`;
+}
+
 /**
  * Single-turn completion. Returns plain text.
  */

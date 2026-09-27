@@ -1,16 +1,16 @@
 /** Small formatting helpers. */
 
 export function formatCurrency(amount: number): string {
-  // Default to USD; admin can set a different currency in the future.
+  // Pakistani Rupee (PKR) — Segal Institute bills students in PKR.
   try {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("en-PK", {
       style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      currency: "PKR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
   } catch {
-    return `$${amount.toFixed(2)}`;
+    return `PKR ${Math.round(amount).toLocaleString()}`;
   }
 }
 

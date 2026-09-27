@@ -347,11 +347,18 @@ model Fee {
 model StudentSpeech {
   id          String   @id @default(cuid())
   title       String
+  // Short description shown under the title (admin writes this)
+  description String   @default("")
   studentName String
   // Optional link to a profile (in case admin wants to attach to a real student)
   studentId   String?
-  content     String
-  // "speech" | "poem" | "essay" — kind of written work
+  // For text speeches/poems/essays: the written content
+  content     String   @default("")
+  // For video speeches: a YouTube/embed URL OR a direct video file URL
+  videoUrl    String?
+  // For uploaded video files: base64 data URL (small files only — see note below)
+  videoData   String?
+  // "speech" | "poem" | "essay" | "video" — kind of work
   kind        String   @default("speech")
   authorId    String?
   createdAt   DateTime @default(now())
@@ -364,16 +371,21 @@ model StudentSpeech {
 }
 
 // ---------------------------------------------------------------------------
-// Monthly results (admin writes notes -> AI generates a polished result card)
+// Monthly results (admin writes notes OR uploads a result-card image -> AI
+// generates a polished, personalized result card per student)
 // ---------------------------------------------------------------------------
 
 model MonthlyResult {
   id            String   @id @default(cuid())
   studentId     String
   periodKey     String
-  // Admin's raw text notes (input)
-  notes         String
-  // AI-generated polished result card (output)
+  // Admin's raw text notes (input, text mode)
+  notes         String   @default("")
+  // Admin's uploaded result-card image (input, image mode) — base64 data URL
+  imageUrl      String?
+  // AI-extracted text from the uploaded image (from vision model)
+  extractedText String   @default("")
+  // AI-generated polished result card (output, personalized per student)
   generatedCard String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
