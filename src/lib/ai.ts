@@ -1,30 +1,65 @@
 /**
  * AI provider abstraction.
  *
- * Real mode uses z-ai-web-dev-sdk (only when AI_API_KEY is set or the SDK is
- * configured in this environment). Mock mode returns helpful, deterministic
- * responses so the app runs with zero AI spend during development.
+ * Real mode uses OpenRouter (OpenAI-compatible API) when AI_API_KEY is set.
+ * Mock mode returns helpful placeholder responses so the app runs with zero
+ * AI spend during development or when the key isn't configured.
+ *
+ * Env vars:
+ *   AI_API_KEY    — OpenRouter API key (sk-or-v1-...)
+ *   AI_BASE_URL   — defaults to https://openrouter.ai/api/v1
+ *   AI_MODEL      — defaults to meta-llama/llama-3.3-70b-instruct
+ *   ENABLE_MOCK_AI — "true" forces mock mode even if a key is present
  *
  * Always called from server-side code only.
- * (See the LLM skill — z-ai-web-dev-sdk must never run on the client.)
  */
 import { branding } from "@/lib/branding";
 
-type ChatMessage = { role: "user" | "assistant"; content: string };
+type ChatMessage = { role: "user" | "assistant" | "system"; content: string };
 
 const MOCK =
   process.env.ENABLE_MOCK_AI === "true" || !process.env.AI_API_KEY;
+
+const BASE_URL = process.env.AI_BASE_URL || "https://openrouter.ai/api/v1";
+const MODEL = process.env.AI_MODEL || "meta-llama/llama-3.3-70b-instruct";
 
 export function isMockMode() {
   return MOCK;
 }
 
-let zaiInstance: any | null = null;
-async function getZai() {
-  if (zaiInstance) return zaiInstance;
-  const { default: ZAI } = await import("z-ai-web-dev-sdk");
-  zaiInstance = await ZAI.create();
-  return zaiInstance;
+export function getModel() {
+  return MODEL;
+}
+
+async function callOpenRouter(messages: ChatMessage[]): Promise<string> {
+  const res = await fetch(`${BASE_URL}/chat/completions`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.AI_API_KEY}`,
+      "Content-Type": "application/json",
+      // OpenRouter optional metadata (attribution)
+      "HTTP-Referer": "https://segal-institute.vercel.app",
+      "X-Title": branding.name,
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      messages,
+      temperature: 0.7,
+      max_tokens: 2000,
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`AI request failed (${res.status}): ${errText.slice(0, 200)}`);
+  }
+
+  const data = await res.json();
+  const out = data?.choices?.[0]?.message?.content;
+  if (!out || typeof out !== "string" || !out.trim()) {
+    throw new Error("AI returned an empty response");
+  }
+  return out.trim();
 }
 
 /**
@@ -36,61 +71,48 @@ export async function complete(
 ): Promise<string> {
   if (!MOCK) {
     try {
-      const zai = await getZai();
-      const completion = await zai.chat.completions.create({
-        messages: [
-          { role: "assistant", content: systemPrompt },
-          { role: "user", content: userPrompt },
-        ],
-        thinking: { type: "disabled" },
-      });
-      const out = completion.choices[0]?.message?.content;
-      if (out && out.trim()) return out.trim();
+      return await callOpenRouter([
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ]);
     } catch (e) {
-      // fall through to mock
+      // fall through to mock on error
+      console.error("[ai] complete() failed, using mock:", e instanceof Error ? e.message : e);
     }
   }
   return mockComplete(systemPrompt, userPrompt);
 }
 
 /**
- * Multi-turn chat. `history` should be the prior messages (user+assistant)
+ * Multi-turn chat. `history` is the prior messages (user+assistant)
  * excluding the system prompt; `message` is the new user message.
  */
 export async function chat(
   systemPrompt: string,
-  history: ChatMessage[],
+  history: { role: "user" | "assistant"; content: string }[],
   message: string,
 ): Promise<string> {
   if (!MOCK) {
     try {
-      const zai = await getZai();
       const messages: ChatMessage[] = [
-        { role: "assistant", content: systemPrompt },
-        ...history.slice(-10),
+        { role: "system", content: systemPrompt },
+        ...history.slice(-10).map((m) => ({ role: m.role, content: m.content })),
         { role: "user", content: message },
       ];
-      const completion = await zai.chat.completions.create({
-        messages,
-        thinking: { type: "disabled" },
-      });
-      const out = completion.choices[0]?.message?.content;
-      if (out && out.trim()) return out.trim();
+      return await callOpenRouter(messages);
     } catch (e) {
-      // fall through to mock
+      console.error("[ai] chat() failed, using mock:", e instanceof Error ? e.message : e);
     }
   }
   return mockChat(systemPrompt, history, message);
 }
 
 // ---------------------------------------------------------------------------
-// Mock responses
+// Mock responses (used when AI_API_KEY is empty or ENABLE_MOCK_AI=true)
 // ---------------------------------------------------------------------------
 
 function mockComplete(systemPrompt: string, userPrompt: string): string {
-  // Heuristic: pick a mock based on what the system prompt asks for.
   const sp = systemPrompt.toLowerCase();
-  const up = userPrompt.toLowerCase();
 
   if (sp.includes("speech")) {
     const topicMatch = userPrompt.match(/topic[:\s]+([^,.\n]+)/i);
@@ -115,7 +137,7 @@ function mockComplete(systemPrompt: string, userPrompt: string): string {
       `**Conclusion**`,
       `So here's my challenge to you: pick one small thing about ${topic} and do it tomorrow before noon. Small wins build big momentum. Thank you.`,
       ``,
-      `_(Mock mode — original placeholder speech generated locally. Set AI_API_KEY to generate fully custom speeches.)_`,
+      `_(Mock mode — original placeholder speech. Set AI_API_KEY for fully custom AI generation.)_`,
     ].join("\n");
   }
 
@@ -140,27 +162,25 @@ function mockComplete(systemPrompt: string, userPrompt: string): string {
       `What you learn by heart`,
       `will learn you back.`,
       ``,
-      `_(Mock mode — original placeholder poem generated locally. Set AI_API_KEY to generate fully custom poetry.)_`,
+      `_(Mock mode — original placeholder poem. Set AI_API_KEY for fully custom AI generation.)_`,
     ].join("\n");
   }
 
-  // Generic fallback
   return [
     `Here's a short response about "${userPrompt.slice(0, 80)}".`,
     ``,
-    `(Mock mode — this is a placeholder reply. Set AI_API_KEY to enable the real AI tutor.)`,
+    `(Mock mode — placeholder reply. Set AI_API_KEY to enable the real AI tutor.)`,
   ].join("\n");
 }
 
 function mockChat(
-  systemPrompt: string,
-  history: ChatMessage[],
+  _systemPrompt: string,
+  _history: { role: "user" | "assistant"; content: string }[],
   message: string,
 ): string {
   const m = message.toLowerCase();
-  // A few simple, friendly canned replies that acknowledge the user.
   if (/(^|\s)(hi|hello|hey|salam|assalam)(\s|$|[!.?])/.test(m)) {
-    return `Hello! I'm your Segal Institute English tutor. You can ask me to explain a verb form (e.g. "what's the V2 of go?"), give you a sentence using a verb, or help with grammar. (Mock mode — set AI_API_KEY to enable the real tutor.)`;
+    return `Hello! I'm your ${branding.name} English tutor. You can ask me to explain a verb form (e.g. "what's the V2 of go?"), give you a sentence using a verb, or help with grammar. (Mock mode — set AI_API_KEY to enable the real tutor.)`;
   }
   if (m.includes("v2") || m.includes("v3") || m.includes("past simple") || m.includes("past participle")) {
     return `The three forms of a verb are V1 (base), V2 (past simple), and V3 (past participle). For example: go / went / gone. Tell me the verb and I'll show all three. (Mock mode — set AI_API_KEY for the full tutor.)`;
@@ -168,15 +188,15 @@ function mockChat(
   if (m.includes("help") || m.includes("how do i")) {
     return `Sure — happy to help. Ask me anything about English verbs, like "explain the verb 'take' in a sentence" or "what's the difference between V2 and V3?". (Mock mode.)`;
   }
-  return `That's a good question. In a real deployment I'd answer with the AI tutor based on the Segal Institute curriculum. Right now I'm running in mock mode (set AI_API_KEY to enable real AI). Meanwhile, try asking me about a specific verb form.`;
+  return `That's a good question. In a real deployment I'd answer with the AI tutor based on the ${branding.name} curriculum. Right now I'm running in mock mode (set AI_API_KEY to enable real AI). Meanwhile, try asking me about a specific verb form.`;
 }
 
 // ---------------------------------------------------------------------------
 // Shared system prompts
 // ---------------------------------------------------------------------------
 
-export const TUTOR_SYSTEM_PROMPT = `You are the friendly English tutor at ${branding.name}. You help students understand the three forms of English verbs (V1 = base, V2 = past simple, V3 = past participle), give example sentences, explain grammar simply, and encourage the student. Keep answers concise (2–5 sentences unless asked for more). If the student asks about a verb, give all three forms and a short example sentence.`;
+export const TUTOR_SYSTEM_PROMPT = `You are the friendly English tutor at ${branding.name}. You help students understand the three forms of English verbs (V1 = base, V2 = past simple, V3 = past participle), give example sentences, explain grammar simply, and encourage the student. Keep answers concise (2–5 sentences unless asked for more). If the student asks about a verb, give all three forms and a short example sentence. If the student asks something unrelated to English learning, gently steer back to the subject.`;
 
-export const SPEECH_SYSTEM_PROMPT = `You are a speechwriter for ${branding.name}. Given a topic and a few options (duration, language, level, audience, style, tone), write an ORIGINAL speech with clearly labeled sections: Opening, Introduction, Main points (3 numbered), Examples, Conclusion. Do not reproduce any existing speech, quote, or copyrighted text. Keep it genuine and appropriate to the audience and tone.`;
+export const SPEECH_SYSTEM_PROMPT = `You are a speechwriter for ${branding.name}. Given a topic and a few options (duration, language, level, audience, style, tone), write an ORIGINAL speech with clearly labeled sections: Opening, Introduction, Main points (3 numbered), Examples, Conclusion. Do not reproduce any existing speech, quote, or copyrighted text. Keep it genuine and appropriate to the audience and tone. Write in clear Markdown with **bold** section headers.`;
 
-export const POETRY_SYSTEM_PROMPT = `You are a poet at ${branding.name}. Given a topic, language, style, length, and mood, write an ORIGINAL poem. Never reproduce existing copyrighted poems, song lyrics, or famous verses — write fresh lines. Keep it short (one stanza for "short", two for "medium", three for "long").`;
+export const POETRY_SYSTEM_PROMPT = `You are a poet at ${branding.name}. Given a topic, language, style, length, and mood, write an ORIGINAL poem. Never reproduce existing copyrighted poems, song lyrics, or famous verses — write fresh lines. Keep it short (one stanza for "short", two for "medium", three for "long"). Match the requested mood genuinely.`;
