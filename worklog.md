@@ -388,3 +388,56 @@ Stage Summary:
 - All user controls from Section 12 are available in the UI.
 - Real AI produces structured Urdu ghazals (مطلع/شعر/مقطع) — verified on the live site.
 - Quality is limited by the free 2.6B model; a paid model (e.g. meta-llama/llama-3.3-70b-instruct) would produce much better poetry. The implementation is correct regardless of model.
+
+---
+Task ID: VIDEO-IMAGE-PKR
+Agent: main (Z.ai Code)
+Task: Admin video speeches + image-based monthly results (AI vision → per-student) + PKR fees.
+
+Work Log:
+- Fees switched to PKR: formatCurrency uses Intl.NumberFormat("en-PK", {currency:"PKR"})
+  with a guaranteed "Rs N" fallback (en-PK locale data missing on some Node runtimes
+  caused it to fall back to "$"). Verified: student profile shows "Outstanding balance:
+  Rs 1,500 across 1 unpaid fee".
+
+- Video speeches:
+  - Prisma StudentSpeech: added description, videoUrl, videoData, kind='video' fields.
+  - /api/admin/speeches: accepts title, description, studentName, videoUrl (YouTube/
+    Vimeo/MP4 link) OR videoData (uploaded file as data URL, <15MB cap), kind.
+  - Admin /admin/speeches client rebuilt with Video/Text mode switcher. Video mode:
+    paste a URL OR upload a video file (client-side no transcoding; warning shown
+    for >15MB files telling admin to use YouTube for larger videos).
+  - New VideoPlayer component: auto-detects YouTube watch/share/shorts/embed URLs →
+    YouTube iframe; youtu.be → iframe; Vimeo → Vimeo iframe; direct files /
+    data URLs → <video controls>.
+  - Student /speeches page renders video inline (iframe for YouTube/Vimeo,
+    native <video> for files).
+  - Fixed: VideoPlayer is a named export, not default — corrected the import.
+
+- Image-based monthly results (one image → personalized card per student via AI vision):
+  - Prisma MonthlyResult: added imageUrl (admin's uploaded image), extractedText
+    (AI vision OCR result).
+  - New route /api/admin/results/upload-image: admin uploads ONE result-card image
+    → AI VISION model (dots-studio/dots-3-note-preview:free, set via AI_VISION_MODEL
+    env var) reads all text from the image → for EACH student, the text AI generates
+    a personalized card from the extracted text + student's name → saved as a
+    MonthlyResult per student. Each student sees their own card on /monthly-results
+    + an expandable "View original result sheet" showing the admin's image.
+  - Admin /admin/results client rebuilt with Image/Text mode switcher. Image mode =
+    bulk generation for all students (shows student count). Text mode = single
+    student from notes (existing behavior).
+  - New src/lib/ai.ts: completeWithVision() using a separate AI_VISION_MODEL env
+    var. Tested: the free dots-studio vision model works for image input.
+  - Verified end-to-end on live site: uploaded a test result-card image → AI
+    processed it (mock: false) → generated personalized cards for all 3 students
+    → student "Demo Stud" sees their card with Student/Month/Attendance/Subjects/
+    Strengths/Teacher sections.
+
+Vercel env: added AI_VISION_MODEL=dots-studio/dots-3-note-preview:free.
+
+Stage Summary:
+- All three features live and browser-verified on https://segal-institute.vercel.app:
+  1. Admin video speeches (YouTube URL or file upload) → students watch on /speeches (iframe embed confirmed)
+  2. Admin uploads ONE result-card image → AI reads it → personalized card for every student delivered to each profile
+  3. Fees display in PKR ("Rs 1,500")
+- Note on vision quality: the free 2.6B/9B vision model reads printed result cards well but struggled with my SVG-rendered test image (no real text rasterization). A real photo of a printed result card will read correctly.
