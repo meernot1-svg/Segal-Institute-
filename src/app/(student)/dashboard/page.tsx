@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
+import { todayISO } from "@/lib/format";
 import {
   BookA,
   GraduationCap,
@@ -10,6 +11,11 @@ import {
   Flame,
   Trophy,
   TrendingUp,
+  CalendarDays,
+  Sparkles,
+  Bot,
+  Mic,
+  PenTool,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +26,7 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const user = (await getCurrentUser())!;
 
-  const [totalVerbs, learned, difficult, attempts, recentAttempts] = await Promise.all([
+  const [totalVerbs, learned, difficult, attempts, recentAttempts, todaysTopic] = await Promise.all([
     db.verb.count(),
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "learned" } }),
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "difficult" } }),
@@ -33,6 +39,10 @@ export default async function DashboardPage() {
       orderBy: { completedAt: "desc" },
       take: 5,
       select: { id: true, type: true, category: true, percentage: true, correct: true, total: true, completedAt: true },
+    }),
+    db.dailyTopic.findUnique({
+      where: { date: todayISO() },
+      select: { id: true, title: true, body: true, date: true },
     }),
   ]);
 
@@ -60,6 +70,28 @@ export default async function DashboardPage() {
           </Link>
         </Button>
       </div>
+
+      {/* Today's topic (from admin) */}
+      {todaysTopic && (
+        <Card className="mt-6 overflow-hidden border-brand-emerald/30">
+          <div className="surface-cream px-5 py-4 sm:px-6">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="size-4 text-brand-emerald-deep" />
+              <p className="text-xs font-medium text-brand-emerald-deep">
+                Today's topic · {todaysTopic.date}
+              </p>
+            </div>
+            <p className="mt-1.5 font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+              {todaysTopic.title}
+            </p>
+          </div>
+          <CardContent className="pt-4">
+            <p className="prose-reading whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
+              {todaysTopic.body}
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Stat grid */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -124,6 +156,30 @@ export default async function DashboardPage() {
                 icon={BarChart3}
                 title="Your results"
                 body="Review past tests and see where to improve."
+              />
+              <QuickAction
+                href="/chat"
+                icon={Bot}
+                title="AI Tutor"
+                body="Ask anything about verbs, grammar, or usage."
+              />
+              <QuickAction
+                href="/speech-generator"
+                icon={Mic}
+                title="Speech Generator"
+                body="Turn a topic into a structured original speech."
+              />
+              <QuickAction
+                href="/poetry-generator"
+                icon={PenTool}
+                title="Poetry Generator"
+                body="Generate an original poem from a topic and mood."
+              />
+              <QuickAction
+                href="/profile"
+                icon={Sparkles}
+                title="Your profile"
+                body="Upload a photo, set your class, and see your fees."
               />
             </CardContent>
           </Card>

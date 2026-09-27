@@ -144,7 +144,7 @@ export function PublicFooter() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-5 text-xs text-white/50 sm:flex-row sm:px-6">
-          <p>© {new Date().getFullYear()} English Academy. Built for learners.</p>
+          <p>© {new Date().getFullYear()} Segal Institute. Built for learners.</p>
           <p className="inline-flex items-center gap-1.5">
             <BookOpen className="size-3.5" /> V1 · V2 · V3
           </p>

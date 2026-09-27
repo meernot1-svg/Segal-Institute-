@@ -4,14 +4,12 @@
  */
 
 export const branding = {
-  name: "English Academy",
-  shortName: "Academy",
-  tagline: "Master the three forms of English verbs",
+  name: "Segal Institute",
+  shortName: "Segal",
+  tagline: "Learn English with confidence",
   description:
-    "Learn, practice, and test yourself on the three forms of English verbs (V1 / V2 / V3) — with AI help, streaks, and achievements.",
-  // Primary contact / support
-  supportEmail: "hello@englishacademy.example",
-  // Color reference (mirrors globals.css brand tokens) — for non-CSS contexts
+    "Segal Institute — an English academy where students master verb forms, build their skills with an AI tutor, generate speeches and poetry, and track their progress.",
+  supportEmail: "hello@segalinstitute.example",
   colors: {
     navy: "#1e2a52",
     ink: "#0b1220",

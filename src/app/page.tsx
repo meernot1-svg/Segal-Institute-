@@ -57,15 +57,15 @@ export default async function Home() {
           <div className="lg:col-span-6">
             <p className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
               <Sparkles className="size-3.5 text-brand-emerald" />
-              Learn V1 · V2 · V3 the calm, focused way
+              An English academy — verbs, AI tutor, speech & poetry
             </p>
             <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              The three forms of English verbs, mastered.
+              Learn English with confidence at Segal Institute.
             </h1>
             <p className="prose-reading mt-6 text-lg leading-relaxed text-muted-foreground">
-              {totalVerbs.toLocaleString()} real verbs with their V1, V2, and V3
-              forms — browse, flashcard, and test yourself. Track streaks and
-              watch your weak verbs turn into confident ones.
+              Master the three forms of English verbs with {totalVerbs.toLocaleString()} curated
+              entries, get help from an AI tutor, generate speeches and poems, and
+              follow a daily topic from your teacher — all in one place.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-12 text-base">

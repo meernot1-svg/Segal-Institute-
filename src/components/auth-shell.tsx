@@ -18,11 +18,11 @@ export function AuthShell({
         <Logo variant="light" href="/" />
         <div className="relative">
           <p className="font-display text-3xl leading-tight tracking-tight text-white sm:text-4xl">
-            “Repetition is the mother of learning — and verbs reward it more than
-            anything else.”
+            “A good student learns from the teacher. A great one learns from the
+            verb, the sentence, and the story.”
           </p>
           <p className="mt-5 text-sm text-white/60">
-            Build a daily habit around the three forms. Small, calm, consistent.
+            Welcome to Segal Institute — your daily English academy.
           </p>
         </div>
         <ul className="space-y-3 text-sm text-white/70">
@@ -32,11 +32,11 @@ export function AuthShell({
           </li>
           <li className="flex items-center gap-2.5">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-emerald" />
-            Flashcards, tests & progress tracking
+            Verb forms, AI tutor, speech & poetry tools
           </li>
           <li className="flex items-center gap-2.5">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-emerald" />
-            Works on phone and desktop
+            Daily topics from your teacher
           </li>
         </ul>
         <Sparkles className="pointer-events-none absolute -bottom-10 -right-10 size-64 text-white/5" />
