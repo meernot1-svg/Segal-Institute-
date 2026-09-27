@@ -19,19 +19,21 @@ import {
   Mic2,
   Trophy,
   BookOpen,
+  MessageSquare,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { tierRank, type BadgeTier } from "@/lib/tiers";
 import type { SessionUser } from "@/lib/auth";
 
-type NavItem = { href: string; label: string; icon: React.ElementType };
+type NavItem = { href: string; label: string; icon: React.ElementType; minTier?: BadgeTier };
 
 const PRIMARY_NAV: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/lessons", label: "Lessons", icon: BookOpen },
   { href: "/verbs", label: "Learn Verbs", icon: BookA },
-  { href: "/learn", label: "Flashcards", icon: GraduationCap },
+  { href: "/learn", label: "Flashcards", icon: GraduationCap, minTier: "senior" },
   { href: "/tests/mcq", label: "MCQ Tests", icon: ListChecks },
   { href: "/results", label: "Test Results", icon: BarChart3 },
 ];
@@ -40,6 +42,7 @@ const SECONDARY_NAV: NavItem[] = [
   { href: "/chat", label: "AI Tutor", icon: Bot },
   { href: "/speech-generator", label: "Speech Generator", icon: Mic },
   { href: "/poetry-generator", label: "Poetry Generator", icon: PenTool },
+  { href: "/sentence-generator", label: "Sentence Generator", icon: MessageSquare },
   { href: "/speeches", label: "Student Speeches", icon: Mic2 },
   { href: "/monthly-results", label: "My Monthly Results", icon: Trophy },
   { href: "/profile", label: "Profile", icon: User },
@@ -48,8 +51,8 @@ const SECONDARY_NAV: NavItem[] = [
 const MOBILE_NAV: NavItem[] = [
   { href: "/dashboard", label: "Home", icon: LayoutDashboard },
   { href: "/verbs", label: "Verbs", icon: BookA },
-  { href: "/learn", label: "Learn", icon: GraduationCap },
   { href: "/tests/mcq", label: "Tests", icon: ListChecks },
+  { href: "/sentence-generator", label: "Sentences", icon: MessageSquare },
   { href: "/chat", label: "AI Tutor", icon: Bot },
 ];
 
@@ -69,6 +72,16 @@ export function StudentShell({
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Compute the user's tier rank once. Nav items with `minTier` set are hidden
+  // for users below that tier — instead of being shown as locked. This is
+  // intentional: features that aren't available to a tier simply don't appear
+  // in their navigation (cleaner UX than a sea of lock icons).
+  const userRank = tierRank(user.badge);
+  function canSee(item: NavItem) {
+    if (!item.minTier) return true;
+    return userRank >= tierRank(item.minTier);
+  }
+
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/login");
@@ -83,9 +96,9 @@ export function StudentShell({
           <Logo variant="light" href="/dashboard" />
         </div>
         <nav className="flex-1 overflow-y-auto px-3 py-4 scroll-fine">
-          <SidebarSection items={PRIMARY_NAV} pathname={pathname} />
+          <SidebarSection items={PRIMARY_NAV.filter(canSee)} pathname={pathname} />
           <div className="my-4 h-px bg-sidebar-border" />
-          <SidebarSection items={SECONDARY_NAV} pathname={pathname} />
+          <SidebarSection items={SECONDARY_NAV.filter(canSee)} pathname={pathname} />
         </nav>
         <div className="border-t border-sidebar-border p-3">
           <div className="flex items-center gap-3 rounded-lg px-2 py-2">
@@ -125,7 +138,7 @@ export function StudentShell({
       {mobileOpen && (
         <div className="border-b border-border bg-background lg:hidden">
           <nav className="mx-auto grid max-w-6xl gap-1 px-4 py-3">
-            {[...PRIMARY_NAV, ...SECONDARY_NAV].map((item) => (
+            {[...PRIMARY_NAV, ...SECONDARY_NAV].filter(canSee).map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -156,7 +169,7 @@ export function StudentShell({
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</main>
         {/* Mobile bottom nav */}
         <nav className="sticky bottom-0 z-40 grid grid-cols-5 border-t border-border bg-background/95 backdrop-blur-md lg:hidden">
-          {MOBILE_NAV.map((item) => {
+          {MOBILE_NAV.filter(canSee).map((item) => {
             const active = isActive(pathname, item.href);
             return (
               <Link

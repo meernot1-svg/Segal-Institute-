@@ -40,6 +40,7 @@ export function GeneratorShell({
   fields,
   mockNotice,
   renderSaved,
+  showLibrary,
 }: {
   title: string;
   subtitle: string;
@@ -47,6 +48,9 @@ export function GeneratorShell({
   fields: Field[];
   mockNotice?: boolean;
   renderSaved?: (items: SavedItem[]) => React.ReactNode;
+  // Server components can't pass a function to a client component, so we
+  // also accept a plain boolean to enable the saved-library section.
+  showLibrary?: boolean;
 }) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [output, setOutput] = useState<string | null>(null);
@@ -75,7 +79,7 @@ export function GeneratorShell({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to generate");
-      setOutput(data.speech || data.poem || "");
+      setOutput(data.speech || data.poem || data.sentence || "");
       if (data.savedId) {
         setSavedId(data.savedId);
         toast.success("Saved to your library.");
@@ -96,6 +100,7 @@ export function GeneratorShell({
     const data = await res.json();
     if (data.speeches) setSaved(data.speeches.map((s: any) => ({ id: s.id, topic: s.topic, createdAt: s.createdAt, content: s.content, meta: [s.language, s.tone].filter(Boolean).join(" · ") })));
     if (data.poems) setSaved(data.poems.map((p: any) => ({ id: p.id, topic: p.topic, createdAt: p.createdAt, content: p.content, meta: [p.language, p.style, p.mood].filter(Boolean).join(" · ") })));
+    if (data.sentences) setSaved(data.sentences.map((s: any) => ({ id: s.id, topic: s.topic, createdAt: s.createdAt, content: s.content, meta: [s.language, s.sentenceType, s.level, `${s.count} sentences`].filter(Boolean).join(" · ") })));
   }
 
   async function copyOutput() {
@@ -131,9 +136,12 @@ export function GeneratorShell({
     setSaved((s) => s.filter((x) => x.id !== id));
   }
 
-  // Load saved items on mount
+  // Load saved items on mount — shown when either `renderSaved` (function)
+  // or `showLibrary` (boolean) is truthy. Server-component pages can only
+  // pass the boolean; client-component pages can pass either.
+  const libraryEnabled = Boolean(renderSaved || showLibrary);
   useEffect(() => {
-    if (!renderSaved) return;
+    if (!libraryEnabled) return;
     let cancelled = false;
     (async () => {
       const res = await fetch(endpoint);
@@ -141,11 +149,12 @@ export function GeneratorShell({
       if (cancelled) return;
       if (data.speeches) setSaved(data.speeches.map((s: any) => ({ id: s.id, topic: s.topic, createdAt: s.createdAt, content: s.content, meta: [s.language, s.tone].filter(Boolean).join(" · ") })));
       if (data.poems) setSaved(data.poems.map((p: any) => ({ id: p.id, topic: p.topic, createdAt: p.createdAt, content: p.content, meta: [p.language, p.style, p.mood].filter(Boolean).join(" · ") })));
+      if (data.sentences) setSaved(data.sentences.map((s: any) => ({ id: s.id, topic: s.topic, createdAt: s.createdAt, content: s.content, meta: [s.language, s.sentenceType, s.level, `${s.count} sentences`].filter(Boolean).join(" · ") })));
     })();
     return () => {
       cancelled = true;
     };
-  }, [endpoint, renderSaved]);
+  }, [endpoint, libraryEnabled]);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -241,7 +250,7 @@ export function GeneratorShell({
       </div>
 
       {/* Saved library */}
-      {renderSaved && (
+      {libraryEnabled && (
         <div className="mt-10">
           <h2 className="font-display text-xl font-semibold tracking-tight">Your library</h2>
           {saved.length === 0 ? (

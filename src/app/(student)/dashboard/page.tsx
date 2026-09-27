@@ -2,7 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { todayISO } from "@/lib/format";
-import { TIER_LABELS, TIER_COLORS, TIER_DOT_COLORS, type BadgeTier } from "@/lib/tiers";
+import { TIER_LABELS, TIER_COLORS, TIER_DOT_COLORS, tierRank, type BadgeTier } from "@/lib/tiers";
 import { cn } from "@/lib/utils";
 import {
   BookA,
@@ -19,6 +19,7 @@ import {
   Mic,
   PenTool,
   ClipboardCheck,
+  MessageSquare,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,8 @@ export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const user = (await getCurrentUser())!;
+  const userRank = tierRank(user.badge);
+  const canUseFlashcards = userRank >= tierRank("senior");
 
   const [totalVerbs, learned, difficult, attempts, recentAttempts, todaysTopic, bestStudent, attendanceRecords] = await Promise.all([
     db.verb.count(),
@@ -190,11 +193,19 @@ export default async function DashboardPage() {
               <CardTitle>Continue learning</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4 sm:grid-cols-2">
+              {canUseFlashcards && (
+                <QuickAction
+                  href="/learn"
+                  icon={GraduationCap}
+                  title="Flashcards"
+                  body="Flip through verbs and tell us which you know."
+                />
+              )}
               <QuickAction
-                href="/learn"
-                icon={GraduationCap}
-                title="Flashcards"
-                body="Flip through verbs and tell us which you know."
+                href="/sentence-generator"
+                icon={MessageSquare}
+                title="Sentence Generator"
+                body="Generate original sentences on any topic, in any language."
               />
               <QuickAction
                 href="/verbs"

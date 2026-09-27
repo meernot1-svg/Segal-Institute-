@@ -212,6 +212,114 @@ export async function chat(
 function mockComplete(systemPrompt: string, userPrompt: string): string {
   const sp = systemPrompt.toLowerCase();
 
+  if (sp.includes("sentence generator") || sp.includes("sentence writing")) {
+    // Parse a few fields from the user prompt so the mock feels relevant.
+    const topicMatch = userPrompt.match(/topic:\s*([^,\n]+)/i);
+    const langMatch = userPrompt.match(/language:\s*([^,\n]+)/i);
+    const countMatch = userPrompt.match(/count:\s*(\d+)/i);
+    const typeMatch = userPrompt.match(/sentence type:\s*([^,\n]+)/i);
+    const topic = topicMatch ? topicMatch[1].trim() : "your topic";
+    const lang = langMatch ? langMatch[1].trim() : "English";
+    const count = countMatch ? Math.min(Math.max(parseInt(countMatch[1], 10) || 5, 1), 20) : 5;
+    const type = typeMatch ? typeMatch[1].trim() : "Mixed";
+
+    // For non-English languages we still emit a small set of original
+    // sentences so the user can see the format. Real AI replaces this.
+    const isUrdu = /urdu/i.test(lang);
+    const isSindhi = /sindhi/i.test(lang);
+    const isHindi = /hindi/i.test(lang);
+    const isArabic = /arabic/i.test(lang);
+
+    const lines: string[] = [];
+    lines.push(`Topic: ${topic}`);
+    lines.push(`Language: ${lang}`);
+    lines.push(`Type: ${type}`);
+    lines.push(``);
+
+    if (isUrdu) {
+      const set = [
+        `${topic} ہماری زندگی کا ایک اہم حصہ ہے۔`,
+        `ہم ${topic} کو روزمرہ کے کاموں میں استعمال کرتے ہیں۔`,
+        `بچپن سے ہی ${topic} کی اہمیت سکھائی جاتی ہے۔`,
+        `${topic} کے بغیر ترقی ممکن نہیں۔`,
+        `آج کے دور میں ${topic} لازمی ہو گیا ہے۔`,
+        `${topic} ہمیں نئے مواقع فراہم کرتا ہے۔`,
+        `ہر طالب علم کو ${topic} سیکھنا چاہیے۔`,
+        `${topic} کا صحیح استعمال کامیابی کی چابی ہے۔`,
+        `ہم ${topic} کے ذریعے اپنے خیالات ظاہر کر سکتے ہیں۔`,
+        `${topic} ہماری سوچ کو نئی راہ دیتا ہے۔`,
+        `معاشرے کی ترقی ${topic} پر منحصر ہے۔`,
+        `${topic} سے ہمت اور حوصلہ ملتا ہے۔`,
+        `ہم ${topic} کے ذریعے دوسروں کی مدد کر سکتے ہیں۔`,
+        `${topic} کا اسباق ہمیشہ سیکھنے والوں کو سودھارتا ہے۔`,
+        `اچھی ${topic} کے بغیر کوئی بھی مقصد حاصل نہیں ہوتا۔`,
+      ];
+      for (let i = 0; i < count; i++) lines.push(set[i % set.length]);
+    } else if (isSindhi) {
+      const set = [
+        `${topic} اسان جي زندگي جو اهم حصو آهي.`,
+        `اسان ${topic} کي روزانه ڪمن ۾ استعمال ڪريون ٿا.`,
+        `ٻاراڻي کان ئي ${topic} جي اهميت سيکارين ٿا.`,
+        `${topic} کان سواءِ ترقي ممڪن ناهي.`,
+        `اڄ جي دور ۾ ${topic} ضروري ٿي چڪو آهي.`,
+        `${topic} اسان کي نوان موقع ڏي ٿو.`,
+        `هر شاگرد کي ${topic} سکڻ گهرجي.`,
+        `${topic} جو صحيح استعمال ڪاميابي جي ڪليد آهي.`,
+      ];
+      for (let i = 0; i < count; i++) lines.push(set[i % set.length]);
+    } else if (isHindi) {
+      const set = [
+        `${topic} हमारे जीवन का एक महत्वपूर्ण हिस्सा है।`,
+        `हम ${topic} का उपयोग रोज़मर्रा के कामों में करते हैं।`,
+        `बचपन से ही ${topic} का महत्व सिखाया जाता है।`,
+        `${topic} के बिना प्रगति संभव नहीं है।`,
+        `आज के युग में ${topic} आवश्यक हो गया है।`,
+        `${topic} हमें नए अवसर प्रदान करता है।`,
+        `हर छात्र को ${topic} सीखना चाहिए।`,
+        `${topic} का सही उपयोग सफलता की कुंजी है।`,
+      ];
+      for (let i = 0; i < count; i++) lines.push(set[i % set.length]);
+    } else if (isArabic) {
+      const set = [
+        `${topic} هو جزء مهم من حياتنا.`,
+        `نحن نستخدم ${topic} في أعمالنا اليومية.`,
+        `يُعلَّم أهمية ${topic} منذ الطفولة.`,
+        `لا يمكن التقدم بدون ${topic}.`,
+        `أصبح ${topic} ضرورياً في عصرنا الحالي.`,
+      ];
+      for (let i = 0; i < count; i++) lines.push(set[i % set.length]);
+    } else {
+      // English (default)
+      const set = [
+        `${topic} is an important part of our daily lives.`,
+        `We use ${topic} to express our ideas clearly.`,
+        `Understanding ${topic} helps us make better decisions.`,
+        `Students who learn ${topic} early have a strong advantage.`,
+        `${topic} can be improved with daily practice.`,
+        `There are many reasons why ${topic} matters today.`,
+        `A good example of ${topic} is something we all recognize.`,
+        `People often underestimate the value of ${topic}.`,
+        `${topic} connects us to the wider world around us.`,
+        `When we practice ${topic}, we grow more confident.`,
+        `The benefits of ${topic} are easy to see in everyday life.`,
+        `Mastery of ${topic} takes patience and consistency.`,
+        `${topic} is a skill that anyone can develop.`,
+        `A simple habit around ${topic} can change your week.`,
+        `Without ${topic}, it is hard to move forward.`,
+        `${topic} teaches us discipline and focus.`,
+        `The role of ${topic} in education cannot be ignored.`,
+        `We should make time for ${topic} every single day.`,
+        `${topic} brings out the best in those who work at it.`,
+        `A clear understanding of ${topic} opens many doors.`,
+      ];
+      for (let i = 0; i < count; i++) lines.push(set[i % set.length]);
+    }
+
+    lines.push(``);
+    lines.push(`_(Mock mode — original placeholder sentences. Set AI_API_KEY for fully custom AI generation.)_`);
+    return lines.join("\n");
+  }
+
   if (sp.includes("speech")) {
     const topicMatch = userPrompt.match(/topic[:\s]+([^,.\n]+)/i);
     const topic = topicMatch ? topicMatch[1].trim() : "your chosen topic";
@@ -316,6 +424,32 @@ function mockChat(
 export const TUTOR_SYSTEM_PROMPT = `You are the friendly English tutor at ${branding.name}. You help students understand the three forms of English verbs (V1 = base, V2 = past simple, V3 = past participle), give example sentences, explain grammar simply, and encourage the student. Keep answers concise (2–5 sentences unless asked for more). If the student asks about a verb, give all three forms and a short example sentence. If the student asks something unrelated to English learning, gently steer back to the subject.`;
 
 export const SPEECH_SYSTEM_PROMPT = `You are a speechwriter for ${branding.name}. Given a topic and a few options (duration, language, level, audience, style, tone), write an ORIGINAL speech with clearly labeled sections: Opening, Introduction, Main points (3 numbered), Examples, Conclusion. Do not reproduce any existing speech, quote, or copyrighted text. Keep it genuine and appropriate to the audience and tone. Write in clear Markdown with **bold** section headers.`;
+
+export const SENTENCE_SYSTEM_PROMPT = `# Sentence Generator — Master Prompt
+
+You are an expert sentence composer and language teacher at ${branding.name}.
+
+Your job is to generate **original, grammatically correct, naturally idiomatic sentences** on the topic the user gives you — in the language they ask for, in the quantity they ask for, at the level they ask for.
+
+You can write in ANY language: English, Urdu, Sindhi, Hindi, Arabic, Spanish, French, German, Chinese, Pashto, Punjabi, Bengali, Turkish, Persian, Russian, Italian, Portuguese, Japanese, Korean, Indonesian, Malay, Dutch, Swedish — and any other language the user requests. Always write in the natural script of the chosen language (Urdu → Urdu script, Sindhi → Sindhi-Arabic script, Hindi → Devanagari, Arabic → Arabic script, Chinese → Hanzi, etc.).
+
+## Rules
+1. **Originality**: every sentence must be original. Never copy or slightly-modify a quotation, a line from a book, a song lyric, a film dialogue, or any copyrighted text. If the topic is a famous person or place, write ABOUT them in your own words — never quote them.
+2. **Topic adherence**: every sentence must clearly relate to the requested topic. Avoid filler sentences that could apply to anything.
+3. **Variety**: do not start every sentence the same way. Vary sentence openings, structures, lengths, and vocabulary. Avoid repeating the same template.
+4. **Language fidelity**: write in natural, idiomatic, fluent sentences of the requested language. Do not translate English word-for-word. If the language is Urdu/Sindhi/Arabic/Persian/etc. (RTL script), use the proper script — never transliterate to Latin unless the user explicitly asks.
+5. **Sentence type**: respect the requested sentence type. "Simple" = one independent clause. "Compound" = two independent clauses joined by a conjunction (and/or/but). "Complex" = an independent clause + a dependent clause. "Mixed" = a natural mix of simple/compound/complex. "Question" = interrogative. "Affirmative" = positive statements. "Negative" = negative statements (not/never). "Imperative" = commands / requests.
+6. **Level**: "Beginner" = short, simple vocabulary, common words. "Intermediate" = more varied vocabulary and structures. "Advanced" = sophisticated vocabulary and complex structures.
+7. **Count**: generate exactly the number of sentences the user requests (default 10). Each sentence on its own line. Do not number them unless asked. Do not add explanations or translations unless asked.
+8. **Output format**:
+   - First a single header line: \`# Sentences — <topic> (<language>, <type>, <level>, count: N)\`
+   - One blank line.
+   - Then each sentence on its own line (no bullets, no numbers, no extra commentary).
+   - Do not include translations or romanization unless explicitly requested.
+9. If the user gives a tone/style hint (e.g. "formal", "conversational", "poetic", "funny"), match it.
+10. If the user gives extra context, weave it into the sentences naturally.
+
+The goal is clean, varied, useful sentences a learner can read, copy, and practice immediately.`;
 
 export const POETRY_SYSTEM_PROMPT = `# Urdu Ghazal Generator — Master Prompt
 

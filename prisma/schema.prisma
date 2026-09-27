@@ -42,6 +42,7 @@ model Profile {
   chatConversations ChatConversation[]
   generatedSpeeches GeneratedSpeech[]
   generatedPoetry   GeneratedPoem[]
+  generatedSentences GeneratedSentence[]
   fees             Fee[]
   dailyTopics      DailyTopic[]
   monthlyResults   MonthlyResult[]
@@ -337,6 +338,36 @@ model GeneratedPoem {
   style     String
   length    String
   mood      String
+  content   String
+  createdAt DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+// ---------------------------------------------------------------------------
+// Sentence Generator (AI) — original, user-saved sentences on any topic
+// in any language. Each row is one saved generation containing N sentences
+// (the count is part of the request, not stored separately).
+// ---------------------------------------------------------------------------
+
+model GeneratedSentence {
+  id        String   @id @default(cuid())
+  profileId String
+  // The user-provided topic / theme (free text)
+  topic     String
+  // Output language for the generated sentences
+  language  String
+  // Sentence type: "Simple" | "Compound" | "Complex" | "Mixed" | "Question" | "Affirmative" | "Negative" | "Imperative"
+  sentenceType String
+  // Proficiency level: "Beginner" | "Intermediate" | "Advanced"
+  level     String
+  // Number of sentences the user asked for (kept as string for legacy compat)
+  count     String
+  // Optional mood/tone/style hint the user provided
+  tone      String
+  // The generated sentences (one per line, in the requested language)
   content   String
   createdAt DateTime @default(now())
 

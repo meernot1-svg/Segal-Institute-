@@ -1,11 +1,11 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { shuffle } from "@/lib/verbs";
-import { canAccessTier, tierRank, tierLabel } from "@/lib/tiers";
+import { tierRank } from "@/lib/tiers";
 import { FlashcardDeck, type Flashcard } from "@/components/flashcard-deck";
 import { Button } from "@/components/ui/button";
-import { Lock } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -15,23 +15,14 @@ export default async function LearnPage() {
   const user = (await getCurrentUser())!;
   const userRank = tierRank(user.badge);
 
-  // Flashcards are only for Senior and Elite Senior badge holders
+  // Flashcards are a Senior+ feature. For Basic and Junior users we simply
+  // remove the feature (no lock screen, no "ask your teacher" wall) — we
+  // redirect them to the Verbs page, which is the natural next thing to do
+  // for those tiers. The Flashcards nav item is hidden for these tiers too
+  // (see student-shell.tsx), so this redirect only fires if they type the
+  // URL directly.
   if (userRank < tierRank("senior")) {
-    return (
-      <div className="mx-auto max-w-2xl">
-        <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-12 text-center">
-          <Lock className="size-12 text-muted-foreground/40" />
-          <div>
-            <h1 className="font-display text-2xl font-semibold text-foreground">Flashcards are locked</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Flashcards are available at the <strong>Senior</strong> tier and above.
-              Your current badge is <strong>{tierLabel(user.badge)}</strong>.
-              Ask your teacher to promote you to unlock flashcards.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    redirect("/verbs");
   }
 
   // Flashcards: use only verbs the user can access (cumulative — their tier + below)

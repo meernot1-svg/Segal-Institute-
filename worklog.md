@@ -656,3 +656,108 @@ Work Log:
 
 Deployed. Verified live: title, description, keywords, OG title, JSON-LD (addressLocality=Sindh, addressRegion=Jacobabad, areaServed=Jacobabad, telephone placeholder), visible content (hero, about, footer), sitemap (12 URLs), robots, og:image (96KB).
 
+
+---
+Task ID: FLASHCARDS-REMOVE + SENTENCE-GENERATOR
+Agent: main (Z.ai Code)
+Task: For juniors and basics, don't lock flashcards — remove the feature entirely (no lock screen). Also add a Sentence Generator that can generate sentences on any topic in any language.
+
+Work Log:
+
+PART 1 — Remove Flashcards for Basic/Junior users (no lock):
+
+- src/components/student-shell.tsx:
+  - Imported `tierRank` + `BadgeTier` from `@/lib/tiers` and added a `minTier?` field to `NavItem`.
+  - Marked the Flashcards nav item `{ href: "/learn", ..., minTier: "senior" }`.
+  - Added a `canSee(item)` helper that hides any item with `minTier` above the user's tier.
+  - Applied `canSee` filter to PRIMARY_NAV, SECONDARY_NAV, MOBILE_NAV (sidebar, mobile dropdown, mobile bottom nav).
+  - Replaced the Flashcards mobile-bottom-nav slot with the new Sentence Generator entry (so basic/junior users still get a useful 5-icon bottom bar).
+
+- src/app/(student)/learn/page.tsx:
+  - Removed the lock-screen branch entirely. For users below Senior tier we now `redirect("/verbs")` — clean, no "ask your teacher" wall, no lock icon. The nav item is already hidden for them, so the redirect only fires if they type /learn directly.
+
+- src/app/(student)/dashboard/page.tsx:
+  - Added `userRank` + `canUseFlashcards` checks. Wrapped the Flashcards QuickAction in `{canUseFlashcards && (...)}` so the card disappears for basic/junior on the dashboard too (not just the nav).
+  - Added a new Sentence Generator QuickAction card (MessageSquare icon, "Generate original sentences on any topic, in any language.") — visible to all tiers.
+
+PART 2 — Sentence Generator (any topic, any language):
+
+- prisma/schema.prisma:
+  - Added `GeneratedSentence` model (id, profileId, topic, language, sentenceType, level, count, tone, content, createdAt) + relation on Profile.
+  - Pushed to Supabase Postgres via `bun run db:push` — additive, existing data preserved.
+
+- src/lib/ai.ts:
+  - Added a 13-section `SENTENCE_SYSTEM_PROMPT` master prompt that:
+    1. Supports ANY language (English, Urdu, Sindhi, Hindi, Arabic, Persian, Pashto, Punjabi, Bengali, Spanish, French, German, Italian, Portuguese, Russian, Turkish, Chinese, Japanese, Korean, Indonesian, Malay, Dutch, Swedish, + any other).
+    2. Always uses the natural script of the chosen language (Urdu → Urdu script, etc.).
+    3. Respects sentence type: Simple / Compound / Complex / Mixed / Question / Affirmative / Negative / Imperative.
+    4. Respects level: Beginner / Intermediate / Advanced.
+    5. Generates exactly N sentences (default 10), one per line, with no numbering or commentary.
+    6. Outputs in a clean format: header line + blank line + sentences.
+    7. Originality rules — no copying quotations, lyrics, or copyrighted text.
+  - Added a mock handler that returns topical placeholder sentences in English/Urdu/Sindhi/Hindi/Arabic when AI_API_KEY isn't set.
+
+- src/app/api/sentence-generator/route.ts (NEW):
+  - POST: zod-validates { topic, language, sentenceType, level, count, tone, save }. Builds a structured user prompt, calls `complete(SENTENCE_SYSTEM_PROMPT, ...)`, optionally saves to DB. Returns `{ ok, sentence, savedId, mock }`.
+  - GET: lists the user's saved GeneratedSentence rows (most recent 50).
+  - maxDuration = 300 (Vercel Hobby function timeout).
+
+- src/app/api/sentence-generator/[id]/route.ts (NEW): DELETE — owner-scoped delete of a saved sentence.
+
+- src/components/generator-shell.tsx:
+  - Added a `showLibrary?: boolean` prop (server-component-friendly — functions can't be passed from server to client, but booleans can).
+  - Updated the POST handler to read `data.sentence` (alongside speech/poem) for the output text.
+  - Updated the GET handler + useEffect to map `data.sentences` into the saved library cards (meta: language · type · level · count).
+  - Library is shown when either `renderSaved` (function) or `showLibrary` (boolean) is truthy.
+
+- src/app/(student)/sentence-generator/page.tsx (NEW):
+  - Server component using GeneratorShell with 6 fields:
+    - Topic (free text, required, with multilingual placeholder)
+    - Language (23-language dropdown)
+    - How many sentences (3 / 5 / 8 / 10 / 15 / 20)
+    - Sentence type (Mixed / Simple / Compound / Complex / Question / Affirmative / Negative / Imperative)
+    - Level (Beginner / Intermediate / Advanced)
+    - Tone / style hint (optional, free text)
+  - `showLibrary` enabled so the user sees their saved-sentences library below the form.
+
+- src/components/student-shell.tsx nav additions:
+  - SECONDARY_NAV: added Sentence Generator entry (between Poetry Generator and Student Speeches).
+  - MOBILE_NAV: replaced the Flashcards slot with Sentence Generator (icon: MessageSquare) so every tier sees a useful 5-icon bottom bar.
+
+Verification:
+
+- `bun run lint` → clean (no errors, no warnings).
+- Started dev server with a clean env (the sandbox's stale `DATABASE_URL=file:...` overrides the `.env` `postgresql://...`, so we use `env -u DATABASE_URL -u DIRECT_URL bun run dev`).
+
+End-to-end test results:
+
+Basic-tier user (registered basic-test@example.com, admin-approved with badge=basic):
+  - /dashboard: HTTP 200, "Sentence Generator" count = 1, "Flashcards" count = 0, "locked" count = 0 ✓
+  - /learn: HTTP 307, redirect to /verbs (no lock screen) ✓✓✓
+  - /sentence-generator: HTTP 200, page renders with all 6 input fields ✓
+  - POST generate 5 Urdu sentences on "سکول کی زندگی" (school life): HTTP 200, mock:false
+    → "# Sentences — سکول کی زندگی (Urdu, Simple, Beginner, count: 5)" + 5 original Urdu sentences in proper Urdu script ✓
+  - POST generate 8 Sindhi sentences on "جي عمل کي قيمت" (value of action): HTTP 200, mock:false
+    → 8 Sindhi sentences, savedId returned ✓
+  - GET saved library: HTTP 200, returned the saved sentence with all metadata ✓
+
+Senior-tier user (Demo Student, badge=senior):
+  - /dashboard: HTTP 200, "Sentence Generator" count = 1, "Flashcards" count = 1 (Flashcards still visible for senior — as required) ✓
+  - /learn: HTTP 200, shows the Flashcards deck ("A 20-verb session. Recall, flip, then tell us how you did.") ✓
+  - /sentence-generator: HTTP 200 ✓
+  - POST generate 5 Spanish sentences on "la amistad" (friendship): HTTP 200, mock:false
+    → 5 original Spanish sentences with varied structure (Simple/Compound/Complex/Question), natural idiomatic Spanish ✓
+  - POST generate 5 English sentences on "the importance of trees": HTTP 200, mock:false
+    → 5 original English sentences on trees, Mixed type, Intermediate level ✓
+
+Agent-browser visual check (senior Demo Student, already logged in):
+  - Sidebar shows the full nav: Dashboard, Lessons, Learn Verbs, **Flashcards** (senior+), MCQ Tests, Test Results, AI Tutor, Speech Generator, Poetry Generator, **Sentence Generator**, Student Speeches, My Monthly Results, Profile ✓
+  - /sentence-generator page renders with: title "Sentence Generator", subtitle about any topic/any language/any level, Inputs card with Topic *, Language dropdown, "How many sentences" dropdown, "Sentence type" dropdown, "Level" dropdown, "Tone / style hint (optional)" input, "Generate & save" + "Regenerate" buttons ✓
+  - /learn renders the Flashcards deck for senior ✓
+  - Dashboard shows "Senior" badge and "Today's topic · 2026-09-27 — How to Build Self Confidence" ✓
+
+Stage Summary:
+- Flashcards are no longer LOCKED for basic/junior students — the feature is simply REMOVED from their UI (nav, mobile bottom bar, dashboard quick actions). If they hit /learn directly, they're redirected to /verbs instead of seeing a lock screen.
+- Sentence Generator is LIVE and works for ALL tiers (basic, junior, senior, elite_senior). It generates original sentences on any topic the user types, in any of 23+ languages (English, Urdu, Sindhi, Hindi, Arabic, Persian, Pashto, Punjabi, Bengali, Spanish, French, German, Italian, Portuguese, Russian, Turkish, Chinese, Japanese, Korean, Indonesian, Malay, Dutch, Swedish), with any sentence count (3/5/8/10/15/20), any sentence type (Simple/Compound/Complex/Mixed/Question/Affirmative/Negative/Imperative), any level (Beginner/Intermediate/Advanced), and an optional tone/style hint. The AI uses the natural script of each language (Urdu → Urdu script, Sindhi → Sindhi-Arabic, Hindi → Devanagari, Chinese → Hanzi, etc.).
+- Saved-sentences library works (POST with save=true persists to GeneratedSentence table; GET returns the library; DELETE removes an entry).
+- Real AI is used (mock:false) — the free OpenRouter model handles all tested languages correctly.
