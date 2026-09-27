@@ -15,8 +15,26 @@ export default async function LearnPage() {
   const user = (await getCurrentUser())!;
   const userRank = tierRank(user.badge);
 
+  // Flashcards are only for Senior and Elite Senior badge holders
+  if (userRank < tierRank("senior")) {
+    return (
+      <div className="mx-auto max-w-2xl">
+        <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-12 text-center">
+          <Lock className="size-12 text-muted-foreground/40" />
+          <div>
+            <h1 className="font-display text-2xl font-semibold text-foreground">Flashcards are locked</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Flashcards are available at the <strong>Senior</strong> tier and above.
+              Your current badge is <strong>{tierLabel(user.badge)}</strong>.
+              Ask your teacher to promote you to unlock flashcards.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Flashcards: use only verbs the user can access (cumulative — their tier + below)
-  // Need at least basic access (rank >= 1)
   const accessibleFilter = { minTier: { in: ["basic", "junior", "senior", "elite_senior"].filter((t) => tierRank(t) <= userRank) } };
 
   // Prioritize difficult verbs, then unlearned, then fillers.
@@ -35,23 +53,6 @@ export default async function LearnPage() {
     }),
     db.verb.count({ where: accessibleFilter }),
   ]);
-
-  if (totalVerbs === 0) {
-    return (
-      <div className="mx-auto max-w-2xl">
-        <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-12 text-center">
-          <Lock className="size-12 text-muted-foreground/40" />
-          <div>
-            <h1 className="font-display text-2xl font-semibold text-foreground">Flashcards are locked</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              No verbs are available at your current badge level (<strong>{tierLabel(user.badge)}</strong>).
-              Ask your teacher to promote you to unlock flashcards.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const pick = shuffle(unlearned).slice(0, 12);
   const merged: Flashcard[] = [];
