@@ -1,12 +1,18 @@
 /**
  * Seed script — populates verbs, achievements, and demo users.
  * Run with: bun run prisma/seed.ts
+ *
+ * Uses DIRECT_URL (session-mode pooler / direct connection) when available,
+ * because pgbouncer transaction mode doesn't support bulk createMany well.
+ * Falls back to DATABASE_URL if DIRECT_URL isn't set.
  */
 import { PrismaClient } from "@prisma/client";
 import { hashPassword } from "../src/lib/crypto";
 import { seedVerbs } from "./data/verbs";
 
-const db = new PrismaClient();
+const db = new PrismaClient({
+  datasources: { db: { url: process.env.DIRECT_URL || process.env.DATABASE_URL } },
+});
 
 const ACHIEVEMENTS = [
   { code: "first_step", title: "First Step", description: "Learn your first verb", icon: "Footprints" },
