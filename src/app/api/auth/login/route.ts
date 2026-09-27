@@ -24,11 +24,36 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
   }
 
-  const token = signToken({ uid: profile.id, email: profile.email, role: profile.role });
+  // Check account status
+  if (profile.status === "pending") {
+    return NextResponse.json(
+      { error: "Your account is awaiting admin approval. Please check back later or contact your teacher." },
+      { status: 403 },
+    );
+  }
+  if (profile.status === "rejected") {
+    return NextResponse.json(
+      { error: "Your account registration was not approved. Please contact the academy for help." },
+      { status: 403 },
+    );
+  }
+
+  const token = signToken({
+    uid: profile.id,
+    email: profile.email,
+    role: profile.role,
+    badge: profile.badge,
+  });
   await setSessionCookie(token);
 
   return NextResponse.json({
     ok: true,
-    user: { id: profile.id, email: profile.email, name: profile.name, role: profile.role },
+    user: {
+      id: profile.id,
+      email: profile.email,
+      name: profile.name,
+      role: profile.role,
+      badge: profile.badge,
+    },
   });
 }

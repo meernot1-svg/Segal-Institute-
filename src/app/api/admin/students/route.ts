@@ -19,6 +19,8 @@ export async function GET() {
       classGrade: true,
       avatarUrl: true,
       createdAt: true,
+      status: true,
+      badge: true,
       _count: { select: { testAttempts: true, verbProgress: true } },
       fees: { select: { id: true, amount: true, periodKey: true, paid: true, kind: true, dueDate: true } },
     },

@@ -12,6 +12,7 @@ export type SessionUser = {
   email: string;
   name: string;
   role: string;
+  badge: string;
 };
 
 export async function getSession(): Promise<SessionUser | null> {
@@ -23,21 +24,24 @@ export async function getSession(): Promise<SessionUser | null> {
   return {
     id: payload.uid,
     email: payload.email,
-    name: "", // filled below
+    name: "", // filled by getCurrentUser
     role: payload.role,
+    badge: (payload as Record<string, unknown>).badge as string || "basic",
   };
 }
 
-/** Get the current user with a fresh DB lookup (verifies existence + name). */
+/** Get the current user with a fresh DB lookup (verifies existence + name + badge). */
 export async function getCurrentUser(): Promise<SessionUser | null> {
   const session = await getSession();
   if (!session) return null;
   const profile = await db.profile.findUnique({
     where: { id: session.id },
-    select: { id: true, email: true, name: true, role: true },
+    select: { id: true, email: true, name: true, role: true, badge: true, status: true },
   });
   if (!profile) return null;
-  return { id: profile.id, email: profile.email, name: profile.name, role: profile.role };
+  // If the account was deactivated after login, block access
+  if (profile.status !== "active") return null;
+  return { id: profile.id, email: profile.email, name: profile.name, role: profile.role, badge: profile.badge };
 }
 
 /** Require a logged-in user; returns the user or throws a redirect sentinel. */

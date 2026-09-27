@@ -59,9 +59,11 @@ function RegisterForm() {
         setLoading(false);
         return;
       }
-      toast.success("Account created — welcome!");
-      const dest = next !== "/dashboard" ? next : (data.user?.role === "admin" ? "/admin" : "/dashboard");
-      router.push(dest);
+      // Account created but pending approval — show a success message,
+      // redirect to login with a note (NOT auto-login).
+      toast.success("Account created! Awaiting admin approval.");
+      setError(null);
+      router.push("/login?pending=1");
       router.refresh();
     } catch {
       const msg = "Network error — check your connection and try again";

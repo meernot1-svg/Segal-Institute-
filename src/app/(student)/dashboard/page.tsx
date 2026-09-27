@@ -2,6 +2,8 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { todayISO } from "@/lib/format";
+import { TIER_LABELS, TIER_COLORS, TIER_DOT_COLORS, type BadgeTier } from "@/lib/tiers";
+import { cn } from "@/lib/utils";
 import {
   BookA,
   GraduationCap,
@@ -75,7 +77,16 @@ export default async function DashboardPage() {
       {/* Greeting */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm text-muted-foreground">Welcome back, {firstName}.</p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-muted-foreground">Welcome back, {firstName}.</p>
+            <span className={cn(
+              "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium",
+              TIER_COLORS[user.badge as BadgeTier] || TIER_COLORS.basic,
+            )}>
+              <span className={cn("size-1.5 rounded-full", TIER_DOT_COLORS[user.badge as BadgeTier] || TIER_DOT_COLORS.basic)} />
+              {TIER_LABELS[user.badge as BadgeTier] || "Basic"}
+            </span>
+          </div>
           <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Your verb progress
           </h1>

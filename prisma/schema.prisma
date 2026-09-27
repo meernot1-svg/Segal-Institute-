@@ -25,6 +25,12 @@ model Profile {
   role         String   @default("student")
   classGrade   String?
   avatarUrl    String?
+  // Tiered membership: "pending" | "active" | "rejected"
+  status       String   @default("active")
+  // Badge tier: "basic" | "junior" | "senior" | "elite_senior"
+  badge        String   @default("basic")
+  approvedBy   String?
+  approvedAt   DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -41,6 +47,27 @@ model Profile {
   monthlyResults   MonthlyResult[]
   studentSpeeches  StudentSpeech[] @relation("StudentSpeechAuthor")
   attendance       Attendance[]
+  badgeHistory     BadgeHistory[]   @relation("BadgeHistoryUser")
+  badgeChanges     BadgeHistory[]   @relation("BadgeHistoryAdmin")
+}
+
+// ---------------------------------------------------------------------------
+// Badge promotion history
+// ---------------------------------------------------------------------------
+
+model BadgeHistory {
+  id         String   @id @default(cuid())
+  userId     String
+  // null on first assignment (pending → approved)
+  oldBadge   String?
+  newBadge   String
+  changedBy  String
+  changedAt  DateTime @default(now())
+
+  user   Profile  @relation("BadgeHistoryUser", fields: [userId], references: [id], onDelete: Cascade)
+  admin  Profile  @relation("BadgeHistoryAdmin", fields: [changedBy], references: [id], onDelete: SetNull)
+
+  @@index([userId])
 }
 
 // ---------------------------------------------------------------------------
@@ -58,7 +85,7 @@ model Verb {
   meaning   String
   // "en" | "sd" (Sindhi) | ...
   meaningLanguage String @default("en")
-  // "pdf" | "regular-pattern" | "dataset" | "seed"
+  // "pdf" | "regular-pattern" | "dataset" | "seed" | "tier-import"
   source    String   @default("seed")
   sourcePage Int?
   // "high" | "medium" | "low"
@@ -66,6 +93,9 @@ model Verb {
   needsReview Boolean @default(false)
   // 1 = easy, 2 = medium, 3 = hard
   difficulty Int     @default(1)
+  // Tiered membership: minimum badge required to access this verb
+  // "basic" | "junior" | "senior" | "elite_senior"
+  minTier   String   @default("basic")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -76,6 +106,37 @@ model Verb {
   @@index([v1])
   @@index([source])
   @@index([needsReview])
+  @@index([minTier])
+}
+
+// ---------------------------------------------------------------------------
+// Content items — vocabulary words, lessons, etc. (non-verb content for
+// tiered access: senior-tier Urdu vocabulary, future lessons, etc.)
+// ---------------------------------------------------------------------------
+
+model ContentItem {
+  id          String   @id @default(cuid())
+  // "vocab" | "lesson" | "plural_rule" | etc.
+  type        String   @default("vocab")
+  // The word, title, or key
+  word        String
+  // English meaning / description
+  meaning     String
+  // Urdu meaning (if available)
+  meaningUr   String?
+  // Extra context / example sentence
+  example     String?
+  // Minimum badge tier to access this content
+  // "basic" | "junior" | "senior" | "elite_senior"
+  minTier     String   @default("basic")
+  // Source tag
+  source      String   @default("tier-import")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([minTier])
+  @@index([type])
+  @@index([word])
 }
 
 model StudentVerbProgress {

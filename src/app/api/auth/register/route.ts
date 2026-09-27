@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { hashPassword, signToken } from "@/lib/crypto";
-import { setSessionCookie } from "@/lib/auth";
+import { hashPassword } from "@/lib/crypto";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required").max(80),
@@ -32,6 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "An account with this email already exists" }, { status: 409 });
   }
 
+  // New registrations start as "pending" — admin must approve before login works.
   const profile = await db.profile.create({
     data: {
       email: email.toLowerCase(),
@@ -39,14 +39,17 @@ export async function POST(req: NextRequest) {
       passwordHash: hashPassword(password),
       role: "student",
       classGrade: classGrade || null,
+      status: "pending",
+      badge: "basic",
     },
   });
 
-  const token = signToken({ uid: profile.id, email: profile.email, role: profile.role });
-  await setSessionCookie(token);
-
+  // Do NOT set a session cookie — the user cannot log in until approved.
   return NextResponse.json({
     ok: true,
-    user: { id: profile.id, email: profile.email, name: profile.name, role: profile.role },
+    pending: true,
+    message:
+      "Your account has been created and is awaiting admin approval. " +
+      "You will be able to log in once an admin approves your account.",
   });
 }

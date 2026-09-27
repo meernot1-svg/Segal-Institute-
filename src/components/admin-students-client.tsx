@@ -16,6 +16,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Trash2, Receipt, Loader2, Check, KeyRound } from "lucide-react";
 import { formatCurrency, monthKey } from "@/lib/format";
+import { BadgeManager, BadgePill } from "@/components/admin-badges-client";
 
 type Fee = { id: string; amount: number; periodKey: string; paid: boolean; kind: string; dueDate: string };
 type Student = {
@@ -28,6 +29,8 @@ type Student = {
   _count: { testAttempts: number; verbProgress: number };
   fees: Fee[];
   feesDue: number;
+  status: string;
+  badge: string;
 };
 
 export function AdminStudentsClient() {
@@ -121,7 +124,16 @@ export function AdminStudentsClient() {
                   </div>
                 )}
                 <div>
-                  <p className="font-medium text-foreground">{s.name}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-medium text-foreground">{s.name}</p>
+                    {s.status === "pending" && (
+                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Pending</span>
+                    )}
+                    {s.status === "rejected" && (
+                      <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">Rejected</span>
+                    )}
+                    <BadgePill badge={s.badge} />
+                  </div>
                   <p className="text-sm text-muted-foreground">{s.email}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {s.classGrade || "No class set"} · joined {new Date(s.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
@@ -132,6 +144,9 @@ export function AdminStudentsClient() {
 
               {/* Actions */}
               <div className="flex flex-wrap items-center gap-2">
+                {s.status === "active" && (
+                  <BadgeManager userId={s.id} userName={s.name} currentBadge={s.badge} />
+                )}
                 <FeeDialog student={s} onAssign={assignFee} />
                 <PasswordDialog student={s} />
                 <Button onClick={() => remove(s.id, s.name)} variant="outline" size="sm" className="border-red-200 text-red-600 hover:bg-red-50">

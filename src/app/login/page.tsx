@@ -4,7 +4,7 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 import { AuthShell } from "@/components/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const next = params.get("next") || "/dashboard";
+  const isPending = params.get("pending") === "1";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,6 +66,18 @@ function LoginForm() {
   return (
     <AuthShell title="Log in" subtitle="Pick up your verb streak where you left it.">
       <form onSubmit={onSubmit} className="space-y-4">
+        {isPending && (
+          <div
+            role="alert"
+            className="flex items-start gap-2.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-700"
+          >
+            <CheckCircle className="mt-0.5 size-4 shrink-0" />
+            <span>
+              Your account has been created and is <strong>awaiting admin approval</strong>.
+              You'll be able to log in once your teacher approves your account.
+            </span>
+          </div>
+        )}
         {error && (
           <div
             role="alert"
