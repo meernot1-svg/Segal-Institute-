@@ -2,16 +2,23 @@
 
 export function formatCurrency(amount: number): string {
   // Pakistani Rupee (PKR) — Segal Institute bills students in PKR.
+  // Use "Rs" with thousands separators and no decimals. Intl.NumberFormat
+  // with "en-PK" / "PKR" is used when available; we fall back to a manual
+  // "Rs N" format to guarantee a consistent result across environments.
   try {
-    return new Intl.NumberFormat("en-PK", {
+    const formatted = new Intl.NumberFormat("en-PK", {
       style: "currency",
       currency: "PKR",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
+    // Some Node runtimes fall back to "$" when en-PK locale data is missing.
+    // If the output doesn't contain "Rs" or "PKR", force the prefix.
+    if (/Rs|PKR/i.test(formatted)) return formatted;
   } catch {
-    return `PKR ${Math.round(amount).toLocaleString()}`;
+    // fall through to manual format
   }
+  return `Rs ${Math.round(amount).toLocaleString("en-US")}`;
 }
 
 export function todayISO(d: Date = new Date()): string {
