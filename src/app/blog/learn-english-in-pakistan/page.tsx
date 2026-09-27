@@ -75,7 +75,7 @@ export default function Page() {
         It takes two minutes to{" "}
         <Link href="/register" className="text-brand-emerald-deep underline-offset-4 hover:underline">
           create a free account
-        </Link>. The app tracks your progress automatically — verbs learned,
+        </Link>. The academy tracks your progress automatically — verbs learned,
         test scores, streaks. Ten to fifteen minutes a day is enough. You
         don't need a tuition center. You need a habit.
       </p>

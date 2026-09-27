@@ -53,7 +53,7 @@ export default function Page() {
         <strong>2. Flashcards (5 min).</strong> Open{" "}
         <Link href="/learn" className="text-brand-emerald-deep underline-offset-4 hover:underline">
           flashcards
-        </Link>. The app prioritizes your difficult verbs. See V1, try to recall
+        </Link>. The academy prioritizes your difficult verbs. See V1, try to recall
         V2 and V3, then flip. Be honest — marking "I knew it" only when you did
         is what trains your memory.
       </p>
@@ -98,7 +98,7 @@ export default function Page() {
 
       <p>
         Ready to start? <Link href="/register" className="text-brand-emerald-deep underline-offset-4 hover:underline">Create a free account</Link>{" "}
-        and the app will track your progress automatically.
+        and the academy will track your progress automatically.
       </p>
     </ArticleLayout>
   );

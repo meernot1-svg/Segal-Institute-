@@ -115,7 +115,7 @@ export default function Page() {
         <Link href="/register" className="text-brand-emerald-deep underline-offset-4 hover:underline">
           Create a free account
         </Link>{" "}
-        and the app will track which ones you've mastered.
+        and the academy will track which ones you've mastered.
       </p>
     </ArticleLayout>
   );

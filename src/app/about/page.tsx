@@ -29,22 +29,22 @@ export const dynamic = "force-dynamic";
 const FAQS = [
   {
     q: "How do I learn English verb forms fast?",
-    a: "The fastest way to learn English verb forms (V1, V2, V3) is short, daily practice. At Segal Institute, you browse curated verb lists, flip flashcards to recall the three forms, then take short MCQ tests to confirm. 10–15 minutes a day compounds quickly. Mark verbs as 'learned' or 'difficult' so the app focuses your time on what you don't yet know.",
+    a: "The fastest way to learn English verb forms (V1, V2, V3) is short, daily practice. At Segal Institute, you browse curated verb lists, flip flashcards to recall the three forms, then take short MCQ tests to confirm. 10–15 minutes a day compounds quickly. Mark verbs as 'learned' or 'difficult' so the academy focuses your time on what you don't yet know.",
   },
   {
     q: "Is Segal Institute free?",
     a: "Yes — creating a student account is free. You get access to the verb library, flashcards, MCQ tests, the AI tutor, and the speech & poetry generators. Your teacher can assign a monthly fee through the admin panel, but learning the verb content itself is free.",
   },
   {
-    q: "Can I learn English in Pakistan with this app?",
-    a: "Yes. Segal Institute is built for students in Pakistan — you can use it from Lahore, Karachi, Islamabad, or anywhere with an internet connection. The app supports Urdu poetry generation and is designed for students whose first language is Urdu or Sindhi.",
+    q: "Can I learn English in Pakistan with Segal Institute?",
+    a: "Yes. Segal Institute is built for students in Pakistan — you can join from Lahore, Karachi, Islamabad, or anywhere with an internet connection. The academy supports Urdu poetry generation and is designed for students whose first language is Urdu or Sindhi.",
   },
   {
     q: "What are the three forms of English verbs?",
     a: "V1 is the base form (e.g. 'go'), V2 is the past simple (e.g. 'went'), and V3 is the past participle (e.g. 'gone'). Irregular verbs change form entirely; regular verbs add -ed (e.g. 'walk / walked / walked'). Mastering these three forms is essential for correct English speaking and writing.",
   },
   {
-    q: "Does the app help with irregular verbs?",
+    q: "Does the academy help with irregular verbs?",
     a: "Yes. The verb library includes every common irregular English verb with all three forms and accepted alternate spellings (e.g. dreamed/dreamt, learned/learnt). You can filter by difficulty and mark tricky irregulars as 'difficult' to review them more often.",
   },
 ];
