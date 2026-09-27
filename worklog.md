@@ -338,3 +338,53 @@ Stage Summary:
 - Admin can: edit/delete daily topics (existing upsert), reset student passwords, assign + mark fees, see student count (dashboard), publish student speeches, write monthly result notes (AI generates card), upload best student of month.
 - Students see: best student widget on dashboard, speeches section, monthly result cards, today's topic, fees on profile.
 - Poetry generator is now a "highly trained master poet" with full Urdu support (RTL rendering, ghazal/nazm styles).
+
+---
+Task ID: GHAZAL-MASTER-PROMPT
+Agent: main (Z.ai Code)
+Task: Implement the full Urdu Ghazal Generator master prompt in the poetry generator.
+
+Work Log:
+- Replaced POETRY_SYSTEM_PROMPT in src/lib/ai.ts with the full 13-section Urdu Ghazal Generator master prompt:
+  1. Understand the user's topic (theme, emotion, hidden meaning, situation, mood)
+  2. Ghazal structure (matla, sher, qaafiya, radif, maqta, meter)
+  3. Qaafiya and Radif (preserve exactly if provided; auto-select if not; meaning > forced rhyme)
+  4. Poetic quality (imagery, emotion, metaphor, musicality, memorable final line)
+  5. Originality (never copy; no imitation of living poets' distinctive styles)
+  6. Language (natural Urdu, no awkward Persian/English mixing)
+  7. Emotional depth (imagery over direct statements)
+  8. Internal quality check (review every sher before output)
+  9. Multiple generations (create several versions, use the strongest)
+  10. Ghazal length (Matla + 5-7 Ashaar + optional Maqta)
+  11. Output format (### عنوان / ### غزل / couplets)
+  12. User controls (Topic, Emotion, Mood, Form, Qaafiya, Radif, Meter, Number of Ashaar, Vocab level, Classical/Modern, Ending style)
+  13. Never sacrifice meaning for rhyme
+  + Non-ghazal fallback (adapt structure for nazm/free verse/haiku/sonnet)
+
+- Extended /api/poetry-generator to accept all user controls from Section 12:
+  topic, language, form, emotion, mood, qaafiya, radif, meter, numAshaar,
+  vocabLevel, classicalModern, endingStyle. Builds the user prompt in the
+  exact format the master prompt expects (Topic: X / Emotion: Y / Form: Z / ...).
+
+- Rebuilt /poetry-generator UI with all 12 ghazal controls (5 text inputs +
+  7 dropdowns). Urdu is the default language; Ghazal is the default form.
+  Labels include Urdu script (موضوع, شکل, جذبات, مزاج, قافیہ, ردیف, بحر, اشعار).
+
+- Fixed AI reliability issues with the free OpenRouter model:
+  1. The liquid/lfm-2.5-2.6b:free model requires "reasoning" tokens that consume
+     the token budget. With max_tokens=1500, finish_reason="length" and content=null
+     (model ran out of tokens during reasoning, fell through to mock).
+     Fix: increased max_tokens to 4096 so reasoning finishes AND content is produced.
+  2. Added 90s abort timeout to callOpenRouter (free models are slow).
+  3. Set maxDuration=300 on all AI routes (poetry, speech, chat, admin/results)
+     so Vercel doesn't kill the function before the AI responds.
+
+- Verified live: real AI (mock: false) generated an original Urdu ghazal on
+  "امن (peace)" with full controls — مطلع + 4 اشعار + مقطع, in Urdu script,
+  following the ghazal structure from the master prompt.
+
+Stage Summary:
+- The poetry generator now implements the full Urdu Ghazal Generator master prompt with all 13 sections.
+- All user controls from Section 12 are available in the UI.
+- Real AI produces structured Urdu ghazals (مطلع/شعر/مقطع) — verified on the live site.
+- Quality is limited by the free 2.6B model; a paid model (e.g. meta-llama/llama-3.3-70b-instruct) would produce much better poetry. The implementation is correct regardless of model.
