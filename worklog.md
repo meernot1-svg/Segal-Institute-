@@ -441,3 +441,45 @@ Stage Summary:
   2. Admin uploads ONE result-card image → AI reads it → personalized card for every student delivered to each profile
   3. Fees display in PKR ("Rs 1,500")
 - Note on vision quality: the free 2.6B/9B vision model reads printed result cards well but struggled with my SVG-rendered test image (no real text rasterization). A real photo of a printed result card will read correctly.
+
+---
+Task ID: ANY-PLATFORM-VIDEO-LINKS
+Agent: main (Z.ai Code)
+Task: Admin should be able to add speech links from ANY platform.
+
+Work Log:
+- Rewrote src/components/video-player.tsx to detect + render videos from any platform:
+  1. YouTube (watch / share / shorts / embed / youtu.be / live) → iframe embed
+  2. Vimeo (incl. player.vimeo.com) → iframe embed
+  3. Dailymotion (dailymotion.com/video/X or dai.ly/X) → iframe embed
+  4. Streamable → iframe embed
+  5. Google Drive (file/d/ID, open?id=ID, uc?id=ID) → preview iframe embed
+  6. TikTok (@user/video/ID) → official blockquote embed (loads TikTok embed.js
+     on mount; re-renders if script already loaded)
+  7. Direct video files (mp4/webm/mov/m4v/ogv/m3u8/mpd) + uploaded data URLs →
+     native <video controls>
+  8. Facebook / Instagram / X (Twitter) / unknown platforms → clean "Watch on
+     <platform>" link card (opens in new tab). These platforms block raw iframe
+     embedding, so the link card is the robust fallback. platformName()
+     extracts a friendly label from the URL hostname.
+
+- Updated admin speeches form: the video URL field is labeled "Video link from
+  any platform" with a hint explaining which platforms embed inline vs show a
+  link card. Placeholder: "Paste a YouTube, Vimeo, TikTok, Facebook,
+  Dailymotion, Google Drive, or direct MP4 link…".
+
+- Deployed. Tested on live site with speeches from 6 different platforms:
+  Published Dailymotion, Streamable, Google Drive, TikTok, Facebook, and direct
+  MP4 links via the admin API. Student /speeches page rendered all of them:
+  - 5 iframes (YouTube + Vimeo + Dailymotion + Streamable + Google Drive)
+  - 1 TikTok blockquote embed (loads via TikTok embed.js)
+  - 1 native <video> (direct MP4)
+  - 1 "Watch on Facebook" link card (graceful fallback)
+
+Stage Summary:
+- Admin can now paste a video link from ANY platform in /admin/speeches.
+- Embeddable platforms (YouTube, Vimeo, Dailymotion, Streamable, Google Drive,
+  TikTok) render inline on the student /speeches page.
+- Non-embeddable platforms (Facebook, Instagram, X, etc.) show a clean "Watch on
+  <platform>" link card that opens the video in a new tab — so students can
+  still watch every speech regardless of platform.
