@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { AlertCircle } from "lucide-react";
 import { AuthShell } from "@/components/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,13 +23,16 @@ function RegisterForm() {
     classGrade: "",
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function update(k: keyof typeof form, v: string) {
     setForm((f) => ({ ...f, [k]: v }));
+    if (error) setError(null);
   }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError(null);
     setLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
@@ -36,9 +40,22 @@ function RegisterForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
+      let data: { error?: string } = {};
+      try {
+        data = await res.json();
+      } catch {
+        // non-JSON response (e.g. 500 HTML page)
+      }
       if (!res.ok) {
-        toast.error(data.error || "Could not create account");
+        const msg =
+          data.error ||
+          (res.status === 409
+            ? "An account with this email already exists"
+            : res.status === 500
+              ? "Server error — please try again in a moment"
+              : "Could not create account");
+        setError(msg);
+        toast.error(msg, { duration: 6000 });
         setLoading(false);
         return;
       }
@@ -46,7 +63,9 @@ function RegisterForm() {
       router.push(next);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      const msg = "Network error — check your connection and try again";
+      setError(msg);
+      toast.error(msg, { duration: 6000 });
       setLoading(false);
     }
   }
@@ -57,6 +76,15 @@ function RegisterForm() {
       subtitle="Start learning the three forms of English verbs today."
     >
       <form onSubmit={onSubmit} className="space-y-4">
+        {error && (
+          <div
+            role="alert"
+            className="flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 px-3.5 py-3 text-sm text-red-700"
+          >
+            <AlertCircle className="mt-0.5 size-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
         <div className="space-y-1.5">
           <Label htmlFor="name">Full name</Label>
           <Input

@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { AlertCircle } from "lucide-react";
 import { AuthShell } from "@/components/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,9 +18,11 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError(null);
     setLoading(true);
     try {
       const res = await fetch("/api/auth/login", {
@@ -27,9 +30,22 @@ function LoginForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      let data: { error?: string } = {};
+      try {
+        data = await res.json();
+      } catch {
+        // non-JSON response (e.g. 500 HTML page) — treat as server error
+      }
       if (!res.ok) {
-        toast.error(data.error || "Could not log in");
+        const msg =
+          data.error ||
+          (res.status === 401
+            ? "Invalid email or password"
+            : res.status === 500
+              ? "Server error — please try again in a moment"
+              : "Could not log in");
+        setError(msg);
+        toast.error(msg, { duration: 6000 });
         setLoading(false);
         return;
       }
@@ -37,7 +53,9 @@ function LoginForm() {
       router.push(next);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      const msg = "Network error — check your connection and try again";
+      setError(msg);
+      toast.error(msg, { duration: 6000 });
       setLoading(false);
     }
   }
@@ -45,6 +63,15 @@ function LoginForm() {
   return (
     <AuthShell title="Log in" subtitle="Pick up your verb streak where you left it.">
       <form onSubmit={onSubmit} className="space-y-4">
+        {error && (
+          <div
+            role="alert"
+            className="flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 px-3.5 py-3 text-sm text-red-700"
+          >
+            <AlertCircle className="mt-0.5 size-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -53,8 +80,12 @@ function LoginForm() {
             autoComplete="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (error) setError(null);
+            }}
             placeholder="you@example.com"
+            aria-invalid={!!error}
           />
         </div>
         <div className="space-y-1.5">
@@ -73,8 +104,12 @@ function LoginForm() {
             autoComplete="current-password"
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (error) setError(null);
+            }}
             placeholder="••••••••"
+            aria-invalid={!!error}
           />
         </div>
         <Button type="submit" disabled={loading} className="w-full">
