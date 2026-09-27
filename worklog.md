@@ -194,3 +194,31 @@ Stage Summary:
 - Code on GitHub: https://github.com/meernot1-svg/Segal-Institute-.git (4 commits total).
 - GitHub → Vercel auto-deploy not connected yet (user can enable from Vercel dashboard → Settings → Git → Connect Repository).
 - Security: no tokens in any committed file (verified via grep). User must rotate GitHub PAT, Vercel token, AND Supabase PAT — all three were shared in plaintext in chat.
+
+---
+Task ID: FIX-AUTH-ERRORS
+Agent: main (Z.ai Code)
+Task: Fix "something wrong happened" error on login/register.
+
+Investigation:
+- Reproduced on live site via Agent Browser. APIs return correct status codes (200 ok, 401 invalid creds, 409 duplicate email) with clear JSON error messages.
+- Found the error WAS showing as a sonner toast, but toasts auto-dismiss after ~4 seconds — easy to miss, and the user described the brief/dismissed toast as "something wrong happened".
+- The Toaster IS in the DOM (verified: section[aria-label*=Notifications] exists); toasts do render (verified "Invalid email or password" appeared at 500ms–3500ms).
+- Root cause: UX, not a server bug. Toast-only error feedback is fragile — auto-dismisses before the user reads it.
+
+Fix:
+- Added persistent inline error alert (red box with AlertCircle icon, role="alert", aria-invalid on inputs) to login + register forms.
+- Error stays visible until the user starts typing again, then clears.
+- Kept toast as secondary feedback but extended error duration to 6s.
+- Replaced generic "Something went wrong" catch with specific messages: "Network error — check your connection and try again".
+- Added try/catch around res.json() to handle non-JSON 500 responses gracefully.
+- Added status-code-aware fallback messages (401, 409, 500).
+
+Verified on https://segal-institute.vercel.app:
+- Wrong password → inline "Invalid email or password" (persistent, /login)
+- Duplicate email register → inline "An account with this email already exists" (persistent, /register)
+- Correct login → redirects to /dashboard, no error
+- No console/page errors.
+
+Stage Summary:
+- Deployed. Auth errors are now clear, specific, and persistent. The user will see exactly what went wrong (wrong password, duplicate email, network error) right in the form.
