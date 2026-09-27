@@ -24,6 +24,7 @@ type Lesson = {
 // Import lesson data
 import { BASIC_LESSONS } from "@/lib/basic-lessons-data";
 import { JUNIOR_LESSONS } from "@/lib/junior-lessons-data";
+import { SENIOR_LESSONS } from "@/lib/senior-lessons-data";
 
 const ICONS: Record<string, React.ElementType> = {
   BookA,
@@ -54,6 +55,7 @@ export default async function LessonsPage() {
   });
 
   const canAccessJunior = userRank >= tierRank("junior");
+  const canAccessSenior = userRank >= tierRank("senior");
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -116,6 +118,38 @@ export default async function LessonsPage() {
             Unlock these lessons by getting promoted to the <strong>Junior</strong> badge.
           </p>
           <p className="mt-2 text-xs text-muted-foreground">Ask your teacher to promote your badge.</p>
+        </div>
+      )}
+
+      {/* Senior lessons section */}
+      {canAccessSenior ? (
+        <div className="mt-10">
+          <div className="mb-4 flex items-center gap-2">
+            <span className={cn("size-2.5 rounded-full", TIER_DOT_COLORS.senior)} />
+            <h2 className="font-display text-lg font-semibold text-foreground">Senior Lessons</h2>
+            <span className="text-xs text-muted-foreground">— 42 Advanced Grammar Lessons</span>
+          </div>
+          <div className="space-y-6">
+            {SENIOR_LESSONS.map((lesson, idx) => (
+              <LessonCard key={`senior-${idx}`} lesson={lesson} index={idx} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="mt-10 rounded-xl border border-border bg-surface-cream p-6">
+          <div className="flex items-center gap-3">
+            <Lock className="size-5 text-muted-foreground" />
+            <h3 className="font-display text-lg font-semibold text-foreground">Senior Grammar Workbook</h3>
+          </div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The Senior Grammar Workbook covers 42 advanced grammar lessons including: Mind If,
+            What If, Unless, Either…Or, Neither…Nor, As Well As, Lest, As If/As Though,
+            No Sooner…Than, Hardly/Scarcely/Barely, Not Only…But Also, In Spite Of, Despite,
+            As Soon As, While, May/Might, Though/Although, Provided That, Having,
+            Let/Let's, all five Conditionals (Zero through Mixed), Had Better,
+            Exclamatory and Optative Sentences, and a master pattern review.
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground">Ask your teacher to promote your badge to <strong>Senior</strong> to unlock these lessons.</p>
         </div>
       )}
 
