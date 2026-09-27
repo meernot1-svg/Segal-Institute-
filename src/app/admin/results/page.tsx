@@ -1,4 +1,3 @@
-import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { AdminResultsClient } from "@/components/admin-results-client";
 
@@ -9,12 +8,6 @@ export default async function AdminResultsPage() {
   if (!user || user.role !== "admin") {
     return null;
   }
-  const students = await db.profile.findMany({
-    where: { role: "student" },
-    orderBy: { name: "asc" },
-    select: { id: true, name: true, email: true },
-  });
-
   return (
     <div className="mx-auto max-w-5xl">
       <div>
@@ -22,11 +15,11 @@ export default async function AdminResultsPage() {
           Monthly Results
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Write your raw notes about a student. The AI turns them into a polished monthly result card the student can read.
+          Upload a result image for the month. Every student sees the same image on their My Monthly Results page.
         </p>
       </div>
       <div className="mt-6">
-        <AdminResultsClient students={students} />
+        <AdminResultsClient />
       </div>
     </div>
   );

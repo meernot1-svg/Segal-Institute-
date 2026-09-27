@@ -7,12 +7,14 @@ import { FileText } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function MonthlyResultsPage() {
-  const user = (await getCurrentUser())!;
-  const results = await db.monthlyResult.findMany({
-    where: { studentId: user.id },
-    orderBy: { periodKey: "desc" },
+  // Auth check (route is protected, but this also lets us render the user's name)
+  await getCurrentUser();
+
+  // Shared monthly result images — same for every student
+  const images = await db.monthlyResultImage.findMany({
+    orderBy: { month: "desc" },
     take: 24,
-    select: { id: true, periodKey: true, generatedCard: true, imageUrl: true, createdAt: true },
+    select: { id: true, title: true, month: true, imageUrl: true, createdAt: true },
   });
 
   return (
@@ -22,41 +24,38 @@ export default async function MonthlyResultsPage() {
           My Monthly Results
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Your monthly result cards, written by your teacher and polished by AI.
+          Your monthly result sheets, uploaded by your teacher at Segal Institute.
         </p>
       </div>
 
-      {results.length === 0 ? (
+      {images.length === 0 ? (
         <div className="mt-10 rounded-xl border border-border bg-card p-12 text-center">
           <FileText className="mx-auto size-8 text-muted-foreground/40" />
-          <p className="mt-3 font-medium text-foreground">No result cards yet.</p>
+          <p className="mt-3 font-medium text-foreground">No result images yet.</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            When your teacher writes your monthly result, it will appear here.
+            When your teacher uploads a monthly result image, it will appear here.
           </p>
         </div>
       ) : (
-        <div className="mt-8 space-y-4">
-          {results.map((r) => (
-            <Card key={r.id}>
+        <div className="mt-8 space-y-6">
+          {images.map((img) => (
+            <Card key={img.id}>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
                   <FileText className="size-5 text-brand-emerald-deep" />
                   <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">
-                    Result card · {r.periodKey}
+                    {img.title}
                   </h2>
-                  <Badge variant="outline" className="ml-auto">
-                    {new Date(r.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
-                  </Badge>
+                  <Badge variant="outline" className="ml-auto">{img.month}</Badge>
                 </div>
-                <p dir="auto" className="prose-reading mt-4 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-                  {r.generatedCard}
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {new Date(img.createdAt).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}
                 </p>
-                {r.imageUrl && (
-                  <details className="mt-4">
-                    <summary className="cursor-pointer text-xs text-muted-foreground">View original result sheet</summary>
-                    <img src={r.imageUrl} alt={`Original result sheet for ${r.periodKey}`} className="mt-2 max-h-96 w-full rounded-lg border border-border object-contain" />
-                  </details>
-                )}
+                <img
+                  src={img.imageUrl}
+                  alt={`${img.title} — ${img.month}`}
+                  className="mt-4 w-full rounded-lg border border-border"
+                />
               </CardContent>
             </Card>
           ))}

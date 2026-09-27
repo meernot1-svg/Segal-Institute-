@@ -6,51 +6,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Trash2, Loader2, Sparkles, FileText, Image as ImageIcon } from "lucide-react";
+import { Trash2, Loader2, Image as ImageIcon, Upload } from "lucide-react";
 import { monthKey } from "@/lib/format";
 
-type Student = { id: string; name: string; email: string };
-type Result = {
+type ResultImage = {
   id: string;
-  periodKey: string;
-  notes: string;
-  generatedCard: string;
-  imageUrl: string | null;
+  title: string;
+  month: string;
+  imageUrl: string;
   createdAt: string;
-  student: { id: string; name: string; email: string };
 };
 
-type Mode = "text" | "image";
-
-export function AdminResultsClient({ students }: { students: Student[] }) {
-  const [results, setResults] = useState<Result[]>([]);
+export function AdminResultsClient() {
+  const [images, setImages] = useState<ResultImage[]>([]);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<Mode>("image");
-  const [studentId, setStudentId] = useState("");
-  const [periodKey, setPeriodKey] = useState(monthKey());
-  const [notes, setNotes] = useState("");
-  const [saving, setSaving] = useState(false);
-
-  // Image mode state
+  const [title, setTitle] = useState("");
+  const [month, setMonth] = useState(monthKey());
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [extraInstructions, setExtraInstructions] = useState("");
+  const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const res = await fetch("/api/admin/results");
+      const res = await fetch("/api/admin/result-images");
       const data = await res.json();
       if (cancelled) return;
-      if (data.results) setResults(data.results);
+      if (data.images) setImages(data.images);
       setLoading(false);
     })();
     return () => {
@@ -59,9 +42,9 @@ export function AdminResultsClient({ students }: { students: Student[] }) {
   }, []);
 
   async function refresh() {
-    const res = await fetch("/api/admin/results");
+    const res = await fetch("/api/admin/result-images");
     const data = await res.json();
-    if (data.results) setResults(data.results);
+    if (data.images) setImages(data.images);
   }
 
   async function handleImage(file: File) {
@@ -69,13 +52,13 @@ export function AdminResultsClient({ students }: { students: Student[] }) {
       toast.error("Please choose an image file.");
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image must be under 5MB.");
+    if (file.size > 8 * 1024 * 1024) {
+      toast.error("Image must be under 8MB.");
       return;
     }
     setUploadingImage(true);
     try {
-      const dataUrl = await resizeImage(file, 1280, 1600, 0.85);
+      const dataUrl = await resizeImage(file, 1400, 1800, 0.85);
       setImageDataUrl(dataUrl);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not load image");
@@ -84,75 +67,39 @@ export function AdminResultsClient({ students }: { students: Student[] }) {
     }
   }
 
-  // Text mode: generate a single student's result card from notes
-  async function generateFromNotes() {
-    if (!studentId) {
-      toast.error("Pick a student.");
+  async function save() {
+    if (!title.trim()) {
+      toast.error("Title is required.");
       return;
     }
-    if (!notes.trim()) {
-      toast.error("Write some notes for the AI to turn into a result card.");
-      return;
-    }
-    setSaving(true);
-    try {
-      const res = await fetch("/api/admin/results", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ studentId, periodKey, notes: notes.trim(), generate: true }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed");
-      toast.success(`Result card generated for ${data.result?.student?.name || "student"}.`);
-      setNotes("");
-      await refresh();
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed");
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  // Image mode: upload one image -> AI reads it -> generates a personalized
-  // card for EVERY student and saves to each profile.
-  async function generateFromImage() {
     if (!imageDataUrl) {
-      toast.error("Upload a result-card image first.");
-      return;
-    }
-    if (students.length === 0) {
-      toast.error("No students registered yet.");
+      toast.error("Please upload an image.");
       return;
     }
     setSaving(true);
     try {
-      const res = await fetch("/api/admin/results/upload-image", {
+      const res = await fetch("/api/admin/result-images", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          periodKey,
-          imageDataUrl,
-          extraInstructions: extraInstructions.trim() || undefined,
-        }),
+        body: JSON.stringify({ title: title.trim(), month, imageUrl: imageDataUrl }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed");
-      const n = data.studentCount || 0;
-      toast.success(`AI read the image and generated personalized cards for ${n} student${n === 1 ? "" : "s"}.`);
+      if (!res.ok) throw new Error(data.error || "Save failed");
+      toast.success(`Result image for ${month} published — all students can now see it.`);
+      setTitle("");
       setImageDataUrl(null);
-      setExtraInstructions("");
       await refresh();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed");
+      toast.error(e instanceof Error ? e.message : "Save failed");
     } finally {
       setSaving(false);
     }
   }
 
   async function remove(id: string) {
-    if (!confirm("Delete this result card?")) return;
-    await fetch(`/api/admin/results/${id}`, { method: "DELETE" });
-    setResults((r) => r.filter((x) => x.id !== id));
+    if (!confirm("Delete this result image?")) return;
+    await fetch(`/api/admin/result-images/${id}`, { method: "DELETE" });
+    setImages((a) => a.filter((x) => x.id !== id));
   }
 
   if (loading) {
@@ -161,149 +108,81 @@ export function AdminResultsClient({ students }: { students: Student[] }) {
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
+      {/* Upload form */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="size-4" /> Monthly Results — AI-powered
-          </CardTitle>
+          <CardTitle className="flex items-center gap-2"><ImageIcon className="size-4" /> Upload monthly result image</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Mode switcher */}
-          <div className="inline-flex rounded-lg border border-border p-1">
-            <button
-              type="button"
-              onClick={() => setMode("image")}
-              className={
-                mode === "image"
-                  ? "inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
-                  : "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground"
-              }
-            >
-              <ImageIcon className="size-3.5" /> Image (all students)
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("text")}
-              className={
-                mode === "text"
-                  ? "inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
-                  : "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground"
-              }
-            >
-              <FileText className="size-3.5" /> Text notes (one student)
-            </button>
-          </div>
-
           <div className="space-y-1.5">
-            <Label htmlFor="period">Month (YYYY-MM)</Label>
-            <Input id="period" value={periodKey} onChange={(e) => setPeriodKey(e.target.value)} placeholder="2026-09" />
+            <Label htmlFor="title">Title</Label>
+            <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. September 2026 Monthly Results" />
           </div>
-
-          {mode === "image" ? (
-            <>
-              <div className="space-y-1.5">
-                <Label>Result-card image</Label>
-                <div className="flex items-center gap-3">
-                  {imageDataUrl ? (
-                    <img src={imageDataUrl} alt="Preview of the uploaded monthly result sheet" className="max-h-32 rounded-md border border-border object-contain" />
-                  ) : (
-                    <div className="flex size-20 items-center justify-center rounded-md border border-dashed border-border bg-muted/40 text-muted-foreground">
-                      <ImageIcon className="size-6" />
-                    </div>
-                  )}
-                  <div className="space-y-2">
-                    <Button type="button" variant="outline" onClick={() => fileRef.current?.click()} disabled={uploadingImage || saving}>
-                      {uploadingImage ? <><Loader2 className="size-4 animate-spin" /> Loading…</> : <><ImageIcon className="size-4" /> Upload image</>}
-                    </Button>
-                    <input
-                      ref={fileRef}
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const f = e.target.files?.[0];
-                        if (f) handleImage(f);
-                        e.target.value = "";
-                      }}
-                    />
-                    {imageDataUrl && (
-                      <button onClick={() => setImageDataUrl(null)} className="block text-xs text-muted-foreground hover:text-foreground">Remove</button>
-                    )}
-                  </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="month">Month (YYYY-MM)</Label>
+            <Input id="month" value={month} onChange={(e) => setMonth(e.target.value)} placeholder="2026-09" />
+            <p className="text-xs text-muted-foreground">One image per month. Uploading for a month that already exists replaces the old image.</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Result image</Label>
+            <div className="flex items-start gap-3">
+              {imageDataUrl ? (
+                <img src={imageDataUrl} alt="Preview of the monthly result image" className="max-h-40 rounded-md border border-border object-contain" />
+              ) : (
+                <div className="flex size-24 items-center justify-center rounded-md border border-dashed border-border bg-muted/40 text-muted-foreground">
+                  <ImageIcon className="size-6" />
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Upload ONE photo/screenshot of the result sheet. The AI reads it, then writes a <strong>personalized card for every student</strong> — each student sees their own on their dashboard.
-                </p>
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="extra">Extra instructions (optional)</Label>
-                <Input id="extra" value={extraInstructions} onChange={(e) => setExtraInstructions(e.target.value)} placeholder="e.g. all students improved this month — be encouraging" />
-              </div>
-              <Button onClick={generateFromImage} disabled={saving || !imageDataUrl}>
-                {saving ? <><Loader2 className="size-4 animate-spin" /> AI reading image + generating for all students…</> : <><Sparkles className="size-4" /> Generate for all {students.length} students</>}
-              </Button>
-            </>
-          ) : (
-            <>
-              <div className="space-y-1.5">
-                <Label>Student</Label>
-                <Select value={studentId} onValueChange={setStudentId}>
-                  <SelectTrigger className="w-full"><SelectValue placeholder="Select a student" /></SelectTrigger>
-                  <SelectContent>
-                    {students.length === 0 ? (
-                      <SelectItem value="_none" disabled>No students registered yet</SelectItem>
-                    ) : (
-                      students.map((s) => (
-                        <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
-                      ))
-                    )}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="notes">Your notes about this student this month</Label>
-                <textarea
-                  id="notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  rows={8}
-                  placeholder={"e.g.:\n- Attendance: 22 of 24 days\n- Strong in verb forms, scored 90% on MCQ tests\n- Needs to work on written tests\n- Helpful in class, asks good questions"}
-                  className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none"
+              )}
+              <div className="space-y-2">
+                <Button type="button" variant="outline" onClick={() => fileRef.current?.click()} disabled={uploadingImage || saving}>
+                  {uploadingImage ? <><Loader2 className="size-4 animate-spin" /> Loading…</> : <><Upload className="size-4" /> Choose image</>}
+                </Button>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) handleImage(f);
+                    e.target.value = "";
+                  }}
                 />
-                <p className="text-xs text-muted-foreground">The AI will turn these notes into a polished result card for this one student.</p>
+                {imageDataUrl && (
+                  <button onClick={() => setImageDataUrl(null)} className="block text-xs text-muted-foreground hover:text-foreground">Remove</button>
+                )}
               </div>
-              <Button onClick={generateFromNotes} disabled={saving || students.length === 0}>
-                {saving ? <><Loader2 className="size-4 animate-spin" /> Generating…</> : <><Sparkles className="size-4" /> Generate result card</>}
-              </Button>
-            </>
-          )}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Upload a photo or screenshot of the result sheet. <strong>All students see the same image</strong> on their My Monthly Results page.
+            </p>
+          </div>
+          <Button onClick={save} disabled={saving || !imageDataUrl || !title.trim()}>
+            {saving ? <><Loader2 className="size-4 animate-spin" /> Publishing…</> : <><Upload className="size-4" /> Publish to all students</>}
+          </Button>
         </CardContent>
       </Card>
 
-      {/* Results list */}
+      {/* Published list */}
       <div>
-        <h2 className="font-display text-lg font-semibold tracking-tight">Result cards ({results.length})</h2>
-        {results.length === 0 ? (
-          <p className="mt-3 text-sm text-muted-foreground">No result cards yet. Upload an image or write notes on the left.</p>
+        <h2 className="font-display text-lg font-semibold tracking-tight">Published images ({images.length})</h2>
+        {images.length === 0 ? (
+          <p className="mt-3 text-sm text-muted-foreground">No result images published yet. Upload one on the left.</p>
         ) : (
           <div className="mt-3 space-y-3 max-h-[calc(100vh-16rem)] overflow-y-auto scroll-fine pr-1">
-            {results.map((r) => (
-              <Card key={r.id}>
+            {images.map((img) => (
+              <Card key={img.id}>
                 <CardContent className="pt-5">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <FileText className="size-4 text-brand-emerald-deep" />
-                        <p className="font-medium text-foreground">{r.student.name}</p>
-                        <span className="rounded bg-muted px-2 py-0.5 text-xs">{r.periodKey}</span>
-                        {r.imageUrl && <span className="rounded bg-accent px-2 py-0.5 text-xs text-brand-emerald-deep">from image</span>}
+                        <p className="font-medium text-foreground">{img.title}</p>
+                        <span className="rounded bg-muted px-2 py-0.5 text-xs">{img.month}</span>
                       </div>
-                      <details className="mt-2">
-                        <summary className="cursor-pointer text-xs text-muted-foreground">Show result card</summary>
-                        <p dir="auto" className="mt-2 whitespace-pre-wrap rounded-md border border-border bg-muted/30 p-3 text-sm text-foreground">{r.generatedCard}</p>
-                      </details>
+                      <p className="mt-1 text-xs text-muted-foreground">{new Date(img.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}</p>
+                      <img src={img.imageUrl} alt={`${img.title} — ${img.month}`} className="mt-3 max-h-32 rounded-md border border-border object-contain" />
                     </div>
-                    <button onClick={() => remove(r.id)} className="rounded p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600" aria-label="Delete">
+                    <button onClick={() => remove(img.id)} className="rounded p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600" aria-label="Delete">
                       <Trash2 className="size-4" />
                     </button>
                   </div>
@@ -324,7 +203,6 @@ function resizeImage(file: File, w: number, h: number, quality: number): Promise
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement("canvas");
-        // Fit within w×h, preserving aspect ratio (don't crop)
         const scale = Math.min(w / img.width, h / img.height, 1);
         canvas.width = Math.round(img.width * scale);
         canvas.height = Math.round(img.height * scale);

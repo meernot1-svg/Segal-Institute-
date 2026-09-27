@@ -398,6 +398,24 @@ model MonthlyResult {
 }
 
 // ---------------------------------------------------------------------------
+// Shared monthly result image (admin uploads ONE image per month; ALL
+// students see the same image on their /monthly-results page — no AI)
+// ---------------------------------------------------------------------------
+
+model MonthlyResultImage {
+  id        String   @id @default(cuid())
+  title     String
+  // YYYY-MM — the month this result image is for (one image per month)
+  month     String   @unique
+  // Base64 data URL of the uploaded image
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([month])
+}
+
+// ---------------------------------------------------------------------------
 // Best Student of the Month (admin uploads name + photo; student dashboard)
 // ---------------------------------------------------------------------------
 
