@@ -8,9 +8,9 @@ import { VerbActions } from "@/components/verb-actions";
 import { SpeakButton } from "@/components/speak-button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { SITE_URL } from "@/lib/site";
-import { canAccessTier, tierLabel } from "@/lib/tiers";
+import { canAccessTier, tierRank, tierLabel, TIER_LABELS, TIER_DOT_COLORS, type BadgeTier } from "@/lib/tiers";
 import { getVerbType, type VerbType } from "@/lib/verbs";
 
 export const metadata: Metadata = {
@@ -53,7 +53,14 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
   const letter = (sp.letter || "").toLowerCase();
   const page = Math.max(1, parseInt(sp.page || "1", 10) || 1);
 
-  const where: Prisma.VerbWhereInput = {};
+  // Only fetch verbs the user can actually access — no locked rows shown
+  const accessibleTiers = ["basic", "junior", "senior", "elite_senior"].filter(
+    (t) => tierRank(t) <= tierRank(user.badge),
+  );
+
+  const where: Prisma.VerbWhereInput = {
+    minTier: { in: accessibleTiers },
+  };
   if (q) {
     where.OR = [{ v1: { contains: q } }, { meaning: { contains: q } }];
   }
@@ -93,7 +100,13 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
   ]);
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  const hasAccess = canAccessTier(user.badge, "senior");
+
+  // Split verbs into Regular and Irregular
+  const regularVerbs = verbs.filter((v) => getVerbType(v.v1, v.v2, v.v3) === "Regular");
+  const irregularVerbs = verbs.filter((v) => getVerbType(v.v1, v.v2, v.v3) === "Irregular");
+
+  // Check if the user is searching (in which case we skip the educational sections)
+  const isSearching = !!(q || status !== "all" || difficulty !== "all" || letter);
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -103,28 +116,19 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
             Verbs
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {total.toLocaleString()} verbs · mark each learned or difficult as you go.
+            {total.toLocaleString()} verbs at your level · mark each learned or difficult as you go.
           </p>
         </div>
-      </div>
-
-      {/* Tier access notice for users who can't access everything */}
-      {!canAccessTier(user.badge, "senior") && (
-        <div className="mt-4 flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          <Lock className="mt-0.5 size-4 shrink-0" />
-          <div>
-            <p>
-              Your badge is <strong>{tierLabel(user.badge)}</strong>. You have access to{" "}
-              <strong>{tierLabel(user.badge)}</strong>-level verbs and below.
-            </p>
-            <p className="mt-1">
-              Verbs at <strong>Senior</strong> tier and above are visible but locked —
-              you can see the verb name but V2/V3 forms and meanings are hidden until
-              your teacher promotes you.
-            </p>
-          </div>
+        <div className="flex items-center gap-2">
+          <span className={cn(
+            "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium",
+            "bg-accent text-brand-emerald-deep border-brand-emerald/30",
+          )}>
+            <span className={cn("size-1.5 rounded-full", TIER_DOT_COLORS[user.badge as BadgeTier] || TIER_DOT_COLORS.basic)} />
+            {TIER_LABELS[user.badge as BadgeTier] || "Basic"}
+          </span>
         </div>
-      )}
+      </div>
 
       <div className="mt-6">
         <VerbsToolbar q={q} status={status} difficulty={difficulty} letter={letter} />
@@ -137,129 +141,200 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
             Try clearing the search or switching filters.
           </p>
         </div>
+      ) : isSearching ? (
+        <>
+          {/* Search results — show all matching verbs in a single list */}
+          <VerbSection
+            title={`Search results (${total.toLocaleString()})`}
+            description=""
+            verbs={verbs}
+            user={user}
+          />
+          <Pagination page={page} totalPages={totalPages} searchParams={sp} />
+        </>
       ) : (
         <>
-          {/* Desktop table */}
-          <div className="mt-6 hidden overflow-hidden rounded-xl border border-border md:block">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/60 text-left">
-                <tr className="text-xs text-muted-foreground">
-                  <th className="px-4 py-3 font-medium">V1</th>
-                  <th className="px-4 py-3 font-medium">Type</th>
-                  <th className="px-4 py-3 font-medium">V2</th>
-                  <th className="px-4 py-3 font-medium">V3</th>
-                  <th className="px-4 py-3 font-medium">Meaning</th>
-                  <th className="px-4 py-3 font-medium">Level</th>
-                  <th className="px-4 py-3 text-right font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border bg-card">
-                {verbs.map((v) => {
-                  const locked = !canAccessTier(user.badge, v.minTier);
-                  const verbType: VerbType = getVerbType(v.v1, v.v2, v.v3);
-                  if (locked) {
-                    return (
-                      <tr key={v.id} className="align-middle opacity-50">
-                        <td className="px-4 py-3">
-                          <span className="inline-flex items-center gap-2">
-                            <Lock className="size-3.5 text-muted-foreground" />
-                            <span className="font-medium text-foreground">{v.v1}</span>
-                          </span>
-                        </td>
-                        <td className="px-4 py-3"><VerbTypeBadge type={verbType} /></td>
-                        <td className="px-4 py-3 text-muted-foreground">—</td>
-                        <td className="px-4 py-3 text-muted-foreground">—</td>
-                        <td className="px-4 py-3 text-muted-foreground">Available at {tierLabel(v.minTier)} tier</td>
-                        <td className="px-4 py-3"><DiffBadge level={v.difficulty} /></td>
-                        <td className="px-4 py-3 text-right text-xs text-muted-foreground">Locked</td>
-                      </tr>
-                    );
-                  }
-                  const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
-                  const fav = v.favorites.length > 0;
+          {/* Educational layout: Regular verbs definition → Regular verbs → Irregular definition → Irregular verbs */}
+
+          {/* Regular Verbs Section */}
+          {regularVerbs.length > 0 && (
+            <VerbSection
+              title="Regular Verbs"
+              definition="Regular verbs form their past simple (V2) and past participle (V3) by adding <strong>-ed</strong>, <strong>-d</strong> (if the verb ends in 'e'), or <strong>-ied</strong> (if the verb ends in a consonant + 'y'). The V2 and V3 forms are always the same for regular verbs."
+              examples="accept → accepted → accepted &nbsp;·&nbsp; study → studied → studied &nbsp;·&nbsp; work → worked → worked"
+              verbs={regularVerbs}
+              user={user}
+            />
+          )}
+
+          {/* Irregular Verbs Section */}
+          {irregularVerbs.length > 0 && (
+            <div className={regularVerbs.length > 0 ? "mt-10" : ""}>
+              <VerbSection
+                title="Irregular Verbs"
+                definition="Irregular verbs do <strong>not</strong> follow the -ed pattern. Their V2 (past simple) and V3 (past participle) forms change in unique ways and must be memorized. For example: <em>go → went → gone</em>, <em>see → saw → seen</em>, <em>be → was/were → been</em>."
+                examples="go → went → gone &nbsp;·&nbsp; see → saw → seen &nbsp;·&nbsp; take → took → taken"
+                verbs={irregularVerbs}
+                user={user}
+              />
+            </div>
+          )}
+
+          {/* Tier upsell: show what's available at higher tiers */}
+          {tierRank(user.badge) < 4 && (
+            <div className="mt-10 rounded-xl border border-border bg-surface-cream p-6">
+              <h3 className="font-display text-lg font-semibold text-foreground">
+                More verbs at higher badges
+              </h3>
+              <div className="mt-3 space-y-2 text-sm text-muted-foreground">
+                {(["junior", "senior", "elite_senior"] as BadgeTier[]).map((t) => {
+                  if (tierRank(t) <= tierRank(user.badge)) return null;
                   return (
-                    <tr key={v.id} className="group align-middle">
-                      <td className="px-4 py-3">
-                        <Link href={`/verbs/${v.id}`} className="inline-flex items-center gap-2">
-                          <span className="font-medium text-foreground group-hover:text-brand-emerald-deep">
-                            {v.v1}
-                          </span>
-                          <SpeakButton text={v.v1} className="opacity-0 transition-opacity group-hover:opacity-100" />
-                        </Link>
-                      </td>
-                      <td className="px-4 py-3"><VerbTypeBadge type={verbType} /></td>
-                      <td className="px-4 py-3 text-muted-foreground">{v.v2}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{v.v3}</td>
-                      <td className="px-4 py-3 max-w-[280px] truncate text-muted-foreground" title={v.meaning}>
-                        {v.meaning}
-                      </td>
-                      <td className="px-4 py-3">
-                        <DiffBadge level={v.difficulty} />
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="flex justify-end">
-                          <VerbActions verbId={v.id} initialStatus={st} initialFavorited={fav} />
-                        </div>
-                      </td>
-                    </tr>
+                    <div key={t} className="flex items-center gap-2">
+                      <span className={cn("size-2 rounded-full", TIER_DOT_COLORS[t])} />
+                      <span>
+                        <strong>{TIER_LABELS[t]}</strong> badge unlocks more advanced verbs
+                        {t === "elite_senior" && " (coming soon)"}
+                      </span>
+                    </div>
                   );
                 })}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile cards */}
-          <div className="mt-6 grid gap-3 md:hidden">
-            {verbs.map((v) => {
-              const locked = !canAccessTier(user.badge, v.minTier);
-              const verbType: VerbType = getVerbType(v.v1, v.v2, v.v3);
-              if (locked) {
-                return (
-                  <div key={v.id} className="rounded-xl border border-border bg-card p-4 opacity-50">
-                    <div className="flex items-center gap-2">
-                      <Lock className="size-4 text-muted-foreground" />
-                      <p className="font-display text-lg font-semibold text-foreground">{v.v1}</p>
-                    </div>
-                    <div className="mt-1 flex items-center gap-2">
-                      <VerbTypeBadge type={verbType} />
-                      <p className="text-sm text-muted-foreground">Available at {tierLabel(v.minTier)} tier</p>
-                    </div>
-                  </div>
-                );
-              }
-              const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
-              const fav = v.favorites.length > 0;
-              return (
-                <div key={v.id} className="rounded-xl border border-border bg-card p-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <Link href={`/verbs/${v.id}`} className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="font-display text-lg font-semibold text-foreground">{v.v1}</p>
-                        <SpeakButton text={v.v1} />
-                      </div>
-                      <div className="mt-1 flex flex-wrap items-center gap-2">
-                        <VerbTypeBadge type={verbType} />
-                        <p className="text-sm text-muted-foreground">
-                          <span className="font-medium text-foreground">{v.v2}</span>
-                          <span className="mx-1.5 text-border">/</span>
-                          <span className="font-medium text-foreground">{v.v3}</span>
-                        </p>
-                      </div>
-                      <p className="mt-1.5 truncate text-sm text-muted-foreground">{v.meaning}</p>
-                    </Link>
-                    <DiffBadge level={v.difficulty} />
-                  </div>
-                  <div className="mt-3 border-t border-border pt-3">
-                    <VerbActions verbId={v.id} initialStatus={st} initialFavorited={fav} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Ask your teacher to promote your badge to unlock more verbs.
+              </p>
+            </div>
+          )}
 
           <Pagination page={page} totalPages={totalPages} searchParams={sp} />
         </>
       )}
+    </div>
+  );
+}
+
+function VerbSection({
+  title,
+  definition,
+  examples,
+  verbs,
+  user,
+}: {
+  title: string;
+  definition: string;
+  examples?: string;
+  verbs: Array<{
+    id: string;
+    v1: string;
+    v2: string;
+    v3: string;
+    v2Alts: string;
+    v3Alts: string;
+    meaning: string;
+    difficulty: number;
+    progress: { status: string }[];
+    favorites: { id: string }[];
+  }>;
+  user: { id: string };
+}) {
+  if (verbs.length === 0 && !definition) return null;
+
+  return (
+    <div className="mt-8">
+      {/* Section header with definition */}
+      {definition && (
+        <div className="mb-4 rounded-xl border border-brand-emerald/20 bg-accent/20 p-5">
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">{title}</h2>
+          <p
+            className="mt-2 text-sm leading-relaxed text-muted-foreground"
+            dangerouslySetInnerHTML={{ __html: definition }}
+          />
+          {examples && (
+            <p
+              className="mt-2 font-mono text-xs text-muted-foreground/70"
+              dangerouslySetInnerHTML={{ __html: examples }}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Desktop table */}
+      <div className="hidden overflow-hidden rounded-xl border border-border md:block">
+        <table className="w-full text-sm">
+          <thead className="bg-muted/60 text-left">
+            <tr className="text-xs text-muted-foreground">
+              <th className="px-4 py-3 font-medium">V1</th>
+              <th className="px-4 py-3 font-medium">Type</th>
+              <th className="px-4 py-3 font-medium">V2</th>
+              <th className="px-4 py-3 font-medium">V3</th>
+              <th className="px-4 py-3 font-medium">Meaning</th>
+              <th className="px-4 py-3 font-medium">Level</th>
+              <th className="px-4 py-3 text-right font-medium">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border bg-card">
+            {verbs.map((v) => {
+              const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
+              const fav = v.favorites.length > 0;
+              const verbType: VerbType = getVerbType(v.v1, v.v2, v.v3);
+              return (
+                <tr key={v.id} className="group align-middle">
+                  <td className="px-4 py-3">
+                    <Link href={`/verbs/${v.id}`} className="inline-flex items-center gap-2">
+                      <span className="font-medium text-foreground group-hover:text-brand-emerald-deep">{v.v1}</span>
+                      <SpeakButton text={v.v1} className="opacity-0 transition-opacity group-hover:opacity-100" />
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3"><VerbTypeBadge type={verbType} /></td>
+                  <td className="px-4 py-3 text-muted-foreground">{v.v2}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{v.v3}</td>
+                  <td className="px-4 py-3 max-w-[280px] truncate text-muted-foreground" title={v.meaning}>{v.meaning}</td>
+                  <td className="px-4 py-3"><DiffBadge level={v.difficulty} /></td>
+                  <td className="px-4 py-3">
+                    <div className="flex justify-end">
+                      <VerbActions verbId={v.id} initialStatus={st} initialFavorited={fav} />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile cards */}
+      <div className="grid gap-3 md:hidden">
+        {verbs.map((v) => {
+          const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
+          const fav = v.favorites.length > 0;
+          const verbType: VerbType = getVerbType(v.v1, v.v2, v.v3);
+          return (
+            <div key={v.id} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-start justify-between gap-2">
+                <Link href={`/verbs/${v.id}`} className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="font-display text-lg font-semibold text-foreground">{v.v1}</p>
+                    <SpeakButton text={v.v1} />
+                  </div>
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
+                    <VerbTypeBadge type={verbType} />
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-medium text-foreground">{v.v2}</span>
+                      <span className="mx-1.5 text-border">/</span>
+                      <span className="font-medium text-foreground">{v.v3}</span>
+                    </p>
+                  </div>
+                  <p className="mt-1.5 truncate text-sm text-muted-foreground">{v.meaning}</p>
+                </Link>
+                <DiffBadge level={v.difficulty} />
+              </div>
+              <div className="mt-3 border-t border-border pt-3">
+                <VerbActions verbId={v.id} initialStatus={st} initialFavorited={fav} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
