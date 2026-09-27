@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { tierRank, tierLabel, TIER_LABELS, TIER_DOT_COLORS, type BadgeTier } from "@/lib/tiers";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { BookA, CheckCircle2, Zap, Layers, BookOpen, Lock } from "lucide-react";
+import { BookA, CheckCircle2, Zap, Layers, BookOpen, Clock, Type, MapPin, Repeat, Settings, GitBranch, MessageSquare, BarChart3, List, Lock } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -21,8 +21,9 @@ type Lesson = {
   sections: LessonSection[];
 };
 
-// Import the lesson data
+// Import lesson data
 import { BASIC_LESSONS } from "@/lib/basic-lessons-data";
+import { JUNIOR_LESSONS } from "@/lib/junior-lessons-data";
 
 const ICONS: Record<string, React.ElementType> = {
   BookA,
@@ -30,18 +31,29 @@ const ICONS: Record<string, React.ElementType> = {
   Zap,
   Layers,
   BookOpen,
+  Clock,
+  Type,
+  MapPin,
+  Repeat,
+  Settings,
+  GitBranch,
+  MessageSquare,
+  BarChart3,
+  List,
 };
 
 export default async function LessonsPage() {
   const user = (await getCurrentUser())!;
   const userRank = tierRank(user.badge);
 
-  // Get ContentItem lessons from DB (future: admin-uploaded lessons)
+  // Get ContentItem lessons from DB (admin-uploaded)
   const dbLessons = await db.contentItem.findMany({
     where: { type: "lesson", minTier: { in: ["basic", "junior", "senior", "elite_senior"].filter((t) => tierRank(t as BadgeTier) <= userRank) } },
     orderBy: { createdAt: "asc" },
     take: 50,
   });
+
+  const canAccessJunior = userRank >= tierRank("junior");
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -64,38 +76,76 @@ export default async function LessonsPage() {
         </span>
       </div>
 
-      {/* Basic lessons (from lesson data — always available at basic tier) */}
-      <div className="mt-8 space-y-8">
-        {BASIC_LESSONS.map((lesson, idx) => (
-          <LessonCard key={idx} lesson={lesson} index={idx} accessible={userRank >= tierRank("basic")} />
-        ))}
+      {/* Basic lessons section */}
+      <div className="mt-8">
+        <div className="mb-4 flex items-center gap-2">
+          <span className={cn("size-2.5 rounded-full", TIER_DOT_COLORS.basic)} />
+          <h2 className="font-display text-lg font-semibold text-foreground">Basic Lessons</h2>
+          <span className="text-xs text-muted-foreground">— available to everyone</span>
+        </div>
+        <div className="space-y-6">
+          {BASIC_LESSONS.map((lesson, idx) => (
+            <LessonCard key={`basic-${idx}`} lesson={lesson} index={idx} />
+          ))}
+        </div>
       </div>
+
+      {/* Junior lessons section */}
+      {canAccessJunior ? (
+        <div className="mt-10">
+          <div className="mb-4 flex items-center gap-2">
+            <span className={cn("size-2.5 rounded-full", TIER_DOT_COLORS.junior)} />
+            <h2 className="font-display text-lg font-semibold text-foreground">Junior Lessons</h2>
+            <span className="text-xs text-muted-foreground">— English Grammar Workbook</span>
+          </div>
+          <div className="space-y-6">
+            {JUNIOR_LESSONS.map((lesson, idx) => (
+              <LessonCard key={`junior-${idx}`} lesson={lesson} index={idx} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="mt-10 rounded-xl border border-border bg-surface-cream p-6">
+          <div className="flex items-center gap-3">
+            <Lock className="size-5 text-muted-foreground" />
+            <h3 className="font-display text-lg font-semibold text-foreground">Junior Grammar Workbook</h3>
+          </div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The Junior Grammar Workbook covers tenses, articles, prepositions, active/passive voice,
+            modal verbs, conditionals, reported speech, degrees of comparison, and parts of speech.
+            Unlock these lessons by getting promoted to the <strong>Junior</strong> badge.
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground">Ask your teacher to promote your badge.</p>
+        </div>
+      )}
 
       {/* DB-stored lessons (admin-uploaded) */}
       {dbLessons.length > 0 && (
-        <div className="mt-8 space-y-6">
+        <div className="mt-10">
           <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">Additional Lessons</h2>
-          {dbLessons.map((item) => (
-            <div key={item.id} className="rounded-xl border border-border bg-card p-6">
-              <h3 className="font-display text-xl font-semibold text-foreground">{item.word}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: item.meaning }} />
-              {item.meaningUr && (
-                <p className="mt-1 text-sm text-muted-foreground" dir="auto">{item.meaningUr}</p>
-              )}
-              {item.example && (
-                <p className="mt-2 text-xs text-muted-foreground italic">{item.example}</p>
-              )}
-            </div>
-          ))}
+          <div className="mt-4 space-y-6">
+            {dbLessons.map((item) => (
+              <div key={item.id} className="rounded-xl border border-border bg-card p-6">
+                <h3 className="font-display text-xl font-semibold text-foreground">{item.word}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: item.meaning }} />
+                {item.meaningUr && (
+                  <p className="mt-1 text-sm text-muted-foreground" dir="auto">{item.meaningUr}</p>
+                )}
+                {item.example && (
+                  <p className="mt-2 text-xs text-muted-foreground italic">{item.example}</p>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
       {/* Upsell for higher tiers */}
       {userRank < tierRank("elite_senior") && (
-        <div className="mt-8 rounded-xl border border-border bg-surface-cream p-6">
+        <div className="mt-10 rounded-xl border border-border bg-surface-cream p-6">
           <h3 className="font-display text-lg font-semibold text-foreground">More lessons at higher badges</h3>
           <div className="mt-3 space-y-2 text-sm text-muted-foreground">
-            {(["junior", "senior", "elite_senior"] as BadgeTier[]).map((t) => {
+            {(["senior", "elite_senior"] as BadgeTier[]).map((t) => {
               if (tierRank(t) <= userRank) return null;
               return (
                 <div key={t} className="flex items-center gap-2">
@@ -117,7 +167,7 @@ export default async function LessonsPage() {
   );
 }
 
-function LessonCard({ lesson, index, accessible }: { lesson: Lesson; index: number; accessible: boolean }) {
+function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
   const Icon = ICONS[lesson.icon] || BookOpen;
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
