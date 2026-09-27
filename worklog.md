@@ -539,3 +539,28 @@ Deployed. Verified live on https://segal-institute.vercel.app:
 
 Stage Summary:
 - All 8 SEO fixes implemented and verified live.
+
+---
+Task ID: MONTHLY-RESULTS-NO-AI
+Agent: main (Z.ai Code)
+Task: Remove AI from monthly results — admin uploads one image, all students see the same.
+
+Work Log:
+- Added Prisma model MonthlyResultImage (title, month unique, imageUrl) — additive, existing data preserved. Pushed to Supabase.
+- New API routes:
+  - POST/GET /api/admin/result-images — admin uploads one image per month (upsert by month), lists all
+  - DELETE /api/admin/result-images/[id]
+  - GET /api/result-images — students list the shared images (no per-student filter)
+- Replaced the admin results client (was Image/Text mode with AI vision + per-student generation) with a simple image-upload form: title + month + image. One image per month (upsert replaces the old one).
+- Updated admin results page to no longer need the students list prop.
+- Replaced the student monthly-results page to render the shared images (title, month badge, date, full image) instead of the old per-student AI-generated cards.
+- The old MonthlyResult model + AI routes (upload-image, text-notes with vision) remain in the schema/code for backward compatibility with previously-generated cards, but the admin UI no longer creates new ones.
+
+Verified live on https://segal-institute.vercel.app:
+- Admin uploads "September 2026 Monthly Results" image -> HTTP 200
+- Student 1 sees the image (title: "September 2026 Monthly Results", month: 2026-09)
+- Student 2 (a freshly registered different student) sees the SAME image — confirming the image is shared, not per-student
+- Student /monthly-results page renders the image with descriptive alt text
+
+Stage Summary:
+- Monthly results no longer use AI. Admin uploads ONE image per month -> every student sees the same image. Simple, predictable, and zero AI cost.
