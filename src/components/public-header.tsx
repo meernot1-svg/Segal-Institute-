@@ -6,6 +6,7 @@ import { Menu, X, BookOpen } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { branding } from "@/lib/branding";
 
 const NAV = [
   { href: "/about", label: "About" },
@@ -113,6 +114,9 @@ export function PublicFooter() {
           <p className="mt-4 text-sm leading-relaxed text-white/60">
             A focused way to learn the three forms of English verbs — with
             practice, tests, AI help, and streaks to keep you going.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-white/40">
+            {branding.address}
           </p>
         </div>
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">

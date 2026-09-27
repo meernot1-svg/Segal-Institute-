@@ -10,6 +10,8 @@ export const branding = {
   description:
     "Segal Institute — an English academy where students master verb forms, build their skills with an AI tutor, generate speeches and poetry, and track their progress.",
   supportEmail: "hello@segalinstitute.example",
+  address:
+    "Segal Institute, First Family Line, at Royal College, beside Dr. Hashim Qureshi Eye Hospital (Ophthalmologist).",
   colors: {
     navy: "#1e2a52",
     ink: "#0b1220",

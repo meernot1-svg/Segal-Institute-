@@ -265,6 +265,7 @@ export default async function Home() {
               addressCountry: "PK",
               addressRegion: "Punjab",
               addressLocality: "Lahore",
+              streetAddress: branding.address,
             },
             knowsAbout: [
               "English verb forms",
