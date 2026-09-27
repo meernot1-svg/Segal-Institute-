@@ -305,3 +305,36 @@ Stage Summary:
 - Real AI is LIVE on https://segal-institute.vercel.app — chat, speech, and poetry generators all use OpenRouter.
 - Model: liquid/lfm-2.5-2.6b:free (free, reliable). To use a stronger model, set AI_MODEL on Vercel (e.g. "meta-llama/llama-3.3-70b-instruct" — but that's paid and the account has $0 credits).
 - Security: OpenRouter key was used transiently to set the Vercel env var; not committed to git. User should rotate the key (it was shared in plaintext in chat).
+
+---
+Task ID: ADMIN-EXPANSION
+Agent: main (Z.ai Code)
+Task: Admin edit topics + reset passwords + speeches + monthly results (AI) + best student + Urdu poetry.
+
+Work Log:
+- Prisma schema: added StudentSpeech, MonthlyResult, BestStudent models (additive). Pushed to Supabase Postgres (existing data preserved).
+- Admin reset student passwords: new API /api/admin/students/[id]/reset-password (POST). Added PasswordDialog to admin-students-client. Verified: admin reset student pw to "newpass123" → student logged in with new pw → admin reset back.
+- Admin Student Speeches section (/admin/speeches): admin writes title + student name + kind (speech/poem/essay) + content → published. Students view in /speeches (read-only, all students see all published speeches). API: /api/admin/speeches (POST/GET/DELETE), /api/speeches (GET student).
+- Admin Monthly Results (/admin/results): admin selects student + month + writes raw notes → AI generates a polished result card (sections: Student, Month, Attendance, Performance, Strengths, Areas to improve, Teacher's note). Stored in MonthlyResult. Students view their cards in /monthly-results. Verified: AI turned raw notes into a structured result card.
+- Best Student of the Month (/admin/best-student): admin uploads name + photo (client-side resize to 320×320 JPEG) + month + blurb. Most recent active entry shows as a widget on every student's dashboard (amber-bordered card with photo + name + blurb). Verified: Ayesha Khan shows on student dashboard.
+- Poetry generator enhanced: system prompt upgraded to "highly trained master poet" with deep Urdu shayari/ghazal tradition. Urdu is now the default language option. Ghazal/Nazm styles added. Romantic/Spiritual moods added. Output uses dir="auto" so Urdu renders RTL. Verified: generated an original Urdu ghazal couplet about صبح کی روشنی with real AI (mock: false).
+- Admin nav + dashboard updated with all new sections (Dashboard, Students, Daily Topics, Student Speeches, Monthly Results, Best Student, Fees).
+- Student nav updated (Test Results, AI Tutor, Speech Generator, Poetry Generator, Student Speeches, My Monthly Results, Profile).
+- Restored original MCQ test results page at /results (had accidentally overwritten it); monthly results live at /monthly-results.
+
+Deployed to Vercel. Agent Browser verified end-to-end:
+- Admin nav shows all 6 sections.
+- /admin/speeches: published speech "My dream for Pakistan" visible + upload form.
+- /admin/best-student: published "Ayesha Khan" visible + upload form.
+- /admin/results: result card visible + notes field.
+- Student dashboard: "Best Student of the Month" + "Ayesha Khan" + "Today's topic" all visible.
+- /speeches: student sees published speeches.
+- /monthly-results: student sees their AI-generated result card.
+- Student nav: Test Results | Student Speeches | My Monthly Results.
+- No console errors.
+
+Stage Summary:
+- All requested features built, deployed, and browser-verified on https://segal-institute.vercel.app
+- Admin can: edit/delete daily topics (existing upsert), reset student passwords, assign + mark fees, see student count (dashboard), publish student speeches, write monthly result notes (AI generates card), upload best student of month.
+- Students see: best student widget on dashboard, speeches section, monthly result cards, today's topic, fees on profile.
+- Poetry generator is now a "highly trained master poet" with full Urdu support (RTL rendering, ghazal/nazm styles).
