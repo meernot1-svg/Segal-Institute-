@@ -1,6 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, Volume2, Flame, ListChecks, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Volume2,
+  ListChecks,
+  Sparkles,
+  Users,
+  MessageCircle,
+  Trophy,
+  BookA,
+} from "lucide-react";
 import { db } from "@/lib/db";
 import { PublicHeader, PublicFooter } from "@/components/public-header";
 import { SupervisionCredit } from "@/components/supervision-credit";
@@ -141,29 +150,44 @@ export default async function Home() {
       <section id="how-it-works" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
         <div className="max-w-2xl">
           <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            A simple loop that builds real recall.
+            More than an app — a daily learning community.
           </h2>
           <p className="prose-reading mt-4 text-lg text-muted-foreground">
-            Browse to understand, flashcard to memorize, test to confirm. The
-            app keeps track of what you know and what still needs work.
+            At Segal Institute, students don't just memorize verbs. They speak
+            every day, build vocabulary, debate, and compete. Here's what our
+            students do regularly.
           </p>
         </div>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           <Step
-            icon={ListChecks}
-            title="Browse & mark"
-            body="Search {n} verbs, mark each as learned or difficult, favorite the tricky ones."
-            n={totalVerbs}
+            icon={MessageCircle}
+            title="Daily community speaking"
+            body="Students practice speaking English aloud every single day — building confidence one sentence at a time, in a supportive community."
           />
           <Step
-            icon={Flame}
-            title="Flashcard it"
-            body="Flip cards to reveal V2, V3, and meaning. Tell the app whether you knew it."
+            icon={BookA}
+            title="Daily vocabulary"
+            body="A new set of words every day, with meanings and example sentences, so your vocabulary grows steadily without cramming."
+          />
+          <Step
+            icon={Users}
+            title="Daily debate"
+            body="Structured daily debates on real topics. Students learn to think, listen, and respond in English — the skill that exams and life both reward."
+          />
+          <Step
+            icon={Trophy}
+            title="Speech competitions"
+            body="Regular speech competitions where students present original speeches, get feedback, and grow into confident public speakers."
           />
           <Step
             icon={Sparkles}
-            title="Test & track"
-            body="Take MCQ tests across categories, see your score, and watch your verbs-learned number climb."
+            title="AI tutor & generators"
+            body="An AI tutor answers grammar questions, a speech generator turns any topic into a structured speech, and a trained Urdu poetry generator writes original ghazals."
+          />
+          <Step
+            icon={ListChecks}
+            title="Verb forms mastery"
+            body={`Browse ${totalVerbs ? totalVerbs.toLocaleString() : "966"} curated verbs, flashcard them, and test yourself with timed MCQs across five categories.`}
           />
         </div>
       </section>
