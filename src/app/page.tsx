@@ -204,35 +204,21 @@ export default async function Home() {
               <Trophy className="size-3.5" /> Academy achievements
             </p>
             <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-              District Declamation Competition — three positions brought home.
+              District Declamation Competition — a position brought home.
             </h2>
             <p className="prose-reading mt-4 text-lg text-white/70">
-              Segal Institute students stood among the best in the district and
-              brought pride to the academy. Their confidence on stage is built
+              A Segal Institute student stood among the best in the district and
+              brought pride to the academy. That confidence on stage is built
               through the same daily speaking and debate practice you can join.
             </p>
           </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mt-12 md:max-w-md">
             <AwardCard
               position="1st Position"
               competition="District Declamation Competition"
-              recipient="Ayesha Khan"
-              note="Her speech on 'The Pakistan of my dreams' earned the top spot from a panel of three judges."
+              recipient=""
+              note="A powerful declamation on 'Youth and Future of Pakistan' earned the top spot from a panel of judges."
               accent="gold"
-            />
-            <AwardCard
-              position="2nd Position"
-              competition="District Declamation Competition"
-              recipient="Bilal Ahmed"
-              note="A measured, powerful speech on 'Education changes everything' secured second place."
-              accent="silver"
-            />
-            <AwardCard
-              position="3rd Position"
-              competition="District Declamation Competition"
-              recipient="Sara Malik"
-              note="Her Urdu-English bilingual declamation on 'Hope in hard times' took the third position."
-              accent="bronze"
             />
           </div>
           <p className="mt-10 text-sm text-white/50">
@@ -413,7 +399,7 @@ function AwardCard({
           <p className="text-xs text-white/50">{competition}</p>
         </div>
       </div>
-      <p className="mt-4 text-base font-medium text-white">{recipient}</p>
+      {recipient && <p className="mt-4 text-base font-medium text-white">{recipient}</p>}
       <p className="mt-1.5 text-sm leading-relaxed text-white/60">{note}</p>
     </div>
   );
