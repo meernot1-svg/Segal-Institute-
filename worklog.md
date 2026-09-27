@@ -483,3 +483,59 @@ Stage Summary:
 - Non-embeddable platforms (Facebook, Instagram, X, etc.) show a clean "Watch on
   <platform>" link card that opens the video in a new tab — so students can
   still watch every speech regardless of platform.
+
+---
+Task ID: SEO-FIXES
+Agent: main (Z.ai Code)
+Task: Implement all 8 SEO fixes (sitemap, robots, canonical, OG/Twitter, JSON-LD, alt text, headings, local content, blog, performance).
+
+Work Log:
+- 1. Sitemap & robots:
+  - src/app/sitemap.ts: 12 routes (public + blog + 3 articles)
+  - src/app/robots.ts: allow all, disallow auth/admin/api, sitemap + host
+  - src/lib/site.ts: SITE_URL from NEXT_PUBLIC_SITE_URL (VERCEL_URL fallback)
+  - Vercel env: NEXT_PUBLIC_SITE_URL=https://segal-institute.vercel.app
+  - .env.example documents the var
+
+- 2. Canonical URLs:
+  - app/layout.tsx: metadataBase = new URL(SITE_URL), alternates.canonical='/'
+  - Per-page canonicals on home (/), about (/about), verbs (/verbs), each blog article
+
+- 3. Open Graph / Twitter cards:
+  - app/layout.tsx: full openGraph (type, locale, siteName, 1200x630 og:image, alt) + twitter (summary_large_image) + robots config + category
+  - Per-page OG/Twitter on home, about, verbs, all blog articles
+  - public/og-image.png: real 1200x630 branded PNG (navy gradient, logo mark, headline, URL pill) generated via sharp
+
+- 4. Structured data (JSON-LD):
+  - Homepage: EducationalOrganization (name, description, url, logo, address PK/Punjab/Lahore, knowsAbout) + Course (verb forms mastery, provider, educationalLevel, teaches, CourseInstance)
+  - About page: FAQPage with 5 Q&As (how to learn verb forms fast, is it free, can I learn in Pakistan, what are the 3 forms, irregular verbs)
+
+- 5. Image alt text: audited every <img>; all now descriptive (e.g. "Ayesha Khan, Best Student of the Month", "Preview of the uploaded monthly result sheet", "Demo Student's profile photo")
+
+- 6. Heading structure: verified exactly one <h1> per page on /, /about, /blog, /blog/*. Logical h2/h3 hierarchy.
+
+- 7. Local/topical content + long-tail SEO:
+  - About page: added Pakistan/Lahore paragraph + metadata keywords
+  - 3 blog articles targeting long-tail queries:
+    /blog/how-to-learn-english-verb-forms
+    /blog/irregular-verbs-list-practice
+    /blog/learn-english-in-pakistan
+  - /blog index page + footer link
+
+- 8. Performance / metadata:
+  - Explicit Viewport export (width=device-width, initialScale=1)
+  - themeColor = navy (#1e2a52)
+  - keywords array on root layout (learn English verbs, V1 V2 V3, English academy Pakistan, learn English in Lahore, AI English tutor, etc.)
+
+Deployed. Verified live on https://segal-institute.vercel.app:
+- sitemap.xml: 12 URLs present
+- robots.txt: allow all + disallow auth/admin/api + sitemap
+- canonical: <link rel="canonical" href="https://segal-institute.vercel.app"/> on home
+- OG: og:title, og:description, og:url, og:type, og:image (1200x630, 96KB PNG, HTTP 200)
+- Twitter: summary_large_image
+- JSON-LD: 2 scripts on home (EducationalOrganization + Course), FAQPage on about
+- Blog: /blog + 3 articles all render with canonicals + OG
+- Headings: 1 h1 per page confirmed
+
+Stage Summary:
+- All 8 SEO fixes implemented and verified live.
