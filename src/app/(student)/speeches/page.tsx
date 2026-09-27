@@ -97,7 +97,7 @@ export default async function SpeechesPage() {
 }
 
 // Server-side wrapper that lazy-loads the client VideoPlayer component
-import VideoPlayer from "@/components/video-player";
+import { VideoPlayer } from "@/components/video-player";
 
 function VideoRenderer({ src, title }: { src: string; title: string }) {
   return <VideoPlayer src={src} title={title} />;
