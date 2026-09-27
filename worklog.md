@@ -142,3 +142,23 @@ Work Log:
 Stage Summary:
 - Phase 1 Definition of Done met: new student can register, browse & learn verbs, take an MCQ test, and see their score — on both phone-width and desktop-width, no console errors, no horizontal scroll, sticky footer pattern (root uses min-h-screen flex-col; footer/ bottom nav anchored). lint clean. Dev server running on :3000.
 - Note: agent-browser `click @ref` had a click-target quirk on small buttons; verified equivalent actions via direct DOM .click() (app behavior is correct).
+
+---
+Task ID: PUBLISH
+Agent: main (Z.ai Code)
+Task: Publish the project to GitHub + Vercel.
+
+Work Log:
+- Prepped repo for public publish: rewrote .gitignore (exclude db/*.db, .env, .zscripts/dev.pid, upload/, worklog.md); `git rm --cached` the local SQLite DB, .env, and pid file; added README.md and .env.example; added `postinstall: prisma generate` so Vercel builds generate the Prisma client.
+- GitHub: pushed to https://github.com/meernot1-svg/Segal-Institute-.git (main). Used token in one-time push URL only; remote URL stays clean (no token).
+- Vercel: created project `segal-institute` via API; set env vars (AUTH_SECRET=random 64-hex, DATABASE_URL=placeholder, ENABLE_MOCK_AI=true); deployed via CLI with VERCEL_TOKEN env var.
+- First build failed: `useSearchParams()` in /login and /register needed a <Suspense> boundary (Next 16 prerender requirement, only surfaces in prod build not dev).
+- Fixed: wrapped LoginForm and RegisterForm in <Suspense fallback={null}>. Also added graceful try/catch DB fallbacks on home + about (static seeded values: 966 verbs, 6 real featured verbs) so the landing renders on serverless hosts before a Postgres is provisioned.
+- Redeployed: build succeeded (14/14 static pages, 0 errors). Production URL: https://segal-institute.vercel.app
+- Verified via curl + Agent Browser: home 200 (hero + "966 verbs" + CTAs), about 200, login 200 (form + demo accounts), register 200, forgot-password 200. Protected routes (/dashboard, /verbs, /tests) correctly 307 → /login?next=. No console errors on the live site.
+
+Stage Summary:
+- Code published to GitHub: https://github.com/meernot1-svg/Segal-Institute-.git (2 commits: Phase 1 core loop + publish prep, then Suspense/DB-fallback fix).
+- Live on Vercel: https://segal-institute.vercel.app — landing + auth pages render; build clean.
+- DB limitation (honest): SQLite (file-based) doesn't work on Vercel's read-only serverless FS, so data features (login submit, register submit, dashboard, verbs, tests, learn, results, profile) need a real Postgres. README documents the exact steps: provision Vercel Postgres / Supabase / Neon, update DATABASE_URL in Vercel env, switch Prisma provider to postgresql, run `prisma db push` + seed.
+- Security: tokens were used transiently in shell commands only; never written to committed files (verified). User must rotate both tokens (GitHub PAT + Vercel token) — they were shared in plaintext in chat.
