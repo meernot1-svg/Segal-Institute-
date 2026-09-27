@@ -200,8 +200,12 @@ export function AdminSpeechesClient() {
           {mode === "video" ? (
             <>
               <div className="space-y-1.5">
-                <Label htmlFor="videoUrl"><span className="inline-flex items-center gap-1.5"><Link2 className="size-3.5" /> Video URL (YouTube / Vimeo / direct MP4)</span></Label>
-                <Input id="videoUrl" value={videoUrl} onChange={(e) => { setVideoUrl(e.target.value); if (e.target.value) setVideoData(null); }} placeholder="https://youtube.com/watch?v=…  or  https://example.com/video.mp4" />
+                <Label htmlFor="videoUrl"><span className="inline-flex items-center gap-1.5"><Link2 className="size-3.5" /> Video link from any platform</span></Label>
+                <Input id="videoUrl" value={videoUrl} onChange={(e) => { setVideoUrl(e.target.value); if (e.target.value) setVideoData(null); }} placeholder="Paste a YouTube, Vimeo, TikTok, Facebook, Dailymotion, Google Drive, or direct MP4 link…" />
+                <p className="text-xs text-muted-foreground">
+                  YouTube, Vimeo, Dailymotion, Streamable, Google Drive, and TikTok are embedded inline.
+                  Facebook, Instagram, X (Twitter), and other platforms show a “Watch on …” link that opens the video in a new tab.
+                </p>
               </div>
               <div className="space-y-1.5">
                 <Label>Or upload a video file (under 15MB)</Label>
