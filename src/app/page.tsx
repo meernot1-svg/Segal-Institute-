@@ -162,8 +162,8 @@ export default async function Home() {
           />
           <Step
             icon={Users}
-            title="Daily debate"
-            body="Structured daily debates on real topics. Students learn to think, listen, and respond in English — the skill that exams and life both reward."
+            title="Weekly debate"
+            body="Structured weekly debates on real topics. Students learn to think, listen, and respond in English — the skill that exams and life both reward."
           />
           <Step
             icon={Trophy}
