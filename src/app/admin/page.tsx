@@ -3,14 +3,14 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { todayISO, monthKey, formatCurrency } from "@/lib/format";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookA, ListChecks, TrendingUp, CalendarDays, ArrowRight, Receipt, Mic2, FileText, Trophy } from "lucide-react";
+import { Users, BookA, ListChecks, TrendingUp, CalendarDays, ArrowRight, Receipt, Mic2, FileText, Trophy, ClipboardCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   await getCurrentUser(); // layout already guards role
 
-  const [totalStudents, totalVerbs, totalTests, attempts, todaysTopic, unpaidFees, monthlyFees] = await Promise.all([
+  const [totalStudents, totalVerbs, totalTests, attempts, todaysTopic, unpaidFees, monthlyFees, todaysAttendance] = await Promise.all([
     db.profile.count({ where: { role: "student" } }),
     db.verb.count(),
     db.testAttempt.count(),
@@ -18,12 +18,15 @@ export default async function AdminDashboardPage() {
     db.dailyTopic.findUnique({ where: { date: todayISO() }, select: { id: true, title: true, body: true } }),
     db.fee.findMany({ where: { paid: false }, select: { amount: true } }),
     db.fee.findMany({ where: { periodKey: monthKey() }, select: { amount: true, paid: true } }),
+    db.attendance.findMany({ where: { date: todayISO() }, select: { present: true } }),
   ]);
 
   const avgScore = attempts.length > 0 ? Math.round(attempts.reduce((s, a) => s + a.percentage, 0) / attempts.length) : 0;
   const totalDue = unpaidFees.reduce((s, f) => s + f.amount, 0);
   const monthlyCollected = monthlyFees.filter((f) => f.paid).reduce((s, f) => s + f.amount, 0);
   const monthlyOutstanding = monthlyFees.filter((f) => !f.paid).reduce((s, f) => s + f.amount, 0);
+  const presentToday = todaysAttendance.filter((a) => a.present).length;
+  const attendancePct = todaysAttendance.length > 0 ? Math.round((presentToday / todaysAttendance.length) * 100) : 0;
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -35,11 +38,12 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stat grid */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatCard icon={Users} label="Total students" value={totalStudents.toLocaleString()} />
         <StatCard icon={BookA} label="Verbs in library" value={totalVerbs.toLocaleString()} />
         <StatCard icon={ListChecks} label="Tests completed" value={totalTests.toLocaleString()} />
         <StatCard icon={TrendingUp} label="Avg score" value={`${avgScore}%`} />
+        <StatCard icon={ClipboardCheck} label="Present today" value={todaysAttendance.length > 0 ? `${attendancePct}%` : "—"} />
       </div>
 
       {/* Today's topic */}
@@ -100,11 +104,11 @@ export default async function AdminDashboardPage() {
       {/* Quick links */}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <QuickLink href="/admin/students" icon={Users} title="Students" body="View, delete, reset passwords, and assign fees." />
+        <QuickLink href="/admin/attendance" icon={ClipboardCheck} title="Attendance" body="Mark students present or absent for each day." />
         <QuickLink href="/admin/topics" icon={CalendarDays} title="Daily topics" body="Set what students see each day." />
         <QuickLink href="/admin/speeches" icon={Mic2} title="Student Speeches" body="Publish speeches, poems & essays for students to read." />
-        <QuickLink href="/admin/results" icon={FileText} title="Monthly Results" body="Write notes; AI generates polished result cards." />
+        <QuickLink href="/admin/results" icon={FileText} title="Monthly Results" body="Upload a result image for all students to see." />
         <QuickLink href="/admin/best-student" icon={Trophy} title="Best Student" body="Feature the best student of the month on every dashboard." />
-        <QuickLink href="/admin/fees" icon={Receipt} title="Fees" body="Track who's paid and who hasn't." />
       </div>
     </div>
   );

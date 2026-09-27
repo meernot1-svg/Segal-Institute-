@@ -16,6 +16,7 @@ import {
   Bot,
   Mic,
   PenTool,
+  ClipboardCheck,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,7 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const user = (await getCurrentUser())!;
 
-  const [totalVerbs, learned, difficult, attempts, recentAttempts, todaysTopic, bestStudent] = await Promise.all([
+  const [totalVerbs, learned, difficult, attempts, recentAttempts, todaysTopic, bestStudent, attendanceRecords] = await Promise.all([
     db.verb.count(),
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "learned" } }),
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "difficult" } }),
@@ -49,6 +50,12 @@ export default async function DashboardPage() {
       orderBy: { month: "desc" },
       select: { id: true, name: true, photo: true, month: true, blurb: true },
     }),
+    db.attendance.findMany({
+      where: { studentId: user.id },
+      orderBy: { date: "desc" },
+      take: 90,
+      select: { present: true },
+    }),
   ]);
 
   const testsCompleted = attempts.length;
@@ -56,6 +63,10 @@ export default async function DashboardPage() {
     testsCompleted > 0
       ? Math.round(attempts.reduce((s, a) => s + a.percentage, 0) / testsCompleted)
       : 0;
+
+  const attTotal = attendanceRecords.length;
+  const attPresent = attendanceRecords.filter((r) => r.present).length;
+  const attPct = attTotal > 0 ? Math.round((attPresent / attTotal) * 100) : 0;
 
   const firstName = user.name.split(" ")[0] || "there";
 
@@ -122,7 +133,7 @@ export default async function DashboardPage() {
       )}
 
       {/* Stat grid */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatCard
           icon={BookA}
           label="Verbs learned"
@@ -139,9 +150,9 @@ export default async function DashboardPage() {
         />
         <StatCard
           icon={ListChecks}
-          label="Tests completed"
+          label="Tests done"
           value={testsCompleted.toLocaleString()}
-          sub="across all categories"
+          sub="all categories"
           tone="emerald"
         />
         <StatCard
@@ -150,6 +161,13 @@ export default async function DashboardPage() {
           value={`${avgScore}%`}
           sub={testsCompleted ? `${testsCompleted} tests` : "no tests yet"}
           tone="emerald"
+        />
+        <StatCard
+          icon={ClipboardCheck}
+          label="Attendance"
+          value={attTotal > 0 ? `${attPct}%` : "—"}
+          sub={attTotal > 0 ? `${attPresent}/${attTotal} days` : "not marked yet"}
+          tone="navy"
         />
       </div>
 
