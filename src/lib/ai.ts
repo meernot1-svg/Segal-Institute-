@@ -34,22 +34,33 @@ export function getModel() {
 }
 
 async function callOpenRouter(messages: ChatMessage[]): Promise<string> {
-  const res = await fetch(`${BASE_URL}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.AI_API_KEY}`,
-      "Content-Type": "application/json",
-      // OpenRouter optional metadata (attribution)
-      "HTTP-Referer": "https://segal-institute.vercel.app",
-      "X-Title": branding.name,
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      messages,
-      temperature: 0.7,
-      max_tokens: 2000,
-    }),
-  });
+  // 90-second timeout — free models can be slow, especially with long prompts.
+  // Vercel Hobby plan allows up to 60s for serverless functions; we set
+  // maxDuration=300 on the route to be safe (see route files).
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 90_000);
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}/chat/completions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.AI_API_KEY}`,
+        "Content-Type": "application/json",
+        // OpenRouter optional metadata (attribution)
+        "HTTP-Referer": "https://segal-institute.vercel.app",
+        "X-Title": branding.name,
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages,
+        temperature: 0.7,
+        max_tokens: 1500,
+      }),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!res.ok) {
     const errText = await res.text().catch(() => "");

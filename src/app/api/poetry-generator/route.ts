@@ -4,6 +4,9 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { complete, POETRY_SYSTEM_PROMPT, isMockMode } from "@/lib/ai";
 
+// Free AI models can be slow — give the function up to 300s to finish.
+export const maxDuration = 300;
+
 const schema = z.object({
   topic: z.string().min(1, "Topic is required").max(200),
   language: z.string().max(40).optional(),

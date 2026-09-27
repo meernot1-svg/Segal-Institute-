@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { complete, SPEECH_SYSTEM_PROMPT, isMockMode } from "@/lib/ai";
 
+export const maxDuration = 300;
+
 const schema = z.object({
   topic: z.string().min(1, "Topic is required").max(200),
   duration: z.string().max(40).optional(),

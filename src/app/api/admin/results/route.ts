@@ -5,6 +5,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { complete } from "@/lib/ai";
 import { branding } from "@/lib/branding";
 
+export const maxDuration = 300;
+
 const schema = z.object({
   studentId: z.string().min(1),
   periodKey: z.string().regex(/^\d{4}-\d{2}$/),

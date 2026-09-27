@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { chat, TUTOR_SYSTEM_PROMPT, isMockMode } from "@/lib/ai";
 
+export const maxDuration = 300;
+
 const schema = z.object({
   conversationId: z.string().nullable(),
   message: z.string().min(1).max(2000),
