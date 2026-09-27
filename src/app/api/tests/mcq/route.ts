@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { shuffle, type McqCategory, type FormKey } from "@/lib/verbs";
+import { tierRank, TIER_ORDER } from "@/lib/tiers";
 
 type QType = "v1-to-v2" | "v1-to-v3" | "v2-to-v3" | "meaning";
 
@@ -17,13 +18,15 @@ export async function GET(req: NextRequest) {
   if (isNaN(length) || length < 5) length = 5;
   if (length > 50) length = 50;
 
-  // Random verbs across the whole dataset via PostgreSQL RANDOM()
-  // Identifiers are quoted because Prisma preserves camelCase in PostgreSQL
-  // (unquoted identifiers are folded to lowercase by Postgres).
+  // Only use verbs the user can access (cumulative — their tier + below)
+  const userRank = tierRank(user.badge);
+  const accessibleTiers = TIER_ORDER.filter((t) => tierRank(t) <= userRank);
+
+  // Random verbs across the accessible dataset via PostgreSQL RANDOM()
   const poolSize = length + 80;
   const rows = await db.$queryRaw<
     { id: string; v1: string; v2: string; v3: string; v2Alts: string; v3Alts: string; meaning: string; difficulty: number }[]
-  >`SELECT id, v1, v2, v3, "v2Alts", "v3Alts", meaning, difficulty FROM "Verb" ORDER BY RANDOM() LIMIT ${poolSize}`;
+  >`SELECT id, v1, v2, v3, "v2Alts", "v3Alts", meaning, difficulty FROM "Verb" WHERE "minTier" = ANY(${accessibleTiers}::text[]) ORDER BY RANDOM() LIMIT ${poolSize}`;
   if (rows.length < 4) {
     return NextResponse.json({ error: "Not enough verbs to build a test" }, { status: 400 });
   }

@@ -107,16 +107,21 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
         </div>
       </div>
 
-      {/* Tier access notice for locked users */}
-      {!hasAccess && (
-        <div className="mt-4 flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          <Lock className="size-4 shrink-0" />
-          <p>
-            Verb forms are available at the <strong>Senior</strong> tier and above.
-            Your current badge is <strong>{tierLabel(user.badge)}</strong> — you can see
-            the verb list below, but V2/V3 forms and meanings are locked until your
-            teacher promotes you.
-          </p>
+      {/* Tier access notice for users who can't access everything */}
+      {!canAccessTier(user.badge, "senior") && (
+        <div className="mt-4 flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+          <Lock className="mt-0.5 size-4 shrink-0" />
+          <div>
+            <p>
+              Your badge is <strong>{tierLabel(user.badge)}</strong>. You have access to{" "}
+              <strong>{tierLabel(user.badge)}</strong>-level verbs and below.
+            </p>
+            <p className="mt-1">
+              Verbs at <strong>Senior</strong> tier and above are visible but locked —
+              you can see the verb name but V2/V3 forms and meanings are hidden until
+              your teacher promotes you.
+            </p>
+          </div>
         </div>
       )}
 

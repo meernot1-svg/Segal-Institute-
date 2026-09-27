@@ -2,7 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { shuffle } from "@/lib/verbs";
-import { canAccessTier, tierLabel } from "@/lib/tiers";
+import { canAccessTier, tierRank, tierLabel } from "@/lib/tiers";
 import { FlashcardDeck, type Flashcard } from "@/components/flashcard-deck";
 import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
@@ -13,9 +13,30 @@ const DECK_SIZE = 20;
 
 export default async function LearnPage() {
   const user = (await getCurrentUser())!;
+  const userRank = tierRank(user.badge);
 
-  // Flashcards use the verb library — locked below Senior tier
-  if (!canAccessTier(user.badge, "senior")) {
+  // Flashcards: use only verbs the user can access (cumulative — their tier + below)
+  // Need at least basic access (rank >= 1)
+  const accessibleFilter = { minTier: { in: ["basic", "junior", "senior", "elite_senior"].filter((t) => tierRank(t) <= userRank) } };
+
+  // Prioritize difficult verbs, then unlearned, then fillers.
+  const [difficult, unlearned, totalVerbs] = await Promise.all([
+    db.verb.findMany({
+      where: { progress: { some: { profileId: user.id, status: "difficult" } }, ...accessibleFilter },
+      take: 8,
+      orderBy: { v1: "asc" },
+      select: SELECT,
+    }),
+    db.verb.findMany({
+      where: { NOT: { progress: { some: { profileId: user.id, status: "learned" } } }, ...accessibleFilter },
+      take: 60,
+      orderBy: { v1: "asc" },
+      select: SELECT,
+    }),
+    db.verb.count({ where: accessibleFilter }),
+  ]);
+
+  if (totalVerbs === 0) {
     return (
       <div className="mx-auto max-w-2xl">
         <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-12 text-center">
@@ -23,8 +44,7 @@ export default async function LearnPage() {
           <div>
             <h1 className="font-display text-2xl font-semibold text-foreground">Flashcards are locked</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Flashcards use the verb library, which is available at the <strong>Senior</strong> tier and above.
-              Your current badge is <strong>{tierLabel(user.badge)}</strong>.
+              No verbs are available at your current badge level (<strong>{tierLabel(user.badge)}</strong>).
               Ask your teacher to promote you to unlock flashcards.
             </p>
           </div>
@@ -32,23 +52,6 @@ export default async function LearnPage() {
       </div>
     );
   }
-
-  // Prioritize difficult verbs, then unlearned, then fillers.
-  const [difficult, unlearned, totalVerbs] = await Promise.all([
-    db.verb.findMany({
-      where: { progress: { some: { profileId: user.id, status: "difficult" } } },
-      take: 8,
-      orderBy: { v1: "asc" },
-      select: SELECT,
-    }),
-    db.verb.findMany({
-      where: { NOT: { progress: { some: { profileId: user.id, status: "learned" } } } },
-      take: 60,
-      orderBy: { v1: "asc" },
-      select: SELECT,
-    }),
-    db.verb.count(),
-  ]);
 
   const pick = shuffle(unlearned).slice(0, 12);
   const merged: Flashcard[] = [];
@@ -61,7 +64,7 @@ export default async function LearnPage() {
   }
   if (merged.length < DECK_SIZE && totalVerbs > merged.length) {
     const fillers = await db.verb.findMany({
-      where: { id: { notIn: [...seen] } },
+      where: { id: { notIn: [...seen] }, ...accessibleFilter },
       take: DECK_SIZE * 2,
       orderBy: { v1: "asc" },
       select: SELECT,
