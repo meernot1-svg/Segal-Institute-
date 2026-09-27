@@ -205,7 +205,7 @@ export function GeneratorShell({
 
         {/* Output */}
         <Card className="flex flex-col">
-          <CardHeader className="flex-row items-center justify-between">
+          <CardHeader className="flex-row flex-wrap items-center justify-between gap-2">
             <CardTitle>Output</CardTitle>
             {output && (
               <div className="flex items-center gap-1">

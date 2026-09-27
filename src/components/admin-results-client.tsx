@@ -127,7 +127,7 @@ export function AdminResultsClient() {
             <Label>Result image</Label>
             <div className="flex items-start gap-3">
               {imageDataUrl ? (
-                <img src={imageDataUrl} alt="Preview of the monthly result image" className="max-h-40 rounded-md border border-border object-contain" />
+                <img src={imageDataUrl} alt="Preview of the monthly result image" className="max-h-40 max-w-32 rounded-md border border-border object-contain" />
               ) : (
                 <div className="flex size-24 items-center justify-center rounded-md border border-dashed border-border bg-muted/40 text-muted-foreground">
                   <ImageIcon className="size-6" />
@@ -169,7 +169,7 @@ export function AdminResultsClient() {
         {images.length === 0 ? (
           <p className="mt-3 text-sm text-muted-foreground">No result images published yet. Upload one on the left.</p>
         ) : (
-          <div className="mt-3 space-y-3 max-h-[calc(100vh-16rem)] overflow-y-auto scroll-fine pr-1">
+          <div className="mt-3 space-y-3 lg:max-h-[calc(100vh-16rem)] lg:overflow-y-auto scroll-fine pr-1">
             {images.map((img) => (
               <Card key={img.id}>
                 <CardContent className="pt-5">

@@ -182,7 +182,7 @@ export function AdminBestStudentClient() {
                       </div>
                       <p className="mt-1 text-sm text-muted-foreground">{b.blurb}</p>
                     </div>
-                    <button onClick={() => remove(b.id)} className="rounded p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600" aria-label="Delete">
+                    <button onClick={() => remove(b.id)} className="shrink-0 rounded p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600" aria-label="Delete">
                       <Trash2 className="size-4" />
                     </button>
                   </div>

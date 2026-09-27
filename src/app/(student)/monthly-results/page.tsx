@@ -43,7 +43,7 @@ export default async function MonthlyResultsPage() {
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
                   <FileText className="size-5 text-brand-emerald-deep" />
-                  <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">
+                  <h2 className="min-w-0 flex-1 font-display text-lg font-semibold tracking-tight text-foreground break-words">
                     {img.title}
                   </h2>
                   <Badge variant="outline" className="ml-auto">{img.month}</Badge>

@@ -124,11 +124,11 @@ export default async function Home() {
               </div>
               <ul className="mt-4 divide-y divide-border">
                 {featured.map((v) => (
-                  <li key={v.id} className="grid grid-cols-12 items-center gap-2 py-3.5">
-                    <span className="col-span-1 font-display text-2xl font-semibold text-brand-navy">
+                  <li key={v.id} className="flex items-start gap-3 py-3.5 sm:grid sm:grid-cols-12 sm:gap-2">
+                    <span className="hidden font-display text-2xl font-semibold text-brand-navy sm:col-span-1 sm:block">
                       {v.v1[0]?.toUpperCase()}
                     </span>
-                    <div className="col-span-11 grid grid-cols-4 items-baseline gap-1">
+                    <div className="grid flex-1 grid-cols-2 items-baseline gap-2 sm:col-span-11 sm:grid-cols-4 sm:gap-1">
                       <Form label="V1" value={v.v1} highlight />
                       <Form label="V2" value={v.v2} />
                       <Form label="V3" value={v.v3} />
@@ -416,7 +416,7 @@ function AwardCard({
     >
       {/* Large faint rank number in the corner */}
       <span
-        className="pointer-events-none absolute -right-2 -top-4 font-display text-8xl font-bold text-white/5"
+        className="pointer-events-none absolute -right-2 -top-4 font-display text-7xl font-bold text-white/5 sm:text-8xl"
         aria-hidden
       >
         {a.rank}

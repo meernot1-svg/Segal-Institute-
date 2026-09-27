@@ -233,7 +233,7 @@ function TikTokEmbed({ url, user, videoId }: { url: string; user: string; videoI
       className="tiktok-embed"
       cite={url}
       data-video-id={videoId}
-      style={{ maxWidth: "605px", minWidth: "325px" }}
+      style={{ maxWidth: "605px", width: "100%" }}
     >
       <a href={url}>Watch on TikTok — @{user}</a>
     </blockquote>

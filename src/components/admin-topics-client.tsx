@@ -147,7 +147,7 @@ export function AdminTopicsClient() {
         {topics.length === 0 ? (
           <p className="mt-3 text-sm text-muted-foreground">No topics yet. Create your first one on the left.</p>
         ) : (
-          <div className="mt-3 space-y-3 max-h-[calc(100vh-16rem)] overflow-y-auto scroll-fine pr-1">
+          <div className="mt-3 space-y-3 lg:max-h-[calc(100vh-16rem)] lg:overflow-y-auto scroll-fine pr-1">
             {topics.map((t) => (
               <Card key={t.id} className={t.date === todayISO() ? "border-brand-emerald/60" : undefined}>
                 <CardContent className="pt-5">

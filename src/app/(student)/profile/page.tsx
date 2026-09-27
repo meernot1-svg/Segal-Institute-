@@ -89,7 +89,8 @@ export default async function ProfilePage() {
                   Outstanding balance: <span className="font-medium">{formatCurrency(totalDue)}</span> across {unpaidFees.length} unpaid fee{unpaidFees.length === 1 ? "" : "s"}.
                 </p>
               )}
-              <div className="overflow-hidden rounded-lg border border-border">
+              {/* Desktop table */}
+              <div className="hidden overflow-x-auto rounded-lg border border-border md:block">
                 <table className="w-full text-sm">
                   <thead className="bg-muted/50 text-left text-xs text-muted-foreground">
                     <tr>
@@ -120,6 +121,28 @@ export default async function ProfilePage() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+              {/* Mobile cards */}
+              <div className="space-y-3 md:hidden">
+                {fees.map((f) => (
+                  <div key={f.id} className="rounded-lg border border-border bg-card p-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground">{f.periodKey}</span>
+                      {f.paid ? (
+                        <Badge variant="outline" className="border-transparent bg-accent text-brand-emerald-deep">Paid</Badge>
+                      ) : (
+                        <Badge variant="outline" className="border-transparent bg-amber-50 text-amber-700">Unpaid</Badge>
+                      )}
+                    </div>
+                    <div className="mt-2 flex items-end justify-between gap-2">
+                      <div>
+                        <p className="capitalize text-sm text-muted-foreground">{f.kind}</p>
+                        <p className="text-xs text-muted-foreground">due {new Date(f.dueDate).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</p>
+                      </div>
+                      <p className="font-display text-xl font-semibold text-foreground">{formatCurrency(f.amount)}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </>
           )}

@@ -257,7 +257,7 @@ export function AdminSpeechesClient() {
         {speeches.length === 0 ? (
           <p className="mt-3 text-sm text-muted-foreground">No speeches published yet. Students will see what you publish here.</p>
         ) : (
-          <div className="mt-3 space-y-3 max-h-[calc(100vh-16rem)] overflow-y-auto scroll-fine pr-1">
+          <div className="mt-3 space-y-3 lg:max-h-[calc(100vh-16rem)] lg:overflow-y-auto scroll-fine pr-1">
             {speeches.map((s) => (
               <Card key={s.id}>
                 <CardContent className="pt-5">

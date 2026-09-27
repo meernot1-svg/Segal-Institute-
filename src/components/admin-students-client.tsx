@@ -147,7 +147,7 @@ export function AdminStudentsClient() {
                 <div className="mt-2 space-y-1.5">
                   {s.fees.map((f) => (
                     <div key={f.id} className="flex items-center justify-between gap-2 rounded-md border border-border px-3 py-2 text-sm">
-                      <div className="flex items-center gap-3">
+                      <div className="flex flex-wrap items-center gap-3">
                         <span className="rounded bg-muted px-2 py-0.5 text-xs">{f.periodKey}</span>
                         <span className="capitalize text-muted-foreground">{f.kind}</span>
                         <span className="text-muted-foreground">due {new Date(f.dueDate).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span>

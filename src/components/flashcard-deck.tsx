@@ -119,7 +119,7 @@ export function FlashcardDeck({ deck }: { deck: Flashcard[] }) {
         <div className="surface-cream px-6 py-10 text-center sm:py-14">
           <p className="text-sm font-medium text-brand-emerald-deep">What are the three forms?</p>
           <div className="mt-3 flex items-center justify-center gap-2">
-            <h2 className="font-display text-5xl font-semibold tracking-tight text-foreground sm:text-6xl">
+            <h2 className="font-display text-4xl font-semibold leading-tight tracking-tight break-words text-foreground sm:text-5xl lg:text-6xl">
               {card.v1}
             </h2>
             <SpeakButton text={card.v1} />

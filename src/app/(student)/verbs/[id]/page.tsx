@@ -65,11 +65,11 @@ export default async function VerbDetailPage({
 
       {/* Hero card */}
       <Card className="mt-4 overflow-hidden">
-        <div className="surface-cream border-b border-border px-6 py-8 sm:px-8">
+        <div className="surface-cream border-b border-border px-4 py-8 sm:px-8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-brand-emerald-deep">Verb</p>
-              <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight break-words text-foreground sm:text-5xl">
                 {verb.v1}
               </h1>
             </div>
@@ -130,7 +130,7 @@ export default async function VerbDetailPage({
       </Card>
 
       {/* Prev / next */}
-      <div className="mt-6 grid grid-cols-2 gap-3">
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {prev ? (
           <Link
             href={`/verbs/${prev.id}`}
