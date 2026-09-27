@@ -8,8 +8,9 @@ import { VerbActions } from "@/components/verb-actions";
 import { SpeakButton } from "@/components/speak-button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 import { SITE_URL } from "@/lib/site";
+import { canAccessTier, tierLabel } from "@/lib/tiers";
 
 export const metadata: Metadata = {
   title: "Browse English Verbs — V1, V2, V3 Forms",
@@ -91,6 +92,7 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
   ]);
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const hasAccess = canAccessTier(user.badge, "senior");
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -104,6 +106,19 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
           </p>
         </div>
       </div>
+
+      {/* Tier access notice for locked users */}
+      {!hasAccess && (
+        <div className="mt-4 flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+          <Lock className="size-4 shrink-0" />
+          <p>
+            Verb forms are available at the <strong>Senior</strong> tier and above.
+            Your current badge is <strong>{tierLabel(user.badge)}</strong> — you can see
+            the verb list below, but V2/V3 forms and meanings are locked until your
+            teacher promotes you.
+          </p>
+        </div>
+      )}
 
       <div className="mt-6">
         <VerbsToolbar q={q} status={status} difficulty={difficulty} letter={letter} />
@@ -133,6 +148,24 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
               </thead>
               <tbody className="divide-y divide-border bg-card">
                 {verbs.map((v) => {
+                  const locked = !canAccessTier(user.badge, v.minTier);
+                  if (locked) {
+                    return (
+                      <tr key={v.id} className="align-middle opacity-50">
+                        <td className="px-4 py-3">
+                          <span className="inline-flex items-center gap-2">
+                            <Lock className="size-3.5 text-muted-foreground" />
+                            <span className="font-medium text-foreground">{v.v1}</span>
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-muted-foreground">—</td>
+                        <td className="px-4 py-3 text-muted-foreground">—</td>
+                        <td className="px-4 py-3 text-muted-foreground">Available at {tierLabel(v.minTier)} tier</td>
+                        <td className="px-4 py-3"><DiffBadge level={v.difficulty} /></td>
+                        <td className="px-4 py-3 text-right text-xs text-muted-foreground">Locked</td>
+                      </tr>
+                    );
+                  }
                   const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
                   const fav = v.favorites.length > 0;
                   return (
@@ -168,6 +201,18 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
           {/* Mobile cards */}
           <div className="mt-6 grid gap-3 md:hidden">
             {verbs.map((v) => {
+              const locked = !canAccessTier(user.badge, v.minTier);
+              if (locked) {
+                return (
+                  <div key={v.id} className="rounded-xl border border-border bg-card p-4 opacity-50">
+                    <div className="flex items-center gap-2">
+                      <Lock className="size-4 text-muted-foreground" />
+                      <p className="font-display text-lg font-semibold text-foreground">{v.v1}</p>
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">Available at {tierLabel(v.minTier)} tier</p>
+                  </div>
+                );
+              }
               const st = (v.progress[0]?.status || "new") as "new" | "learning" | "learned" | "difficult";
               const fav = v.favorites.length > 0;
               return (
