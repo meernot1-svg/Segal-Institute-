@@ -18,6 +18,7 @@ import {
   PenTool,
   Mic2,
   Trophy,
+  BookOpen,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ type NavItem = { href: string; label: string; icon: React.ElementType };
 
 const PRIMARY_NAV: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/lessons", label: "Lessons", icon: BookOpen },
   { href: "/verbs", label: "Learn Verbs", icon: BookA },
   { href: "/learn", label: "Flashcards", icon: GraduationCap },
   { href: "/tests/mcq", label: "MCQ Tests", icon: ListChecks },
