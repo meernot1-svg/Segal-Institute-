@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ArrowRight, Volume2, Flame, ListChecks, Sparkles } from "lucide-react";
 import { db } from "@/lib/db";
 import { PublicHeader, PublicFooter } from "@/components/public-header";
+import { SupervisionCredit } from "@/components/supervision-credit";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser, type SessionUser } from "@/lib/auth";
 import { branding } from "@/lib/branding";
@@ -187,6 +188,9 @@ export default async function Home() {
           </Button>
         </div>
       </section>
+
+      {/* Supervision credit — Sir Sajid Murad */}
+      <SupervisionCredit />
 
       <PublicFooter />
 

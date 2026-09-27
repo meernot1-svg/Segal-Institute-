@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { PublicHeader, PublicFooter } from "@/components/public-header";
+import { SupervisionPhoto } from "@/components/supervision-photo";
 import { branding } from "@/lib/branding";
 import { SITE_URL } from "@/lib/site";
 
@@ -122,6 +123,22 @@ export default async function AboutPage() {
             available. Meanings currently default to English so every feature
             works at real scale today.
           </p>
+        </div>
+
+        {/* Supervision credit */}
+        <div className="mt-12 flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-6 text-center sm:flex-row sm:text-left">
+          <span className="inline-flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-brand-navy font-display text-xl font-semibold text-white shadow-sm">
+            <SupervisionPhoto />
+          </span>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wider text-brand-emerald-deep">
+              Under the supervision of
+            </p>
+            <p className="mt-1 font-display text-xl font-semibold text-foreground">Sir Sajid Murad</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Segal Institute is built and run under his guidance.
+            </p>
+          </div>
         </div>
       </main>
       <PublicFooter />

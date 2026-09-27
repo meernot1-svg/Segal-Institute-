@@ -150,6 +150,11 @@ export function PublicFooter() {
             <BookOpen className="size-3.5" /> V1 · V2 · V3
           </p>
         </div>
+        <div className="border-t border-white/10">
+          <p className="mx-auto max-w-6xl px-4 py-3 text-center text-xs text-white/40 sm:px-6">
+            Under the supervision of <span className="font-medium text-white/60">Sir Sajid Murad</span>
+          </p>
+        </div>
       </div>
     </footer>
   );
