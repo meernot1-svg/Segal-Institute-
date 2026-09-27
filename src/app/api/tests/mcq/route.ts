@@ -17,11 +17,13 @@ export async function GET(req: NextRequest) {
   if (isNaN(length) || length < 5) length = 5;
   if (length > 50) length = 50;
 
-  // Random verbs across the whole dataset via SQLite RANDOM()
+  // Random verbs across the whole dataset via PostgreSQL RANDOM()
+  // Identifiers are quoted because Prisma preserves camelCase in PostgreSQL
+  // (unquoted identifiers are folded to lowercase by Postgres).
   const poolSize = length + 80;
   const rows = await db.$queryRaw<
     { id: string; v1: string; v2: string; v3: string; v2Alts: string; v3Alts: string; meaning: string; difficulty: number }[]
-  >`SELECT id, v1, v2, v3, v2Alts, v3Alts, meaning, difficulty FROM Verb ORDER BY RANDOM() LIMIT ${poolSize}`;
+  >`SELECT id, v1, v2, v3, "v2Alts", "v3Alts", meaning, difficulty FROM "Verb" ORDER BY RANDOM() LIMIT ${poolSize}`;
   if (rows.length < 4) {
     return NextResponse.json({ error: "Not enough verbs to build a test" }, { status: 400 });
   }
