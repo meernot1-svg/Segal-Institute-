@@ -21,19 +21,19 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: `${branding.name} — ${branding.tagline}`,
   description:
-    "Segal Institute is an English academy in Pakistan. Learn the three forms of English verbs (V1 / V2 / V3) with flashcards, MCQ tests, an AI tutor, speech & poetry generators, and daily topics from your teacher.",
+    "Segal Institute is an English academy in Pakistan where students live English, not just study it — daily community speaking, vocabulary, debates, speech competitions, an AI tutor, and verb-form mastery. Under the supervision of Sir Sajid Murad.",
   alternates: { canonical: "/" },
   openGraph: {
     title: `${branding.name} — ${branding.tagline}`,
     description:
-      "Learn the three forms of English verbs with flashcards, MCQ tests, an AI tutor, and daily topics. Free to start.",
+      "Daily community speaking, vocabulary, debates, speech competitions, an AI tutor, and verb-form mastery — all in one place. Built for students in Pakistan.",
     url: SITE_URL,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: `${branding.name} — ${branding.tagline}`,
-    description: "Learn the three forms of English verbs with flashcards, tests, and an AI tutor.",
+    description: "Daily community speaking, debates, speech competitions, AI tutor, and verb mastery. Built for students in Pakistan.",
   },
 };
 
@@ -95,9 +95,11 @@ export default async function Home() {
               Learn English with confidence at Segal Institute.
             </h1>
             <p className="prose-reading mt-6 text-lg leading-relaxed text-muted-foreground">
-              Master the three forms of English verbs with {totalVerbs.toLocaleString()} curated
-              entries, get help from an AI tutor, generate speeches and poems, and
-              follow a daily topic from your teacher — all in one place.
+              At Segal Institute, students don't just study English — they live
+              it. Daily community speaking, new vocabulary every day, real
+              debates, speech competitions, an AI tutor, and verb-form mastery
+              all in one place. Built for students in Pakistan, under the
+              supervision of Sir Sajid Murad.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-12 text-base">
