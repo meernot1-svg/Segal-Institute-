@@ -259,3 +259,25 @@ Stage Summary:
 - GitHub: https://github.com/meernot1-svg/Segal-Institute-.git
 - AI runs in MOCK mode on Vercel (no AI_API_KEY set). The SDK is verified working — to enable real AI, add AI_API_KEY env var in Vercel project settings.
 - Demo accounts: admin@englishacademy.example/admin123 (lands on /admin), student@englishacademy.example/student123 (lands on /dashboard).
+
+---
+Task ID: REAL-AI-OPENROUTER
+Agent: main (Z.ai Code)
+Task: Enable real AI via OpenRouter API key.
+
+Work Log:
+- Tested the OpenRouter key. gpt-4o-mini was region-restricted (403); free model slugs were deprecated. Paid models (meta-llama/llama-3.3-70b-instruct, deepseek/deepseek-chat-v3-0324, qwen/qwen-2.5-72b-instruct, mistralai/mistral-small-3.1-24b-instruct) all returned 200 OK.
+- Selected meta-llama/llama-3.3-70b-instruct as default (capable, cheap, globally available, good for tutoring + creative writing).
+- Rewrote src/lib/ai.ts: replaced z-ai-web-dev-sdk with fetch-based OpenRouter (OpenAI-compatible REST) calls. Env vars: AI_API_KEY, AI_BASE_URL (default openrouter.ai/api/v1), AI_MODEL (default meta-llama/llama-3.3-70b-instruct). Mock mode still works when AI_API_KEY empty or ENABLE_MOCK_AI=true.
+- Set Vercel env vars: AI_API_KEY, AI_BASE_URL, AI_MODEL, ENABLE_MOCK_AI=false (deleted old mock=true var first).
+- Deployed. Tested all 3 AI features on live site:
+  - AI Tutor: "The three forms of 'go' are: go / went / gone. Example: 'I have gone to the store...'" — mock:false
+  - Speech Generator: original speech on "The importance of daily reading" — mock:false
+  - Poetry Generator: original poem "As morning light unfurls its gentle wings..." — mock:false
+- Agent Browser visual: logged in as student, went to /chat, sent "What are the three forms of the verb eat?" — real AI replied: "V1: eat, V2: ate, V3: eaten. Example: 'I have eaten breakfast already.' Let me know if you have any questions!" No mock-mode badge shown.
+
+Stage Summary:
+- All AI features now use REAL AI (Llama 3.3 70B via OpenRouter) on https://segal-institute.vercel.app.
+- Mock mode is still available as a fallback (if AI_API_KEY is removed or ENABLE_MOCK_AI=true).
+- The key was set as a Vercel env var only — NOT written to any committed file (verified).
+- User must rotate the OpenRouter key — it was shared in plaintext in chat.
