@@ -281,3 +281,27 @@ Stage Summary:
 - Mock mode is still available as a fallback (if AI_API_KEY is removed or ENABLE_MOCK_AI=true).
 - The key was set as a Vercel env var only — NOT written to any committed file (verified).
 - User must rotate the OpenRouter key — it was shared in plaintext in chat.
+
+---
+Task ID: OPENROUTER-AI
+Agent: main (Z.ai Code)
+Task: Wire up OpenRouter API key to enable real AI on Vercel.
+
+Work Log:
+- Verified the OpenRouter key works (tested liquid/lfm-2.5-2.6b:free — the user's account has $0 credits, so free models only).
+- Confirmed ai.ts was already fully wired for OpenRouter (OpenAI-compatible fetch to https://openrouter.ai/api/v1/chat/completions with HTTP-Referer + X-Title attribution headers). The default model was a paid Llama variant; switched default to liquid/lfm-2.5-2.6b:free.
+- Updated Vercel project env vars (via PATCH on existing IDs, since they already existed):
+  - AI_API_KEY = sk-or-v1-... (OpenRouter key)
+  - AI_BASE_URL = https://openrouter.ai/api/v1
+  - AI_MODEL = liquid/lfm-2.5-2.6b:free
+  - ENABLE_MOCK_AI = false (was true — flipped to enable real AI)
+- Redeployed. Tested all three AI features on https://segal-institute.vercel.app:
+  - AI Tutor: "What are the three forms of go?" → real reply with go/went/gone + example sentences
+  - Speech Generator: "the value of punctuality" → real structured speech with Opening/Intro/Main points
+  - Poetry Generator: "the morning light" → real original free-verse poem
+- Agent Browser visual: mock-mode notice gone, real AI reply about "take" with base/past/participle + examples. No console errors.
+
+Stage Summary:
+- Real AI is LIVE on https://segal-institute.vercel.app — chat, speech, and poetry generators all use OpenRouter.
+- Model: liquid/lfm-2.5-2.6b:free (free, reliable). To use a stronger model, set AI_MODEL on Vercel (e.g. "meta-llama/llama-3.3-70b-instruct" — but that's paid and the account has $0 credits).
+- Security: OpenRouter key was used transiently to set the Vercel env var; not committed to git. User should rotate the key (it was shared in plaintext in chat).
