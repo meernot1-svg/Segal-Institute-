@@ -205,7 +205,7 @@ export function AdminResultsClient({ students }: { students: Student[] }) {
                 <Label>Result-card image</Label>
                 <div className="flex items-center gap-3">
                   {imageDataUrl ? (
-                    <img src={imageDataUrl} alt="result card preview" className="max-h-32 rounded-md border border-border object-contain" />
+                    <img src={imageDataUrl} alt="Preview of the uploaded monthly result sheet" className="max-h-32 rounded-md border border-border object-contain" />
                   ) : (
                     <div className="flex size-20 items-center justify-center rounded-md border border-dashed border-border bg-muted/40 text-muted-foreground">
                       <ImageIcon className="size-6" />

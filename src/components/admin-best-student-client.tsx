@@ -114,7 +114,7 @@ export function AdminBestStudentClient() {
             <Label>Photo</Label>
             <div className="flex items-center gap-4">
               {photo ? (
-                <img src={photo} alt="preview" className="size-24 rounded-xl border border-border object-cover" />
+                <img src={photo} alt="Best student photo preview" className="size-24 rounded-xl border border-border object-cover" />
               ) : (
                 <div className="flex size-24 items-center justify-center rounded-xl border border-dashed border-border bg-muted/40 text-muted-foreground">
                   <Camera className="size-6" />
@@ -173,7 +173,7 @@ export function AdminBestStudentClient() {
               <Card key={b.id}>
                 <CardContent className="pt-5">
                   <div className="flex items-start gap-4">
-                    <img src={b.photo} alt={b.name} className="size-16 shrink-0 rounded-lg border border-border object-cover" />
+                    <img src={b.photo} alt={`Photo of ${b.name}, Best Student for ${b.month}`} className="size-16 shrink-0 rounded-lg border border-border object-cover" />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <p className="font-medium text-foreground">{b.name}</p>

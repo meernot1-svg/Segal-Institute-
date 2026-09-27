@@ -1,9 +1,31 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowRight, Volume2, Flame, ListChecks, Sparkles } from "lucide-react";
 import { db } from "@/lib/db";
 import { PublicHeader, PublicFooter } from "@/components/public-header";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser, type SessionUser } from "@/lib/auth";
+import { branding } from "@/lib/branding";
+import { SITE_URL } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: `${branding.name} — ${branding.tagline}`,
+  description:
+    "Segal Institute is an English academy in Pakistan. Learn the three forms of English verbs (V1 / V2 / V3) with flashcards, MCQ tests, an AI tutor, speech & poetry generators, and daily topics from your teacher.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `${branding.name} — ${branding.tagline}`,
+    description:
+      "Learn the three forms of English verbs with flashcards, MCQ tests, an AI tutor, and daily topics. Free to start.",
+    url: SITE_URL,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${branding.name} — ${branding.tagline}`,
+    description: "Learn the three forms of English verbs with flashcards, tests, and an AI tutor.",
+  },
+};
 
 export const dynamic = "force-dynamic";
 
@@ -167,6 +189,62 @@ export default async function Home() {
       </section>
 
       <PublicFooter />
+
+      {/* Structured data for search engines */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            name: branding.name,
+            description: branding.description,
+            url: SITE_URL,
+            logo: `${SITE_URL}/logo.svg`,
+            sameAs: [SITE_URL],
+            address: {
+              "@type": "PostalAddress",
+              addressCountry: "PK",
+              addressRegion: "Punjab",
+              addressLocality: "Lahore",
+            },
+            knowsAbout: [
+              "English verb forms",
+              "English grammar",
+              "V1 V2 V3 verbs",
+              "English learning",
+              "irregular verbs",
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Course",
+            name: "English Verb Forms — V1, V2, V3 Mastery",
+            description:
+              "Learn the three forms of English verbs (base, past simple, past participle) with flashcards, MCQ tests, and an AI tutor.",
+            provider: {
+              "@type": "EducationalOrganization",
+              name: branding.name,
+              url: SITE_URL,
+              sameAs: SITE_URL,
+            },
+            url: `${SITE_URL}/verbs`,
+            inLanguage: "en",
+            educationalLevel: "Beginner to Intermediate",
+            teaches: "The three forms of English verbs (V1, V2, V3) and their meanings",
+            hasCourseInstance: {
+              "@type": "CourseInstance",
+              courseMode: "Online",
+              courseWorkload: "PT10H",
+            },
+          }),
+        }}
+      />
     </div>
   );
 }

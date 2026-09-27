@@ -104,7 +104,7 @@ export default async function DashboardPage() {
           <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6">
             <img
               src={bestStudent.photo}
-              alt={bestStudent.name}
+              alt={`${bestStudent.name}, Best Student of the Month ${bestStudent.month}`}
               className="mx-auto size-20 shrink-0 rounded-full border-2 border-amber-300 object-cover sm:mx-0 sm:size-24"
             />
             <div className="flex-1 text-center sm:text-left">

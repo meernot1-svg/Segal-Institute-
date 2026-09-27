@@ -58,7 +58,7 @@ export function AvatarUploader({
         {avatar ? (
           <img
             src={avatar}
-            alt={initialName}
+            alt={`${initialName}'s profile photo`}
             className="size-20 rounded-full border border-border object-cover"
           />
         ) : (

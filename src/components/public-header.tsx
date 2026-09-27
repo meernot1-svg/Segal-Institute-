@@ -138,6 +138,7 @@ export function PublicFooter() {
               { href: "/verbs", label: "Browse verbs" },
               { href: "/learn", label: "Flashcards" },
               { href: "/tests/mcq", label: "MCQ tests" },
+              { href: "/blog", label: "Blog" },
             ]}
           />
         </div>

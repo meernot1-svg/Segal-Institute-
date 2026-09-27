@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
@@ -8,6 +9,26 @@ import { SpeakButton } from "@/components/speak-button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Browse English Verbs — V1, V2, V3 Forms",
+  description:
+    "Search and browse hundreds of English verbs with their V1, V2, and V3 forms and meanings. Filter by difficulty, mark verbs as learned or difficult, and hear pronunciation. Free at Segal Institute.",
+  alternates: { canonical: "/verbs" },
+  openGraph: {
+    title: "Browse English Verbs — V1, V2, V3 Forms · Segal Institute",
+    description:
+      "Search and browse English verbs with their V1, V2, V3 forms and meanings. Filter by difficulty and mark verbs as learned or difficult.",
+    url: `${SITE_URL}/verbs`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Browse English Verbs — V1, V2, V3 Forms · Segal Institute",
+    description: "Search English verbs and their three forms with meanings and pronunciation.",
+  },
+};
 
 export const dynamic = "force-dynamic";
 

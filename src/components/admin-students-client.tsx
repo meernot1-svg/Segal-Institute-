@@ -114,7 +114,7 @@ export function AdminStudentsClient() {
               {/* Identity */}
               <div className="flex items-start gap-3">
                 {s.avatarUrl ? (
-                  <img src={s.avatarUrl} alt={s.name} className="size-12 rounded-full border border-border object-cover" />
+                  <img src={s.avatarUrl} alt={`${s.name}'s profile photo`} className="size-12 rounded-full border border-border object-cover" />
                 ) : (
                   <div className="flex size-12 items-center justify-center rounded-full bg-brand-navy font-display text-lg font-semibold uppercase text-white">
                     {s.name.charAt(0) || "S"}
