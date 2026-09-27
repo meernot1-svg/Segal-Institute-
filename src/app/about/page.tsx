@@ -5,7 +5,12 @@ import { branding } from "@/lib/branding";
 export const dynamic = "force-dynamic";
 
 export default async function AboutPage() {
-  const totalVerbs = await db.verb.count();
+  let totalVerbs = 966; // fallback if DB unreachable (e.g. serverless without Postgres)
+  try {
+    totalVerbs = await db.verb.count();
+  } catch {
+    // use fallback
+  }
   return (
     <div className="flex min-h-screen flex-col">
       <PublicHeader />

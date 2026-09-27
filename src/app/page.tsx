@@ -3,20 +3,46 @@ import { ArrowRight, Volume2, Flame, ListChecks, Sparkles } from "lucide-react";
 import { db } from "@/lib/db";
 import { PublicHeader, PublicFooter } from "@/components/public-header";
 import { Button } from "@/components/ui/button";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, type SessionUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 const FEATURED = ["be", "go", "see", "write", "run", "take"];
 
+// Static fallbacks (used if the DB is unreachable, e.g. before a Postgres
+// is provisioned on a serverless host). These are real seeded values.
+const STATIC_TOTAL = 966;
+const STATIC_FEATURED = [
+  { id: "be", v1: "be", v2: "was/were", v3: "been", meaning: "to exist" },
+  { id: "go", v1: "go", v2: "went", v3: "gone", meaning: "to move" },
+  { id: "see", v1: "see", v2: "saw", v3: "seen", meaning: "to perceive with eyes" },
+  { id: "write", v1: "write", v2: "wrote", v3: "written", meaning: "to mark with letters" },
+  { id: "run", v1: "run", v2: "ran", v3: "run", meaning: "to move fast on foot" },
+  { id: "take", v1: "take", v2: "took", v3: "taken", meaning: "to grab" },
+];
+
 export default async function Home() {
-  const user = await getCurrentUser();
-  const totalVerbs = await db.verb.count();
-  const featured = await db.verb.findMany({
-    where: { v1: { in: FEATURED } },
-    orderBy: { v1: "asc" },
-    take: 6,
-  });
+  let user: SessionUser | null = null;
+  try {
+    user = await getCurrentUser();
+  } catch {
+    // DB unavailable — treat as logged out.
+  }
+
+  let totalVerbs = STATIC_TOTAL;
+  let featured: { id: string; v1: string; v2: string; v3: string; meaning: string }[] = STATIC_FEATURED;
+  try {
+    totalVerbs = await db.verb.count();
+    const fromDb = await db.verb.findMany({
+      where: { v1: { in: FEATURED } },
+      orderBy: { v1: "asc" },
+      take: 6,
+      select: { id: true, v1: true, v2: true, v3: true, meaning: true },
+    });
+    if (fromDb.length > 0) featured = fromDb;
+  } catch {
+    // DB unavailable (e.g. serverless without a configured Postgres) — use static fallbacks.
+  }
 
   const startHref = user ? "/dashboard" : "/register";
   const startLabel = user ? "Go to dashboard" : "Start learning";
