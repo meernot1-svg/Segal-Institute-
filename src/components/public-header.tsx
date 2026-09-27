@@ -161,7 +161,7 @@ export function PublicFooter() {
         </div>
       </div>
       <div className="bg-white">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-center font-display text-lg font-semibold tracking-wide text-brand-navy sm:px-6">
+        <p className="mx-auto max-w-6xl px-4 py-2.5 text-right text-xs italic text-brand-slate sm:px-6">
           Created by Safiullah
         </p>
       </div>
