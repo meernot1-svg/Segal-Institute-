@@ -110,13 +110,7 @@ export default async function Home() {
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-12 text-base">
-                <Link href="/verbs">Explore verbs</Link>
-              </Button>
             </div>
-            <p className="mt-5 text-sm text-muted-foreground">
-              Free to start. No credit card. Works on phone and desktop.
-            </p>
           </div>
 
           {/* Featured verb forms card — the one bold visual moment */}
@@ -204,21 +198,33 @@ export default async function Home() {
               <Trophy className="size-3.5" /> Academy achievements
             </p>
             <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-              District Declamation Competition — a position brought home.
+              District Declamation Competition — three positions brought home.
             </h2>
             <p className="prose-reading mt-4 text-lg text-white/70">
-              A Segal Institute student stood among the best in the district and
-              brought pride to the academy. That confidence on stage is built
-              through the same daily speaking and debate practice you can join.
+              Segal Institute students stood among the best in the district and
+              brought pride to the academy — taking 1st, 2nd, and 3rd
+              positions. That confidence on stage is built through the same
+              daily speaking and debate practice you can join.
             </p>
           </div>
-          <div className="mt-12 md:max-w-md">
+          <div className="mt-12 grid gap-6 sm:grid-cols-3">
             <AwardCard
               position="1st Position"
               competition="District Declamation Competition"
-              recipient=""
               note="A powerful declamation on 'Youth and Future of Pakistan' earned the top spot from a panel of judges."
               accent="gold"
+            />
+            <AwardCard
+              position="2nd Position"
+              competition="District Declamation Competition"
+              note="A measured, confident speech that secured second place at the district level."
+              accent="silver"
+            />
+            <AwardCard
+              position="3rd Position"
+              competition="District Declamation Competition"
+              note="A strong, articulate declamation took the third position for Segal Institute."
+              accent="bronze"
             />
           </div>
           <p className="mt-10 text-sm text-white/50">
@@ -378,29 +384,68 @@ function AwardCard({
 }: {
   position: string;
   competition: string;
-  recipient: string;
+  recipient?: string;
   note: string;
   accent: "gold" | "silver" | "bronze";
 }) {
   const accents = {
-    gold: { ring: "ring-amber-400/40", bg: "bg-amber-400/10", text: "text-amber-300", medal: "🥇" },
-    silver: { ring: "ring-slate-300/40", bg: "bg-slate-300/10", text: "text-slate-200", medal: "🥈" },
-    bronze: { ring: "ring-orange-400/40", bg: "bg-orange-400/10", text: "text-orange-300", medal: "🥉" },
+    gold: {
+      gradient: "from-amber-400/20 to-amber-600/5",
+      ring: "ring-amber-400/30",
+      border: "border-amber-400/30",
+      medalBg: "bg-gradient-to-br from-amber-300 to-amber-500",
+      medalText: "text-amber-950",
+      positionColor: "text-amber-300",
+      glow: "shadow-[0_0_30px_-8px_rgba(251,191,36,0.5)]",
+      rank: "1",
+    },
+    silver: {
+      gradient: "from-slate-200/20 to-slate-400/5",
+      ring: "ring-slate-300/30",
+      border: "border-slate-300/30",
+      medalBg: "bg-gradient-to-br from-slate-200 to-slate-400",
+      medalText: "text-slate-900",
+      positionColor: "text-slate-200",
+      glow: "shadow-[0_0_30px_-8px_rgba(203,213,225,0.4)]",
+      rank: "2",
+    },
+    bronze: {
+      gradient: "from-orange-400/20 to-orange-600/5",
+      ring: "ring-orange-400/30",
+      border: "border-orange-400/30",
+      medalBg: "bg-gradient-to-br from-orange-300 to-orange-600",
+      medalText: "text-orange-950",
+      positionColor: "text-orange-300",
+      glow: "shadow-[0_0_30px_-8px_rgba(251,146,60,0.4)]",
+      rank: "3",
+    },
   } as const;
   const a = accents[accent];
   return (
-    <div className={`rounded-xl border border-white/10 bg-white/5 p-6 ring-1 ${a.ring}`}>
-      <div className="flex items-center gap-3">
-        <span className={`inline-flex size-12 items-center justify-center rounded-full ${a.bg} text-2xl`} aria-hidden>
-          {a.medal}
+    <div
+      className={`relative overflow-hidden rounded-2xl border ${a.border} bg-gradient-to-b ${a.gradient} p-6 ring-1 ${a.ring} ${a.glow} transition-transform hover:-translate-y-1`}
+    >
+      {/* Large faint rank number in the corner */}
+      <span
+        className="pointer-events-none absolute -right-2 -top-4 font-display text-8xl font-bold text-white/5"
+        aria-hidden
+      >
+        {a.rank}
+      </span>
+      <div className="relative flex items-center gap-4">
+        <span
+          className={`inline-flex size-14 shrink-0 items-center justify-center rounded-full ${a.medalBg} ${a.medalText} shadow-lg`}
+          aria-hidden
+        >
+          <span className="font-display text-2xl font-bold">{a.rank}</span>
         </span>
         <div>
-          <p className={`font-display text-lg font-semibold ${a.text}`}>{position}</p>
+          <p className={`font-display text-xl font-semibold ${a.positionColor}`}>{position}</p>
           <p className="text-xs text-white/50">{competition}</p>
         </div>
       </div>
-      {recipient && <p className="mt-4 text-base font-medium text-white">{recipient}</p>}
-      <p className="mt-1.5 text-sm leading-relaxed text-white/60">{note}</p>
+      {recipient && <p className="relative mt-4 text-base font-medium text-white">{recipient}</p>}
+      <p className="relative mt-2 text-sm leading-relaxed text-white/70">{note}</p>
     </div>
   );
 }
