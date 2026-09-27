@@ -30,7 +30,7 @@ function LoginForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      let data: { error?: string } = {};
+      let data: { error?: string; user?: { role?: string } } = {};
       try {
         data = await res.json();
       } catch {
@@ -50,7 +50,9 @@ function LoginForm() {
         return;
       }
       toast.success("Welcome back!");
-      router.push(next);
+      // Admins land on the admin dashboard by default; students on /dashboard
+      const dest = next !== "/dashboard" ? next : (data.user?.role === "admin" ? "/admin" : "/dashboard");
+      router.push(dest);
       router.refresh();
     } catch {
       const msg = "Network error — check your connection and try again";

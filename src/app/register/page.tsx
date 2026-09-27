@@ -40,7 +40,7 @@ function RegisterForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      let data: { error?: string } = {};
+      let data: { error?: string; user?: { role?: string } } = {};
       try {
         data = await res.json();
       } catch {
@@ -60,7 +60,8 @@ function RegisterForm() {
         return;
       }
       toast.success("Account created — welcome!");
-      router.push(next);
+      const dest = next !== "/dashboard" ? next : (data.user?.role === "admin" ? "/admin" : "/dashboard");
+      router.push(dest);
       router.refresh();
     } catch {
       const msg = "Network error — check your connection and try again";
