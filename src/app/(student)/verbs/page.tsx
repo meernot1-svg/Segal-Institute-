@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 import { SITE_URL } from "@/lib/site";
 import { canAccessTier, tierLabel } from "@/lib/tiers";
+import { getVerbType, type VerbType } from "@/lib/verbs";
 
 export const metadata: Metadata = {
   title: "Browse English Verbs — V1, V2, V3 Forms",
@@ -144,6 +145,7 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
               <thead className="bg-muted/60 text-left">
                 <tr className="text-xs text-muted-foreground">
                   <th className="px-4 py-3 font-medium">V1</th>
+                  <th className="px-4 py-3 font-medium">Type</th>
                   <th className="px-4 py-3 font-medium">V2</th>
                   <th className="px-4 py-3 font-medium">V3</th>
                   <th className="px-4 py-3 font-medium">Meaning</th>
@@ -154,6 +156,7 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
               <tbody className="divide-y divide-border bg-card">
                 {verbs.map((v) => {
                   const locked = !canAccessTier(user.badge, v.minTier);
+                  const verbType: VerbType = getVerbType(v.v1, v.v2, v.v3);
                   if (locked) {
                     return (
                       <tr key={v.id} className="align-middle opacity-50">
@@ -163,6 +166,7 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
                             <span className="font-medium text-foreground">{v.v1}</span>
                           </span>
                         </td>
+                        <td className="px-4 py-3"><VerbTypeBadge type={verbType} /></td>
                         <td className="px-4 py-3 text-muted-foreground">—</td>
                         <td className="px-4 py-3 text-muted-foreground">—</td>
                         <td className="px-4 py-3 text-muted-foreground">Available at {tierLabel(v.minTier)} tier</td>
@@ -183,6 +187,7 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
                           <SpeakButton text={v.v1} className="opacity-0 transition-opacity group-hover:opacity-100" />
                         </Link>
                       </td>
+                      <td className="px-4 py-3"><VerbTypeBadge type={verbType} /></td>
                       <td className="px-4 py-3 text-muted-foreground">{v.v2}</td>
                       <td className="px-4 py-3 text-muted-foreground">{v.v3}</td>
                       <td className="px-4 py-3 max-w-[280px] truncate text-muted-foreground" title={v.meaning}>
@@ -207,6 +212,7 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
           <div className="mt-6 grid gap-3 md:hidden">
             {verbs.map((v) => {
               const locked = !canAccessTier(user.badge, v.minTier);
+              const verbType: VerbType = getVerbType(v.v1, v.v2, v.v3);
               if (locked) {
                 return (
                   <div key={v.id} className="rounded-xl border border-border bg-card p-4 opacity-50">
@@ -214,7 +220,10 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
                       <Lock className="size-4 text-muted-foreground" />
                       <p className="font-display text-lg font-semibold text-foreground">{v.v1}</p>
                     </div>
-                    <p className="mt-1 text-sm text-muted-foreground">Available at {tierLabel(v.minTier)} tier</p>
+                    <div className="mt-1 flex items-center gap-2">
+                      <VerbTypeBadge type={verbType} />
+                      <p className="text-sm text-muted-foreground">Available at {tierLabel(v.minTier)} tier</p>
+                    </div>
                   </div>
                 );
               }
@@ -228,11 +237,14 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
                         <p className="font-display text-lg font-semibold text-foreground">{v.v1}</p>
                         <SpeakButton text={v.v1} />
                       </div>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        <span className="font-medium text-foreground">{v.v2}</span>
-                        <span className="mx-1.5 text-border">/</span>
-                        <span className="font-medium text-foreground">{v.v3}</span>
-                      </p>
+                      <div className="mt-1 flex flex-wrap items-center gap-2">
+                        <VerbTypeBadge type={verbType} />
+                        <p className="text-sm text-muted-foreground">
+                          <span className="font-medium text-foreground">{v.v2}</span>
+                          <span className="mx-1.5 text-border">/</span>
+                          <span className="font-medium text-foreground">{v.v3}</span>
+                        </p>
+                      </div>
                       <p className="mt-1.5 truncate text-sm text-muted-foreground">{v.meaning}</p>
                     </Link>
                     <DiffBadge level={v.difficulty} />
@@ -260,6 +272,18 @@ function DiffBadge({ level }: { level: number }) {
   } as const;
   const m = map[(level as 1 | 2 | 3) ?? 1] || map[1];
   return <Badge variant="outline" className={cn("border-transparent", m.className)}>{m.label}</Badge>;
+}
+
+function VerbTypeBadge({ type }: { type: VerbType }) {
+  const styles = {
+    Regular: "bg-blue-50 text-blue-700 border-blue-200",
+    Irregular: "bg-purple-50 text-purple-700 border-purple-200",
+  } as const;
+  return (
+    <Badge variant="outline" className={cn("border", styles[type])}>
+      {type}
+    </Badge>
+  );
 }
 
 function Pagination({
