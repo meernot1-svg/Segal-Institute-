@@ -564,3 +564,31 @@ Verified live on https://segal-institute.vercel.app:
 
 Stage Summary:
 - Monthly results no longer use AI. Admin uploads ONE image per month -> every student sees the same image. Simple, predictable, and zero AI cost.
+
+---
+Task ID: SUPERVISION-CREDIT
+Agent: main (Z.ai Code)
+Task: Add "Under the supervision of Sir Sajid Murad" credit + photo to the homepage.
+
+Work Log:
+- New src/components/supervision-credit.tsx (client): a homepage section with
+  a large circular photo (from /sir.png), "Under the supervision of" eyebrow,
+  "Sir Sajid Murad" h2, and a paragraph about his role. Graceful fallback to
+  "SM" initials on a navy circle if the photo isn't uploaded yet.
+- New src/components/supervision-photo.tsx (client): reusable photo with the
+  same fallback, used on the About page.
+- Homepage (/): added <SupervisionCredit /> between the CTA band and footer.
+- About page: added a smaller supervision credit card (photo + name + tagline)
+  after the FAQ section.
+- Public footer: added a small "Under the supervision of Sir Sajid Murad" line
+  at the very bottom, visible on every public page.
+
+Note: the user's sir.png file did not arrive in /home/z/my-project/upload/
+(the upload directory is empty). The code is wired to serve the photo from
+public/sir.png — once the user re-uploads it, I'll copy it to public/ and
+redeploy. Until then, the "SM" initials fallback shows.
+
+Deployed. Verified live:
+- Homepage renders the supervision section with "Sir Sajid Murad" headline
+- Footer shows "Under the supervision of Sir Sajid Murad"
+- /sir.png returns 404 (photo not yet uploaded) — fallback initials show
