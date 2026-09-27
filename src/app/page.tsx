@@ -8,8 +8,6 @@ import {
   Users,
   MessageCircle,
   Trophy,
-  BookA,
-  Medal,
   CalendarDays,
 } from "lucide-react";
 import { db } from "@/lib/db";
@@ -163,11 +161,6 @@ export default async function Home() {
             body="Students practice speaking English aloud every single day — building confidence one sentence at a time, in a supportive community."
           />
           <Step
-            icon={BookA}
-            title="Daily vocabulary"
-            body="A new set of words every day, with meanings and example sentences, so your vocabulary grows steadily without cramming."
-          />
-          <Step
             icon={Users}
             title="Daily debate"
             body="Structured daily debates on real topics. Students learn to think, listen, and respond in English — the skill that exams and life both reward."
@@ -176,11 +169,6 @@ export default async function Home() {
             icon={Trophy}
             title="Speech competitions"
             body="Regular speech competitions where students present original speeches, get feedback, and grow into confident public speakers."
-          />
-          <Step
-            icon={Sparkles}
-            title="AI tutor & generators"
-            body="An AI tutor answers grammar questions, a speech generator turns any topic into a structured speech, and a trained Urdu poetry generator writes original ghazals."
           />
           <Step
             icon={ListChecks}
