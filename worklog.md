@@ -222,3 +222,40 @@ Verified on https://segal-institute.vercel.app:
 
 Stage Summary:
 - Deployed. Auth errors are now clear, specific, and persistent. The user will see exactly what went wrong (wrong password, duplicate email, network error) right in the form.
+
+---
+Task ID: SEGAL-INSTITUTE-EXPANSION
+Agent: main (Z.ai Code)
+Task: Rebrand to Segal Institute + AI bot + speech/poetry generators + admin panel + profile photos + fees + daily topics.
+
+Work Log:
+- Rebranded English Academy -> Segal Institute (branding.ts, layout metadata, home hero, auth shell copy, footer).
+- Loaded LLM skill; verified z-ai-web-dev-sdk works in this env.
+- Added Prisma models: Fee (studentId, amount, kind, periodKey, dueDate, paid), DailyTopic (title, body, date, authorId). Pushed to Supabase Postgres (additive — existing verbs/achievements/users preserved).
+- src/lib/ai.ts: AI provider abstraction with mock + real (z-ai-web-dev-sdk) modes; TUTOR/SPEECH/POETRY system prompts. App runs in mock mode when AI_API_KEY is empty.
+- AI Tutor (/chat + /api/chat): conversation list, new chat, multi-turn history (last 10 messages), delete conversation. ChatClient component with desktop sidebar + mobile layout.
+- Speech Generator (/speech-generator + /api/speech-generator): topic/duration/language/level/audience/style/tone -> structured speech (Opening/Intro/Main points/Examples/Conclusion). Generate & save, regenerate, copy, download, print. Saved library on the page.
+- Poetry Generator (/poetry-generator + /api/poetry-generator): topic/language/style/length/mood -> original poem. Same save/copy/download/delete actions.
+- Student profile (/profile + /api/profile): avatar upload (client-side resize to 256×256 JPEG via canvas, stored as data URL in Profile.avatarUrl), edit name + class, fee table with outstanding balance.
+- Admin panel (/admin + /admin/*): AdminShell (separate from student shell), dashboard (total students, verbs, tests, avg score, today's topic, fees summary), Students (list with avatars + fees, delete with confirm, assign fee via dialog, mark paid/unpaid), Daily Topics (create/edit/delete, one per date, today highlighted), Fees overview (all fee records table + monthly/total collected/outstanding).
+- Wired today's topic to student dashboard (todayISO uses America/Los_Angeles; admin form defaults to same tz so they match).
+- Updated student nav shell: added AI Tutor, Speech Generator, Poetry Generator, Profile. Mobile bottom nav: Home/Verbs/Learn/Tests/AI Tutor.
+- Role-aware login/register redirect: admins -> /admin, students -> /dashboard.
+- Fixed local dev env issue (shell had stale DATABASE_URL=sqlite overriding .env; restarted dev with clean env).
+- Deployed to Vercel. Agent Browser verified end-to-end on https://segal-institute.vercel.app:
+  - Admin login -> /admin (Admin Dashboard with stats)
+  - Admin created daily topic via UI -> "Topic created — students will see it on the dashboard"
+  - Student login -> /dashboard shows "Today's topic · 2026-09-26 — Today topic: the power of small habits"
+  - Student /chat: sent message, got AI tutor reply (mock mode)
+  - Student /speech-generator: generated structured speech on "The value of punctuality"
+  - Student /poetry-generator: generated original poem on "The morning light"
+  - Student /profile: uploaded avatar (verified via API + renders in UI as <img>); fee $50.00 + Outstanding balance shown
+  - Admin /admin/students: sees Demo Student with avatar, fee $50.00, Assign fee + Delete buttons
+  - Admin /admin/fees: fee overview table
+
+Stage Summary:
+- All requested features built, deployed, and browser-verified.
+- Live: https://segal-institute.vercel.app
+- GitHub: https://github.com/meernot1-svg/Segal-Institute-.git
+- AI runs in MOCK mode on Vercel (no AI_API_KEY set). The SDK is verified working — to enable real AI, add AI_API_KEY env var in Vercel project settings.
+- Demo accounts: admin@englishacademy.example/admin123 (lands on /admin), student@englishacademy.example/student123 (lands on /dashboard).
