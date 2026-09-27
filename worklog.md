@@ -592,3 +592,25 @@ Deployed. Verified live:
 - Homepage renders the supervision section with "Sir Sajid Murad" headline
 - Footer shows "Under the supervision of Sir Sajid Murad"
 - /sir.png returns 404 (photo not yet uploaded) — fallback initials show
+
+---
+Task ID: SIR-PHOTO-ATTACHED
+Agent: main (Z.ai Code)
+Task: Attach Sir Sajid Murad's actual photo to the homepage.
+
+Work Log:
+- User provided a Google Drive sharing link (file/d/ID/view). Used the direct
+  download endpoint (drive.google.com/uc?export=download&id=ID) to fetch the
+  image bytes — got a valid 557x551 PNG (~382KB).
+- Saved to public/sir.png, committed, pushed.
+- First deploy went to a wrong project (.vercel/project.json had been changed
+  to projectId=prj_6Jt8... projectName=my-project during the --force deploy).
+  Restored the correct link (prj_ljXNG7ld8GSB0AL2yBy5Q2mTfvEP / segal-institute).
+- Redeployed. Verified live:
+  - /sir.png → HTTP 200, 381810 bytes, image/png
+  - Homepage renders <img src="/sir.png" alt="Sir Sajid Murad, supervising teacher at Segal Institute"> with naturalWidth > 0 (image actually loaded, not broken)
+  - "Under the supervision of Sir Sajid Murad" section displays correctly
+
+Stage Summary:
+- Sir Sajid Murad's actual photo is now attached to the homepage and about page.
+  The "SM" initials fallback is gone; the real photo renders in the circular frame.
