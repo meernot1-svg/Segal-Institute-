@@ -295,7 +295,7 @@ function HistoryDialog({ userId, userName, open, onOpenChange }: { userId: strin
   );
 }
 
-function BadgePill({ badge }: { badge: string }) {
+export function BadgePill({ badge }: { badge: string }) {
   const tier = badge as BadgeTier;
   return (
     <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium", TIER_COLORS[tier] || TIER_COLORS.basic)}>
