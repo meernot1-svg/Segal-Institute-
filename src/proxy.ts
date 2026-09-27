@@ -13,6 +13,10 @@ const PROTECTED = [
   "/chat",
   "/speech-generator",
   "/poetry-generator",
+  "/sentence-generator",
+  "/speeches",
+  "/monthly-results",
+  "/lessons",
 ];
 const ADMIN = ["/admin"];
 const AUTH_PAGES = ["/login", "/register", "/forgot-password"];

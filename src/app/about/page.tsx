@@ -8,12 +8,12 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About Segal Institute — English Academy in Jacobabad, Sindh",
   description:
-    "Segal Institute is an English academy in Jacobabad, Sindh, Pakistan. Students learn English verb forms with flashcards, MCQ tests, an AI tutor, speech & poetry generators, and daily teacher-led topics. Under the supervision of Sir Sajid Murad.",
+    "Segal Institute is an English academy in Jacobabad, Sindh, Pakistan. Students learn English verb forms with an AI tutor, sentence/speech/poetry generators, and daily teacher-led topics. Under the supervision of Sir Sajid Murad.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About Segal Institute — English Academy in Jacobabad, Sindh",
     description:
-      "An English academy in Jacobabad, Sindh. Learn verb forms with flashcards, tests, an AI tutor, and daily topics.",
+      "An English academy in Jacobabad, Sindh. Learn verb forms with an AI tutor, sentence generator, and daily topics.",
     url: `${SITE_URL}/about`,
     type: "website",
   },
@@ -29,11 +29,11 @@ export const dynamic = "force-dynamic";
 const FAQS = [
   {
     q: "How do I learn English verb forms fast?",
-    a: "The fastest way to learn English verb forms (V1, V2, V3) is short, daily practice. At Segal Institute, you browse curated verb lists, flip flashcards to recall the three forms, then take short MCQ tests to confirm. 10–15 minutes a day compounds quickly. Mark verbs as 'learned' or 'difficult' so the academy focuses your time on what you don't yet know.",
+    a: "The fastest way to learn English verb forms (V1, V2, V3) is short, daily practice. At Segal Institute, you browse curated verb lists, use the Sentence Generator to see verbs used in real sentences, and ask the AI Tutor to quiz you on the three forms. 10–15 minutes a day compounds quickly. Mark verbs as 'learned' or 'difficult' so the academy focuses your time on what you don't yet know.",
   },
   {
     q: "Is Segal Institute free?",
-    a: "Yes — creating a student account is free. You get access to the verb library, flashcards, MCQ tests, the AI tutor, and the speech & poetry generators. Your teacher can assign a monthly fee through the admin panel, but learning the verb content itself is free.",
+    a: "Yes — creating a student account is free. You get access to the verb library, the Sentence Generator, the AI Tutor, and the speech & poetry generators. Your teacher can assign a monthly fee through the admin panel, but learning the verb content itself is free.",
   },
   {
     q: "Can I learn English in Jacobabad with Segal Institute?",
@@ -86,7 +86,7 @@ export default async function AboutPage() {
         <div className="mt-12 grid gap-6 sm:grid-cols-3">
           <Stat value={totalVerbs.toLocaleString()} label="Curated verbs" />
           <Stat value="V1·V2·V3" label="Every entry, three forms" />
-          <Stat value="3" label="Practice modes (browse, flashcard, test)" />
+          <Stat value="4" label="Generators (sentence, speech, poetry, AI tutor)" />
         </div>
 
         <h2 className="mt-16 font-display text-2xl font-semibold tracking-tight">
@@ -94,11 +94,11 @@ export default async function AboutPage() {
         </h2>
         <ul className="prose-reading mt-4 space-y-3 text-muted-foreground">
           <li>A searchable verb browser with filters for difficulty, learned, and difficult words.</li>
-          <li>A flashcard learning mode that tracks mastery per verb.</li>
-          <li>MCQ tests across V1→V2, V1→V3, V2→V3, meaning, and mixed categories, with timed scoring and full review.</li>
-          <li>Progress tracking: verbs learned, tests completed, average score, and results history.</li>
-          <li>An AI tutor, a speech generator, and a trained Urdu poetry generator.</li>
-          <li>Admin panel: daily topics, student speeches (video from any platform), monthly result cards, fees in PKR, and best-student-of-the-month.</li>
+          <li>A Sentence Generator that writes original sentences on any topic, in any of 23+ languages, at any level.</li>
+          <li>An AI Tutor that quizzes you on verb forms, explains grammar, and helps you practice.</li>
+          <li>Progress tracking: verbs learned, difficult verbs, attendance, and daily topics from your teacher.</li>
+          <li>A speech generator, a trained Urdu poetry generator (ghazal/nazm), and student speeches (video from any platform).</li>
+          <li>Admin panel: edit the homepage, manage daily topics & calendar events, student speeches, monthly result cards, fees in PKR, and best-student-of-the-month.</li>
         </ul>
 
         {/* FAQ section */}

@@ -17,6 +17,8 @@ import {
   FileText,
   Trophy,
   ClipboardCheck,
+  CalendarPlus,
+  Home,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
@@ -26,9 +28,11 @@ type NavItem = { href: string; label: string; icon: React.ElementType };
 
 const PRIMARY_NAV: NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/home-content", label: "Edit Homepage", icon: Home },
   { href: "/admin/students", label: "Students", icon: Users },
   { href: "/admin/attendance", label: "Attendance", icon: ClipboardCheck },
   { href: "/admin/topics", label: "Daily Topics", icon: CalendarDays },
+  { href: "/admin/events", label: "Calendar Events", icon: CalendarPlus },
   { href: "/admin/speeches", label: "Student Speeches", icon: Mic2 },
   { href: "/admin/results", label: "Monthly Results", icon: FileText },
   { href: "/admin/best-student", label: "Best Student", icon: Trophy },

@@ -33,8 +33,8 @@ const keywords = [
   "English academy Sindh",
   "learn English in Jacobabad",
   "English learning Pakistan",
-  "verb flashcards",
-  "MCQ English test",
+  "sentence generator",
+  "Urdu poetry generator",
   "AI English tutor",
   "Sir Sajid Murad",
 ];

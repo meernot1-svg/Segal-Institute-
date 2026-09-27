@@ -50,6 +50,7 @@ model Profile {
   attendance       Attendance[]
   badgeHistory     BadgeHistory[]   @relation("BadgeHistoryUser")
   badgeChanges     BadgeHistory[]   @relation("BadgeHistoryAdmin")
+  calendarEvents   CalendarEvent[]
 }
 
 // ---------------------------------------------------------------------------
@@ -548,3 +549,51 @@ model Attendance {
   @@index([studentId])
   @@index([date])
 }
+
+// ---------------------------------------------------------------------------
+// Calendar events (admin creates; students see on the dashboard calendar).
+// Upcoming events are tagged + animated on the student dashboard.
+// ---------------------------------------------------------------------------
+
+model CalendarEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @default("")
+  // ISO date string (yyyy-mm-dd) — the day this event is on
+  date        String
+  // Optional time string (e.g. "10:00") shown next to the date
+  time        String?
+  // Optional location / venue text
+  location    String?
+  // Color tag — used by the dashboard calendar to color the dot
+  // "emerald" | "navy" | "gold" | "rose" | "violet"
+  color       String   @default("emerald")
+  createdBy   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  author  Profile? @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+
+  @@index([date])
+}
+
+// ---------------------------------------------------------------------------
+// Homepage content (admin-managed). Key-value store so any field on the
+// public homepage can be edited without migrations. Image values are stored
+// as data URLs (small images only — admin uploads are resized client-side).
+// ---------------------------------------------------------------------------
+
+model HomeContent {
+  id        String   @id @default(cuid())
+  // Unique key: "hero_title", "hero_subtitle", "hero_image", "section1_title",
+  // "section1_body", "section1_image", "cta_title", "cta_body", etc.
+  key       String   @unique
+  // The value: text for text fields, data URL for image fields.
+  value     String
+  // "text" | "image" — used by the admin editor to render the right input
+  kind      String   @default("text")
+  // Optional human-readable label shown in the admin editor (e.g. "Hero title")
+  label     String?
+  updatedAt DateTime @updatedAt
+}
+

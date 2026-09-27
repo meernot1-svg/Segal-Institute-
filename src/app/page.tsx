@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { getCurrentUser, type SessionUser } from "@/lib/auth";
 import { branding } from "@/lib/branding";
 import { SITE_URL } from "@/lib/site";
+import { HOME_FIELDS, getField } from "@/lib/home-content";
 
 export const metadata: Metadata = {
   title: "Segal Institute — English Academy in Jacobabad",
@@ -63,6 +64,7 @@ export default async function Home() {
 
   let totalVerbs = STATIC_TOTAL;
   let featured: { id: string; v1: string; v2: string; v3: string; meaning: string }[] = STATIC_FEATURED;
+  let homeContent: Record<string, { value: string; kind: string; label: string | null } | undefined> | null = null;
   try {
     totalVerbs = await db.verb.count();
     const fromDb = await db.verb.findMany({
@@ -72,12 +74,47 @@ export default async function Home() {
       select: { id: true, v1: true, v2: true, v3: true, meaning: true },
     });
     if (fromDb.length > 0) featured = fromDb;
+
+    // Load admin-managed homepage content (key/value)
+    const rows = await db.homeContent.findMany({ select: { key: true, value: true, kind: true, label: true } });
+    const map: Record<string, { value: string; kind: string; label: string | null }> = {};
+    for (const r of rows) map[r.key] = { value: r.value, kind: r.kind, label: r.label };
+    homeContent = map;
   } catch {
     // DB unavailable (e.g. serverless without a configured Postgres) — use static fallbacks.
   }
 
+  // Read each editable field, falling back to its default if not set
+  const heroEyebrow = getField(homeContent, "hero_eyebrow");
+  const heroTitle = getField(homeContent, "hero_title");
+  const heroSubtitle = getField(homeContent, "hero_subtitle");
+  const heroImage = getField(homeContent, "hero_image");
+  const heroCtaLoggedOut = getField(homeContent, "hero_cta_label");
+  const heroCtaLoggedIn = getField(homeContent, "hero_cta_label_logged_in");
+
+  const howTitle = getField(homeContent, "how_title");
+  const howSubtitle = getField(homeContent, "how_subtitle");
+  const howCards = [
+    { icon: MessageCircle, title: getField(homeContent, "how_card1_title"), body: getField(homeContent, "how_card1_body") },
+    { icon: Users, title: getField(homeContent, "how_card2_title"), body: getField(homeContent, "how_card2_body") },
+    { icon: Trophy, title: getField(homeContent, "how_card3_title"), body: getField(homeContent, "how_card3_body") },
+    { icon: ListChecks, title: getField(homeContent, "how_card4_title"), body: getField(homeContent, "how_card4_body") },
+  ];
+
+  const achEyebrow = getField(homeContent, "ach_eyebrow");
+  const achTitle = getField(homeContent, "ach_title");
+  const achSubtitle = getField(homeContent, "ach_subtitle");
+  const awardCards = [
+    { position: getField(homeContent, "ach_card1_position"), note: getField(homeContent, "ach_card1_note"), accent: "gold" as const },
+    { position: getField(homeContent, "ach_card2_position"), note: getField(homeContent, "ach_card2_note"), accent: "silver" as const },
+    { position: getField(homeContent, "ach_card3_position"), note: getField(homeContent, "ach_card3_note"), accent: "bronze" as const },
+  ];
+
+  const ctaTitle = getField(homeContent, "cta_title");
+  const ctaBody = getField(homeContent, "cta_body");
+
   const startHref = user ? "/dashboard" : "/register";
-  const startLabel = user ? "Go to dashboard" : "Start learning";
+  const startLabel = user ? heroCtaLoggedIn : heroCtaLoggedOut;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -89,18 +126,13 @@ export default async function Home() {
           <div className="lg:col-span-6">
             <p className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
               <Sparkles className="size-3.5 text-brand-emerald" />
-              An English academy — verbs, AI tutor, speech & poetry
+              {heroEyebrow}
             </p>
             <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Learn English with confidence at Segal Institute.
+              {heroTitle}
             </h1>
             <p className="prose-reading mt-6 text-lg leading-relaxed text-muted-foreground">
-              Segal Institute is an English academy in Jacobabad, Sindh, where
-              students learn to speak with confidence — through daily community
-              speaking, vocabulary, weekly debates, and speech competitions.
-              Under the supervision of Sir Sajid Murad, our students have brought
-              pride to the academy at the district level. Serving students in
-              Jacobabad, Sindh.
+              {heroSubtitle}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-12 text-base">
@@ -112,33 +144,43 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Featured verb forms card — the one bold visual moment */}
+          {/* Featured verb forms card OR admin-uploaded hero image */}
           <div className="lg:col-span-6">
-            <div className="rounded-2xl border border-border bg-background p-5 shadow-sm sm:p-7">
-              <div className="flex items-center justify-between">
-                <p className="font-display text-sm font-medium text-muted-foreground">
-                  Three forms, one card
-                </p>
-                <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Volume2 className="size-3.5" /> Tap to hear
-                </span>
+            {heroImage && heroImage.startsWith("data:image/") ? (
+              <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
+                <img
+                  src={heroImage}
+                  alt="Segal Institute hero image"
+                  className="h-full w-full object-cover"
+                />
               </div>
-              <ul className="mt-4 divide-y divide-border">
-                {featured.map((v) => (
-                  <li key={v.id} className="flex items-start gap-3 py-3.5 sm:grid sm:grid-cols-12 sm:gap-2">
-                    <span className="hidden font-display text-2xl font-semibold text-brand-navy sm:col-span-1 sm:block">
-                      {v.v1[0]?.toUpperCase()}
-                    </span>
-                    <div className="grid flex-1 grid-cols-2 items-baseline gap-2 sm:col-span-11 sm:grid-cols-4 sm:gap-1">
-                      <Form label="V1" value={v.v1} highlight />
-                      <Form label="V2" value={v.v2} />
-                      <Form label="V3" value={v.v3} />
-                      <Form label="Meaning" value={v.meaning} small />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            ) : (
+              <div className="rounded-2xl border border-border bg-background p-5 shadow-sm sm:p-7">
+                <div className="flex items-center justify-between">
+                  <p className="font-display text-sm font-medium text-muted-foreground">
+                    Three forms, one card
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <Volume2 className="size-3.5" /> Tap to hear
+                  </span>
+                </div>
+                <ul className="mt-4 divide-y divide-border">
+                  {featured.map((v) => (
+                    <li key={v.id} className="flex items-start gap-3 py-3.5 sm:grid sm:grid-cols-12 sm:gap-2">
+                      <span className="hidden font-display text-2xl font-semibold text-brand-navy sm:col-span-1 sm:block">
+                        {v.v1[0]?.toUpperCase()}
+                      </span>
+                      <div className="grid flex-1 grid-cols-2 items-baseline gap-2 sm:col-span-11 sm:grid-cols-4 sm:gap-1">
+                        <Form label="V1" value={v.v1} highlight />
+                        <Form label="V2" value={v.v2} />
+                        <Form label="V3" value={v.v3} />
+                        <Form label="Meaning" value={v.meaning} small />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -147,74 +189,37 @@ export default async function Home() {
       <section id="how-it-works" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
         <div className="max-w-2xl">
           <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            More than an academy — a daily learning community.
+            {howTitle}
           </h2>
           <p className="prose-reading mt-4 text-lg text-muted-foreground">
-            At Segal Institute, students don't just memorize. They speak every
-            day, build vocabulary, debate, and compete. Here's what our
-            students do regularly.
+            {howSubtitle}
           </p>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <Step
-            icon={MessageCircle}
-            title="Daily community speaking"
-            body="Students practice speaking English aloud every single day — building confidence one sentence at a time, in a supportive community."
-          />
-          <Step
-            icon={Users}
-            title="Weekly debate"
-            body="Structured weekly debates on real topics. Students learn to think, listen, and respond in English — the skill that exams and life both reward."
-          />
-          <Step
-            icon={Trophy}
-            title="Speech competitions"
-            body="Regular speech competitions where students present original speeches, get feedback, and grow into confident public speakers."
-          />
-          <Step
-            icon={ListChecks}
-            title="Verb forms mastery"
-            body={`Browse ${totalVerbs ? totalVerbs.toLocaleString() : "966"} curated verbs, flashcard them, and test yourself with timed MCQs across five categories.`}
-          />
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {howCards.map((c, i) => (
+            <Step key={i} icon={c.icon} title={c.title} body={c.body} />
+          ))}
         </div>
       </section>
 
-      {/* Academy achievements — District Declamation Competition */}
+      {/* Academy achievements */}
       <section className="bg-brand-navy text-white">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
           <div className="max-w-2xl">
             <p className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-brand-emerald">
-              <Trophy className="size-3.5" /> Academy achievements
+              <Trophy className="size-3.5" /> {achEyebrow}
             </p>
             <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-              District Declamation Competition — three positions brought home.
+              {achTitle}
             </h2>
             <p className="prose-reading mt-4 text-lg text-white/70">
-              Segal Institute students stood among the best in the district and
-              brought pride to the academy — taking 1st, 2nd, and 3rd
-              positions. That confidence on stage is built through the same
-              daily speaking and debate practice you can join.
+              {achSubtitle}
             </p>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
-            <AwardCard
-              position="1st Position"
-              competition="District Declamation Competition"
-              note="A powerful declamation on 'Youth and Future of Pakistan' earned the top spot from a panel of judges."
-              accent="gold"
-            />
-            <AwardCard
-              position="2nd Position"
-              competition="District Declamation Competition"
-              note="A measured, confident speech that secured second place at the district level."
-              accent="silver"
-            />
-            <AwardCard
-              position="3rd Position"
-              competition="District Declamation Competition"
-              note="A strong, articulate declamation took the third position for Segal Institute."
-              accent="bronze"
-            />
+            {awardCards.map((a, i) => (
+              <AwardCard key={i} position={a.position} note={a.note} accent={a.accent} />
+            ))}
           </div>
           <p className="mt-10 text-sm text-white/50">
             <CalendarDays className="mr-1.5 inline size-4" />
@@ -228,11 +233,10 @@ export default async function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-center">
           <div>
             <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Ready to join Segal Institute?
+              {ctaTitle}
             </h2>
             <p className="mt-2 max-w-xl text-muted-foreground">
-              Create a free student account and start speaking, debating, and
-              competing with us. Your progress is saved automatically.
+              {ctaBody}
             </p>
           </div>
           <Button asChild size="lg" className="h-12 text-base">
@@ -292,7 +296,7 @@ export default async function Home() {
             "@type": "Course",
             name: "English Verb Forms — V1, V2, V3 Mastery",
             description:
-              "Learn the three forms of English verbs (base, past simple, past participle) with flashcards, MCQ tests, and an AI tutor.",
+              "Learn the three forms of English verbs (base, past simple, past participle) with an AI tutor, daily topics, and speech competitions.",
             provider: {
               "@type": "EducationalOrganization",
               name: branding.name,
@@ -351,36 +355,28 @@ function Step({
   icon: Icon,
   title,
   body,
-  n,
 }: {
   icon: React.ElementType;
   title: string;
   body: string;
-  n?: number;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-6">
+    <div className="rounded-xl border border-border bg-card p-6 transition-transform hover:-translate-y-1">
       <span className="inline-flex size-11 items-center justify-center rounded-lg bg-accent text-brand-emerald-deep">
         <Icon className="size-5" />
       </span>
       <h3 className="mt-4 font-display text-lg font-semibold text-foreground">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        {body.replace("{n}", n ? n.toLocaleString() : "")}
-      </p>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
     </div>
   );
 }
 
 function AwardCard({
   position,
-  competition,
-  recipient,
   note,
   accent,
 }: {
   position: string;
-  competition: string;
-  recipient?: string;
   note: string;
   accent: "gold" | "silver" | "bronze";
 }) {
@@ -421,7 +417,6 @@ function AwardCard({
     <div
       className={`relative overflow-hidden rounded-2xl border ${a.border} bg-gradient-to-b ${a.gradient} p-6 ring-1 ${a.ring} ${a.glow} transition-transform hover:-translate-y-1`}
     >
-      {/* Large faint rank number in the corner */}
       <span
         className="pointer-events-none absolute -right-2 -top-4 font-display text-7xl font-bold text-white/5 sm:text-8xl"
         aria-hidden
@@ -437,10 +432,9 @@ function AwardCard({
         </span>
         <div>
           <p className={`font-display text-xl font-semibold ${a.positionColor}`}>{position}</p>
-          <p className="text-xs text-white/50">{competition}</p>
+          <p className="text-xs text-white/50">District Declamation Competition</p>
         </div>
       </div>
-      {recipient && <p className="relative mt-4 text-base font-medium text-white">{recipient}</p>}
       <p className="relative mt-2 text-sm leading-relaxed text-white/70">{note}</p>
     </div>
   );

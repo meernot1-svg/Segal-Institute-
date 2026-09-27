@@ -761,3 +761,286 @@ Stage Summary:
 - Sentence Generator is LIVE and works for ALL tiers (basic, junior, senior, elite_senior). It generates original sentences on any topic the user types, in any of 23+ languages (English, Urdu, Sindhi, Hindi, Arabic, Persian, Pashto, Punjabi, Bengali, Spanish, French, German, Italian, Portuguese, Russian, Turkish, Chinese, Japanese, Korean, Indonesian, Malay, Dutch, Swedish), with any sentence count (3/5/8/10/15/20), any sentence type (Simple/Compound/Complex/Mixed/Question/Affirmative/Negative/Imperative), any level (Beginner/Intermediate/Advanced), and an optional tone/style hint. The AI uses the natural script of each language (Urdu → Urdu script, Sindhi → Sindhi-Arabic, Hindi → Devanagari, Chinese → Hanzi, etc.).
 - Saved-sentences library works (POST with save=true persists to GeneratedSentence table; GET returns the library; DELETE removes an entry).
 - Real AI is used (mock:false) — the free OpenRouter model handles all tested languages correctly.
+
+---
+Task ID: DASHBOARD-CALENDAR + REMOVE-MCQ-FLASH + ADMIN-HOMEPAGE-EDITOR + MOBILE-FIRST
+Agent: main (Z.ai Code)
+Task: Add an animated Calendar with upcoming events on the dashboard. Remove MCQ generator + Flashcards for ALL users (no more lock screen — feature is gone). Make the whole student-facing site mobile-first (mobile-only feel) with framer-motion animations. Keep admin panel as a desktop/PC layout. Admin should have full access to edit the public homepage (text + images) from the admin panel.
+
+Work Log:
+
+PART 1 — Removed MCQ tests + Flashcards entirely (all users, no lock screen):
+
+- src/components/student-shell.tsx:
+  - Removed MCQ Tests, Flashcards, and Test Results from PRIMARY_NAV.
+  - Removed Flashcards and MCQ Tests from MOBILE_NAV; replaced the Tests slot with Sentence Generator.
+  - Removed the old desktop sidebar layout entirely. The student shell is now mobile-first:
+    a single sticky top bar + animated slide-down menu on every breakpoint, plus a 5-icon
+    sticky bottom nav. There is no more "lg:fixed sidebar" for students — the student site
+    is mobile-first by design (per user request: "make whole web only for mobile").
+  - Added framer-motion animations: hamburger ↔ X icon rotation (AnimatePresence with
+    rotate transition), slide-down menu (height + opacity), staggered link reveal
+    (opacity + x per item), page transitions (AnimatePresence keyed on pathname —
+    fade + y), and bottom-nav tap scale (whileTap scale 0.88).
+  - Removed the tierRank/`minTier` mechanism — there are no tier-locked features left,
+  so the canSee() helper is no longer needed. Net simpler code.
+  - All nav items have min-h-12 (48px) touch targets.
+
+- src/app/(student)/dashboard/page.tsx:
+  - Removed Flashcards QuickAction (and the `canUseFlashcards` gate).
+  - Removed MCQ test QuickAction and the "Take a test" header button.
+  - Removed the "Recent results" sidebar card (no more test results to show).
+  - Removed the "Tests done" + "Average score" stat cards (they depended on TestAttempt
+    data; without MCQs, there's nothing to count).
+  - Kept: Verbs learned, Difficult verbs, Attendance stats (still relevant).
+  - Added: Sentence Generator QuickAction (already there) + the new animated Calendar
+    section (see PART 3).
+  - Stat grid changed from 5 columns to 3 (grid-cols-2 sm:grid-cols-3) for mobile-first.
+  - Removed testAttempt/recentAttempts queries from the DB fetch.
+
+- src/app/(student)/tests/page.tsx → now `redirect("/dashboard")`.
+- src/app/(student)/tests/mcq/page.tsx → now `redirect("/dashboard")`.
+- src/app/(student)/learn/page.tsx → now `redirect("/dashboard")` (no more Flashcards deck).
+- src/app/(student)/results/page.tsx → now `redirect("/dashboard")` (no more test results).
+
+- src/app/(student)/verbs/[id]/page.tsx:
+  - Replaced the "Practice with flashcards" CTA at the bottom of the verb detail page
+    with "Practice with the Sentence Generator" (links to /sentence-generator).
+
+- src/app/blog/how-to-learn-english-verb-forms/page.tsx + irregular-verbs-list-practice/page.tsx:
+  - Replaced blog links to /learn (flashcards) and /tests/mcq (MCQ test) with links to
+    /sentence-generator and /chat (AI Tutor) — the new practice flow.
+
+- src/app/layout.tsx:
+  - Replaced metadata keywords "verb flashcards" + "MCQ English test" with
+    "sentence generator" + "Urdu poetry generator".
+
+- src/app/about/page.tsx:
+  - Removed flashcard/MCQ mentions from metadata description, OG description, FAQ
+    answers, the "What's inside" list, and the "Practice modes" stat. Replaced with
+    sentence generator, AI tutor, and admin homepage editor copy.
+
+- src/components/public-header.tsx footer: removed "Flashcards" and "MCQ tests" links,
+  added "Lessons" link.
+
+- src/app/sitemap.ts: removed /learn and /tests/mcq URLs (they redirect now, no
+  point indexing them).
+
+- src/proxy.ts: added /sentence-generator, /speeches, /monthly-results, /lessons
+  to the PROTECTED list so they require login.
+
+PART 2 — Added Calendar + Events (admin-managed, animated on dashboard):
+
+- prisma/schema.prisma:
+  - Added CalendarEvent model: id, title, description, date (yyyy-mm-dd), time
+    (optional), location (optional), color (emerald|navy|gold|rose|violet),
+    createdBy, createdAt, updatedAt. + author relation on Profile.
+  - Added HomeContent model (see PART 4).
+  - Pushed to Supabase Postgres via `bun run db:push` — additive, existing data
+    preserved.
+
+- src/app/api/admin/events/route.ts (NEW):
+  - GET: list all events (admin-only, returns 403 for non-admins).
+  - POST: create a new event with zod validation (title, description, date, time,
+    location, color enum).
+
+- src/app/api/admin/events/[id]/route.ts (NEW):
+  - PATCH: update an existing event.
+  - DELETE: delete an event.
+
+- src/app/api/events/route.ts (NEW):
+  - GET: returns events for the signed-in student — today + next 90 days. Used by
+    the dashboard calendar widget. Returns 401 for unauth.
+
+- src/components/admin-events-client.tsx (NEW):
+  - Admin editor with title, description, date, time, location, color picker (5
+    color tags). Color picker is a row of pill buttons (visual + tap-friendly).
+  - Lists all events sorted by date, with edit + delete buttons.
+  - Two-column lg layout (editor | list) — desktop-friendly for admin.
+
+- src/app/admin/events/page.tsx (NEW): wraps the client component.
+
+- src/components/admin-shell.tsx: added "Calendar Events" nav item with
+  CalendarPlus icon, and "Edit Homepage" nav item with Home icon.
+
+PART 3 — Animated Calendar widget on the student dashboard:
+
+- src/components/dashboard-calendar.tsx (NEW, client component):
+  - Fetches /api/events on mount (today + next 90 days).
+  - Renders a month-grid calendar with prev/next month buttons + "Jump to today".
+  - Days with events get colored dots (up to 3 dots per day, "+N" overflow).
+  - Selected day is highlighted; clicking a day shows that day's events below.
+  - "Today" gets a ring highlight.
+  - Below the calendar: a "Upcoming events" list with animated slide-in (staggered
+    children via framer-motion variants). Each event shows a date chip + title +
+    description + time + location.
+  - Animations:
+    - prev/next buttons: whileTap scale 0.92.
+    - Day cells: whileTap scale 0.92.
+    - Selected-day events: AnimatePresence mode="wait" with staggered list items
+      (opacity + y, staggerChildren 0.05).
+    - Upcoming events: staggerChildren 0.06 with opacity + x slide-in.
+  - 5 color themes (emerald, navy, gold, rose, violet) for event dots + cards.
+
+- src/app/(student)/dashboard/page.tsx: replaced the "Recent results" card with the
+  new <DashboardCalendar /> component, under a "Calendar & upcoming events" heading.
+
+PART 4 — Admin can fully edit the public homepage (text + images):
+
+- prisma/schema.prisma:
+  - Added HomeContent model: id, key (unique), value, kind (text|image), label,
+    updatedAt. Key-value store so any homepage field can be edited without migrations.
+
+- prisma/seed-home.ts (NEW): seeded 26 default HomeContent rows (hero eyebrow/title/
+  subtitle/CTA labels, 4 "how it works" cards, achievements section eyebrow/title/
+  subtitle + 3 award cards, CTA band). Idempotent — only inserts missing keys,
+  preserves admin edits.
+
+- src/lib/home-content.ts (NEW):
+  - HOME_FIELDS array: 26 editable fields with key/label/type(text|textarea|image)/
+    group/default. This is the source of truth for the admin editor AND the homepage.
+  - getField(content, key) helper: returns the DB value or falls back to the field
+    default if missing/empty.
+
+- src/app/api/home-content/route.ts (NEW, public): GET returns all HomeContent as a
+  { key: { value, kind, label } } map. No auth — the homepage is public.
+
+- src/app/api/admin/home-content/route.ts (NEW, admin-only):
+  - GET: list all rows (for the admin editor).
+  - POST: upsert a single key/value. Detects kind (image vs text) from the value
+    (data URLs → image, everything else → text).
+
+- src/components/admin-home-content-client.tsx (NEW):
+  - Renders fields grouped by section (Hero / How it works / Achievements / CTA).
+  - Each group is a collapsible Card (click to expand).
+  - Field types: text (Input), textarea (textarea), image (file upload + preview
+    + remove button).
+  - Image upload: client-side canvas resize to max 1280px, JPEG quality 0.82.
+  - Each field has its own Save button + Revert (when dirty) + Reset-to-default.
+  - Image fields: shows preview with a small X button to clear.
+
+- src/app/admin/home-content/page.tsx (NEW): wraps the client component.
+
+- src/app/page.tsx (homepage):
+  - Now reads all 26 HomeContent keys from DB (with try/catch fallback to defaults if
+    DB unreachable).
+  - All hardcoded text in the Hero / How it works / Achievements / CTA sections is
+    now driven by getField(). Admin edits appear on the next page load.
+  - Hero "image" field: if set, the right column shows the admin-uploaded image
+    instead of the "Three forms, one card" featured-verbs widget. Empty/missing →
+    falls back to the default featured-verbs widget.
+
+PART 5 — Mobile-first student site + framer-motion animations:
+
+- src/components/student-shell.tsx: rewrote to be fully mobile-first.
+  - Single sticky top bar (Logo + hamburger) on every breakpoint — no desktop sidebar.
+  - Animated slide-down menu with staggered link reveal (framer-motion).
+  - Page content capped at max-w-md on every breakpoint (the student site is mobile-only
+    by design, per user request: "make whole web only for mobile").
+  - AnimatePresence page transitions: fade + y on pathname change.
+  - Mobile bottom nav: 5 slots with whileTap scale animation.
+  - All nav items use min-h-12 (48px) touch targets.
+
+- src/app/(student)/dashboard/page.tsx: stat grid is grid-cols-2 sm:grid-cols-3
+  (was grid-cols-5 — too cramped on mobile). Quick actions are stacked vertically
+  with min-h-16 cards and hover lift + arrow nudge.
+
+- src/components/dashboard-calendar.tsx: every interactive element uses framer-motion
+  whileTap scale, every list uses staggered fade-in.
+
+PART 6 — Admin panel stays desktop-friendly (PC layout):
+
+- src/components/admin-shell.tsx: kept the existing desktop sidebar layout
+  (lg:fixed w-64 sidebar with PRIMARY_NAV list). Admin pages use max-w-5xl containers
+  with lg:grid-cols-2 layouts. Mobile fallback is just a sticky top bar (admin can
+  use admin from a phone if needed, but the primary design is desktop, per user
+  request: "only admin panel should be on pc").
+
+Verification:
+
+- `bun run lint` → clean (no errors, no warnings).
+- Started dev server with a clean env (sandbox's stale DATABASE_URL=file:... in the
+  shell overrides the .env postgresql://... so we use
+  `env -u DATABASE_URL -u DIRECT_URL bun run dev`).
+
+End-to-end test results (all via curl + agent-browser):
+
+[Student dashboard, mobile-first, after removing MCQ/Flashcards]
+  - /dashboard: HTTP 200. Sentence Generator count = 1, Flashcards count = 0,
+    Calendar count = 1, Upcoming events count = 1. "Tests done" / "Average score"
+    / "Recent results" all = 0 (removed).
+  - /tests/mcq: HTTP 307 → /dashboard (redirect, no lock screen).
+  - /learn: HTTP 307 → /dashboard (redirect, no lock screen).
+  - /results: HTTP 307 → /dashboard (redirect, no lock screen).
+  - Agent-browser visual (390x844 mobile): dashboard shows "Welcome back, Demo.
+    Senior — Your verb progress" → today's topic → Best Student of the Month →
+    stat cards (Verbs learned, Difficult verbs, Attendance) → Continue learning
+    quick actions (Lessons, Browse verbs, Sentence Generator, AI Tutor, Speech
+    Generator, Poetry Generator, Student Speeches, My Monthly Results, Your
+    profile) → Calendar & upcoming events (September 2026 month grid with prev/
+    next buttons, Jump to today pill, dots on days with events) → Selected day
+    panel ("Sunday, September 27 — 1 event — Today's debate 15:00") → Upcoming
+    events list (27 Sep Today's debate, 2 Oct Annual Speech Competition with
+    location chip) → Mobile bottom nav (Home | Lessons | Sentences | Speeches |
+    AI Tutor).
+  - /verbs on mobile: renders cleanly with all 969 verbs, filters work, no overflow.
+  - /lessons on mobile: renders Basic Lessons, tier-gated Junior/Senior sections.
+
+[Admin events CRUD]
+  - POST /api/admin/events (admin): creates "Annual Speech Competition" for
+    2026-10-02 with time 10:00, location "Main Hall, Segal Institute", color
+    emerald. Returns 200.
+  - POST /api/admin/events (admin): creates "Today's debate" for 2026-09-27
+    15:00, color violet. Returns 200.
+  - GET /api/events (student): returns both events sorted by date. Returns 200.
+  - /admin/events (admin, browser): renders "Calendar Events" page with editor
+    (title, date, time, description, location, 5-color picker) + event list.
+  - Events appear on student dashboard calendar (violet dot on 27 Sep, emerald
+    dot on 2 Oct) + in the upcoming events list.
+
+[Admin homepage editor]
+  - POST /api/admin/home-content (admin): set hero_title to "Welcome to Segal
+    Institute — Jacobabad English Academy". Returns 200.
+  - POST /api/admin/home-content (admin): set hero_image to a 1x1 PNG data URL.
+    Returns 200.
+  - GET / (public, after edit): homepage shows the custom title (count = 1) AND
+    the uploaded image (count = 1). The "Three forms, one card" featured-verbs
+    widget is correctly hidden (count = 0) because the hero_image overrides it.
+  - Reset both fields to empty: homepage reverts to the default title
+    ("Learn English with confidence at Segal Institute.") AND the featured-verbs
+    widget ("Three forms, one card") re-appears (count = 1). Confirms the
+    fallback mechanism works.
+  - /admin/home-content (admin, browser): renders "Edit Homepage" page with
+    26 fields grouped into collapsible sections (Hero section, How it works,
+    Academy achievements, Call to action band). Each field has Save / Revert /
+    Reset-to-default controls; image fields have Upload + Remove + preview.
+
+[Public pages still work]
+  - / : HTTP 200 (with admin-managed content from DB)
+  - /about : HTTP 200 (copy updated to remove flashcard/MCQ mentions)
+  - /login, /register, /forgot-password : HTTP 200 (auth pages work)
+  - /verbs, /lessons, /chat, /speech-generator, /poetry-generator,
+    /sentence-generator, /speeches, /monthly-results, /profile: all HTTP 200
+    for logged-in students.
+
+Stage Summary:
+- MCQ tests + Flashcards are GONE for every user (no lock screen, no nav entry,
+  no dashboard widget, no quick action). Old URLs redirect to /dashboard.
+- The student dashboard now centers on a Calendar & upcoming events widget
+  (animated, framer-motion-powered) — admin creates events with title,
+  description, date, time, location, and a color tag; students see them on the
+  dashboard calendar with colored dots, a selected-day panel, and an animated
+  upcoming-events list.
+- Admin can fully edit the public homepage: 26 fields (hero eyebrow/title/
+  subtitle/CTA labels, 4 "how it works" cards, achievements section, CTA band)
+  plus an optional hero image upload. Changes appear on the next page load.
+  Empty fields fall back to the original default copy. Image fields resize
+  client-side to max 1280px.
+- The student-facing site is now mobile-first by design: single sticky top
+  bar + animated slide-down menu + 5-icon sticky bottom nav + page transitions
+  via framer-motion. There's no more "desktop sidebar" for students — every
+  breakpoint gets the mobile-first layout. The user requested "make whole
+  web only for mobile".
+- The admin panel keeps its desktop sidebar layout (PC-friendly), per the
+  user request: "only admin panel should be on pc".
+- Lint is clean. All routes return 200 or 307 (redirect) as expected.

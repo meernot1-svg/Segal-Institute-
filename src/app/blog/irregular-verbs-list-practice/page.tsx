@@ -85,12 +85,12 @@ export default function Page() {
         <li><strong>Day 1:</strong> Browse the 10 verbs on the{" "}
           <Link href="/verbs" className="text-brand-emerald-deep underline-offset-4 hover:underline">verbs page</Link>{" "}
           and read each aloud. Use the pronunciation button to hear it.</li>
-        <li><strong>Day 2:</strong> Run through them as{" "}
-          <Link href="/learn" className="text-brand-emerald-deep underline-offset-4 hover:underline">flashcards</Link>{" "}
-          and mark any you miss as <em>difficult</em>.</li>
-        <li><strong>Day 3:</strong> Take a 10-question{" "}
-          <Link href="/tests/mcq" className="text-brand-emerald-deep underline-offset-4 hover:underline">MCQ test</Link>{" "}
-          in the "Mixed" category. Re-test only the difficult ones tomorrow.</li>
+        <li><strong>Day 2:</strong> Use the{" "}
+          <Link href="/sentence-generator" className="text-brand-emerald-deep underline-offset-4 hover:underline">Sentence Generator</Link>{" "}
+          to write 5 example sentences with each verb. Mark any tricky verbs as <em>difficult</em>.</li>
+        <li><strong>Day 3:</strong> Open the{" "}
+          <Link href="/chat" className="text-brand-emerald-deep underline-offset-4 hover:underline">AI Tutor</Link>{" "}
+          and ask it to quiz you on the three forms. Re-review only the difficult ones tomorrow.</li>
       </ul>
 
       <h2 className="font-display text-xl font-semibold tracking-tight mt-10">Tips that stick</h2>

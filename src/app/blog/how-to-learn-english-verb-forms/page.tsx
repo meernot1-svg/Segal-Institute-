@@ -50,21 +50,21 @@ export default function Page() {
         learn them — just sort them.
       </p>
       <p>
-        <strong>2. Flashcards (5 min).</strong> Open{" "}
-        <Link href="/learn" className="text-brand-emerald-deep underline-offset-4 hover:underline">
-          flashcards
-        </Link>. The academy prioritizes your difficult verbs. See V1, try to recall
-        V2 and V3, then flip. Be honest — marking "I knew it" only when you did
-        is what trains your memory.
+        <strong>2. Sentence practice (5 min).</strong> Open the{" "}
+        <Link href="/sentence-generator" className="text-brand-emerald-deep underline-offset-4 hover:underline">
+          Sentence Generator
+        </Link>{" "}
+        and ask it for 10 sentences using today's verbs. Reading verbs in real
+        sentences is what moves them from "I've seen that word" to "I can use it."
       </p>
       <p>
-        <strong>3. Quick test (5 min).</strong> Take a 10-question{" "}
-        <Link href="/tests/mcq" className="text-brand-emerald-deep underline-offset-4 hover:underline">
-          MCQ test
+        <strong>3. Quick AI check (5 min).</strong> Open the{" "}
+        <Link href="/chat" className="text-brand-emerald-deep underline-offset-4 hover:underline">
+          AI Tutor
         </Link>{" "}
-        in any category (V1→V2, V1→V3, V2→V3, meaning, or mixed). The timer adds
-        a small amount of pressure that forces real recall. Review the wrong
-        answers at the end — that's where the learning happens.
+        and ask it to quiz you on the three forms — "give me the V2 and V3 of <em>go</em>, <em>take</em>,
+        and <em>write</em>." The tutor can also explain why an irregular verb breaks the rule, which
+        helps you remember it.
       </p>
 
       <h2 className="font-display text-xl font-semibold tracking-tight mt-10">Why this works</h2>

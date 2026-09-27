@@ -143,8 +143,7 @@ export function PublicFooter() {
             title="Practice"
             links={[
               { href: "/verbs", label: "Browse verbs" },
-              { href: "/learn", label: "Flashcards" },
-              { href: "/tests/mcq", label: "MCQ tests" },
+              { href: "/lessons", label: "Lessons" },
               { href: "/blog", label: "Blog" },
             ]}
           />
