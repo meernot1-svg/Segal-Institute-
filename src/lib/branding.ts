@@ -8,10 +8,14 @@ export const branding = {
   shortName: "Segal",
   tagline: "Learn English with confidence",
   description:
-    "Segal Institute — an English academy where students master verb forms, build their skills with an AI tutor, generate speeches and poetry, and track their progress.",
+    "Segal Institute is an English academy in Jacobabad, Sindh, Pakistan. Students learn English verb forms, practice with an AI tutor, generate speeches and poetry, and compete in speech competitions. Under the supervision of Sir Sajid Murad.",
   supportEmail: "hello@segalinstitute.example",
   address:
-    "Segal Institute, First Family Line, at Royal College, beside Dr. Hashim Qureshi Eye Hospital (Ophthalmologist).",
+    "Segal Institute, First Family Line, at Royal College, beside Dr. Hashim Qureshi Eye Hospital (Ophthalmologist), Jacobabad, Sindh.",
+  city: "Jacobabad",
+  region: "Sindh",
+  country: "Pakistan",
+  telephone: "[ADD PHONE NUMBER]", // ← admin should fill in the real number
   colors: {
     navy: "#1e2a52",
     ink: "#0b1220",

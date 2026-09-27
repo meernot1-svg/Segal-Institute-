@@ -6,21 +6,21 @@ import { branding } from "@/lib/branding";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About Segal Institute — English Academy in Pakistan",
+  title: "About Segal Institute — English Academy in Jacobabad, Sindh",
   description:
-    "Segal Institute is an English academy helping students in Pakistan master the three forms of English verbs with flashcards, MCQ tests, an AI tutor, speech & poetry generators, and daily teacher-led topics.",
+    "Segal Institute is an English academy in Jacobabad, Sindh, Pakistan. Students learn English verb forms with flashcards, MCQ tests, an AI tutor, speech & poetry generators, and daily teacher-led topics. Under the supervision of Sir Sajid Murad.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About Segal Institute — English Academy in Pakistan",
+    title: "About Segal Institute — English Academy in Jacobabad, Sindh",
     description:
-      "Learn the three forms of English verbs with flashcards, tests, an AI tutor, and daily topics. Free to start.",
+      "An English academy in Jacobabad, Sindh. Learn verb forms with flashcards, tests, an AI tutor, and daily topics.",
     url: `${SITE_URL}/about`,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Segal Institute — English Academy in Pakistan",
-    description: "Learn English verbs with flashcards, tests, an AI tutor, and daily topics.",
+    title: "About Segal Institute — English Academy in Jacobabad, Sindh",
+    description: "An English academy in Jacobabad, Sindh. Verb forms, AI tutor, speech & poetry generators.",
   },
 };
 
@@ -36,8 +36,8 @@ const FAQS = [
     a: "Yes — creating a student account is free. You get access to the verb library, flashcards, MCQ tests, the AI tutor, and the speech & poetry generators. Your teacher can assign a monthly fee through the admin panel, but learning the verb content itself is free.",
   },
   {
-    q: "Can I learn English in Pakistan with Segal Institute?",
-    a: "Yes. Segal Institute is built for students in Pakistan — you can join from Lahore, Karachi, Islamabad, or anywhere with an internet connection. The academy supports Urdu poetry generation and is designed for students whose first language is Urdu or Sindhi.",
+    q: "Can I learn English in Jacobabad with Segal Institute?",
+    a: "Yes. Segal Institute is based in Jacobabad, Sindh — you can join from Jacobabad city, nearby villages, or anywhere in Sindh with an internet connection. The academy supports Urdu and Sindhi speakers with an AI tutor and an Urdu poetry generator.",
   },
   {
     q: "What are the three forms of English verbs?",
@@ -65,21 +65,22 @@ export default async function AboutPage() {
           {branding.name}
         </h1>
         <p className="prose-reading mt-6 text-lg leading-relaxed text-muted-foreground">
-          {branding.name} is an English academy helping students in Pakistan
-          master the three forms of English verbs — V1 (base), V2 (past simple),
-          and V3 (past participle). Most learners struggle not with vocabulary
-          size, but with the irregular forms and the patterns behind them. Our
-          focused, daily-practice approach fixes that.
+          {branding.name} is an English academy in Jacobabad, Sindh, Pakistan,
+          helping students master the three forms of English verbs — V1 (base),
+          V2 (past simple), and V3 (past participle). Most learners struggle not
+          with vocabulary size, but with the irregular forms and the patterns
+          behind them. Our focused, daily-practice approach fixes that.
         </p>
 
         {/* Local / topical content */}
         <p className="prose-reading mt-6 text-lg leading-relaxed text-muted-foreground">
-          Based in Lahore and built for students across Pakistan, Segal
-          Institute supports Urdu speakers with an AI tutor, an Urdu ghazal
-          generator, and teacher-led daily topics. Whether you're in Lahore,
-          Karachi, Islamabad, or a smaller town, you can learn English verb
-          forms with the same structured practice — no expensive tuition
-          center required.
+          Based in Jacobabad, Sindh, Segal Institute serves students across the
+          city and surrounding areas. The academy supports Urdu and Sindhi
+          speakers with an AI tutor, an Urdu ghazal generator, and teacher-led
+          daily topics. Whether you're in Jacobabad city, a nearby village, or
+          anywhere in Sindh, you can learn English verb forms with the same
+          structured practice — no expensive tuition center required. Serving
+          students in Jacobabad, Sindh.
         </p>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-3">

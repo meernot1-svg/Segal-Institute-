@@ -19,21 +19,21 @@ import { branding } from "@/lib/branding";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `${branding.name} — ${branding.tagline}`,
+  title: "Segal Institute — English Academy in Jacobabad",
   description:
-    "Segal Institute is an English academy in Pakistan where students learn to speak with confidence — daily community speaking, vocabulary, debates, and speech competitions. Under the supervision of Sir Sajid Murad, our students have won district declamation positions.",
+    "Segal Institute is an English academy in Jacobabad, Sindh, Pakistan. Students learn English verb forms, practice with an AI tutor, generate speeches and poetry, and compete in speech competitions. Under the supervision of Sir Sajid Murad.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: `${branding.name} — ${branding.tagline}`,
+    title: "Segal Institute — English Academy in Jacobabad",
     description:
-      "An English academy in Pakistan — daily community speaking, vocabulary, debates, and speech competitions. Under the supervision of Sir Sajid Murad.",
+      "An English academy in Jacobabad, Sindh. Learn verb forms, practice with an AI tutor, generate speeches and poetry, and compete in speech competitions.",
     url: SITE_URL,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${branding.name} — ${branding.tagline}`,
-    description: "An English academy in Pakistan. Daily speaking, debates, speech competitions, and district declamation wins.",
+    title: "Segal Institute — English Academy in Jacobabad",
+    description: "An English academy in Jacobabad, Sindh. Verb forms, AI tutor, speech & poetry generators, and speech competitions.",
   },
 };
 
@@ -95,11 +95,12 @@ export default async function Home() {
               Learn English with confidence at Segal Institute.
             </h1>
             <p className="prose-reading mt-6 text-lg leading-relaxed text-muted-foreground">
-              Segal Institute is an English academy where students learn to
-              speak with confidence — through daily community speaking,
-              vocabulary, real debates, and speech competitions. Under the
-              supervision of Sir Sajid Murad, our students have brought pride to
-              the academy at the district level. Built for students in Pakistan.
+              Segal Institute is an English academy in Jacobabad, Sindh, where
+              students learn to speak with confidence — through daily community
+              speaking, vocabulary, weekly debates, and speech competitions.
+              Under the supervision of Sir Sajid Murad, our students have brought
+              pride to the academy at the district level. Serving students in
+              Jacobabad, Sindh.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-12 text-base">
@@ -255,24 +256,30 @@ export default async function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "EducationalOrganization",
-            name: branding.name,
-            description: branding.description,
+            name: "Segal Institute",
+            description:
+              "Segal Institute is an English academy in Jacobabad, Sindh, Pakistan. Students learn English verb forms, practice with an AI tutor, generate speeches and poetry, and compete in speech competitions.",
             url: SITE_URL,
             logo: `${SITE_URL}/logo.svg`,
+            image: `${SITE_URL}/og-image.png`,
             sameAs: [SITE_URL],
             address: {
               "@type": "PostalAddress",
               addressCountry: "PK",
-              addressRegion: "Punjab",
-              addressLocality: "Lahore",
-              streetAddress: branding.address,
+              addressRegion: "Sindh",
+              addressLocality: "Jacobabad",
+              streetAddress: "[ADD STREET ADDRESS — e.g. First Family Line, at Royal College, beside Dr. Hashim Qureshi Eye Hospital]",
             },
+            areaServed: "Jacobabad",
+            telephone: "[ADD PHONE NUMBER]",
             knowsAbout: [
               "English verb forms",
               "English grammar",
               "V1 V2 V3 verbs",
               "English learning",
               "irregular verbs",
+              "English academy",
+              "Jacobabad",
             ],
           }),
         }}

@@ -6,12 +6,12 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Learn English in Pakistan — Free Verb Practice & AI Tutor",
   description:
-    "How students in Lahore, Karachi, and across Pakistan can learn English verb forms for free with Segal Institute — an online English academy with Urdu support, an AI tutor, and daily teacher-led topics.",
+    "How students in Jacobabad, Sindh, and across Pakistan can learn English verb forms for free with Segal Institute — an English academy in Jacobabad with Urdu and Sindhi support, an AI tutor, and daily teacher-led topics.",
   alternates: { canonical: "/blog/learn-english-in-pakistan" },
   openGraph: {
     title: "Learn English in Pakistan — Free Verb Practice & AI Tutor · Segal Institute",
     description:
-      "Free English verb practice + AI tutor for students in Pakistan. Urdu support, daily topics, and a poetry generator.",
+      "Free English verb practice + AI tutor for students in Jacobabad, Sindh, and across Pakistan. Urdu and Sindhi support, daily topics, and a poetry generator.",
     url: `${SITE_URL}/blog/learn-english-in-pakistan`,
     type: "article",
     publishedTime: "2026-09-03",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Learn English in Pakistan — Free Verb Practice & AI Tutor",
-    description: "Free English learning tools for students in Lahore, Karachi, and across Pakistan.",
+    description: "Free English learning tools for students in Jacobabad, Sindh, and across Pakistan.",
   },
 };
 
@@ -33,12 +33,12 @@ export default function Page() {
       <p>
         Learning English in Pakistan often means expensive tuition centers,
         outdated textbooks, and crowded classrooms. Segal Institute was built
-        to fix that: a focused online English academy you can use from anywhere
-        in Pakistan — Lahore, Karachi, Islamabad, Faisalabad, or a smaller town
-        — with just a phone or laptop.
+        to fix that: a focused online English academy based in Jacobabad, Sindh,
+        that you can use from anywhere — Jacobabad city, nearby villages,
+        Karachi, or anywhere in Pakistan — with just a phone or laptop.
       </p>
 
-      <h2 className="font-display text-xl font-semibold tracking-tight mt-10">Built for Urdu speakers</h2>
+      <h2 className="font-display text-xl font-semibold tracking-tight mt-10">Built for Urdu and Sindhi speakers</h2>
       <p>
         Segal Institute supports Urdu at every step. The{" "}
         <Link href="/poetry-generator" className="text-brand-emerald-deep underline-offset-4 hover:underline">

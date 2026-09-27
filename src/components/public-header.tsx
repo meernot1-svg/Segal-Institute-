@@ -118,6 +118,9 @@ export function PublicFooter() {
           <p className="mt-3 text-sm leading-relaxed text-white/40">
             {branding.address}
           </p>
+          <p className="mt-1 text-sm text-white/30">
+            Serving students in Jacobabad, Sindh.
+          </p>
         </div>
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
           <FooterCol
