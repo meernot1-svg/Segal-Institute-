@@ -16,6 +16,8 @@ import {
   Bot,
   Mic,
   PenTool,
+  Mic2,
+  Trophy,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -29,13 +31,15 @@ const PRIMARY_NAV: NavItem[] = [
   { href: "/verbs", label: "Learn Verbs", icon: BookA },
   { href: "/learn", label: "Flashcards", icon: GraduationCap },
   { href: "/tests/mcq", label: "MCQ Tests", icon: ListChecks },
-  { href: "/results", label: "Results", icon: BarChart3 },
+  { href: "/results", label: "Test Results", icon: BarChart3 },
 ];
 
 const SECONDARY_NAV: NavItem[] = [
   { href: "/chat", label: "AI Tutor", icon: Bot },
   { href: "/speech-generator", label: "Speech Generator", icon: Mic },
   { href: "/poetry-generator", label: "Poetry Generator", icon: PenTool },
+  { href: "/speeches", label: "Student Speeches", icon: Mic2 },
+  { href: "/monthly-results", label: "My Monthly Results", icon: Trophy },
   { href: "/profile", label: "Profile", icon: User },
 ];
 

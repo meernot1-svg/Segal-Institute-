@@ -38,6 +38,8 @@ model Profile {
   generatedPoetry   GeneratedPoem[]
   fees             Fee[]
   dailyTopics      DailyTopic[]
+  monthlyResults   MonthlyResult[]
+  studentSpeeches  StudentSpeech[] @relation("StudentSpeechAuthor")
 }
 
 // ---------------------------------------------------------------------------
@@ -336,4 +338,69 @@ model Fee {
   @@unique([studentId, periodKey])
   @@index([studentId])
   @@index([periodKey])
+}
+
+// ---------------------------------------------------------------------------
+// Student speeches (admin writes for a student; all students can view)
+// ---------------------------------------------------------------------------
+
+model StudentSpeech {
+  id          String   @id @default(cuid())
+  title       String
+  studentName String
+  // Optional link to a profile (in case admin wants to attach to a real student)
+  studentId   String?
+  content     String
+  // "speech" | "poem" | "essay" — kind of written work
+  kind        String   @default("speech")
+  authorId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  author  Profile? @relation("StudentSpeechAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([studentName])
+}
+
+// ---------------------------------------------------------------------------
+// Monthly results (admin writes notes -> AI generates a polished result card)
+// ---------------------------------------------------------------------------
+
+model MonthlyResult {
+  id            String   @id @default(cuid())
+  studentId     String
+  periodKey     String
+  // Admin's raw text notes (input)
+  notes         String
+  // AI-generated polished result card (output)
+  generatedCard String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  student Profile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, periodKey])
+  @@index([studentId])
+  @@index([periodKey])
+}
+
+// ---------------------------------------------------------------------------
+// Best Student of the Month (admin uploads name + photo; student dashboard)
+// ---------------------------------------------------------------------------
+
+model BestStudent {
+  id        String   @id @default(cuid())
+  name      String
+  // Base64 data URL photo (resized client-side)
+  photo     String
+  // YYYY-MM
+  month     String
+  blurb     String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([month])
+  @@index([active])
 }

@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { todayISO, monthKey } from "@/lib/format";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookA, ListChecks, TrendingUp, CalendarDays, ArrowRight, Receipt } from "lucide-react";
+import { Users, BookA, ListChecks, TrendingUp, CalendarDays, ArrowRight, Receipt, Mic2, FileText, Trophy } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -98,9 +98,12 @@ export default async function AdminDashboardPage() {
       </Card>
 
       {/* Quick links */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <QuickLink href="/admin/students" icon={Users} title="Students" body="View, delete, and assign fees." />
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <QuickLink href="/admin/students" icon={Users} title="Students" body="View, delete, reset passwords, and assign fees." />
         <QuickLink href="/admin/topics" icon={CalendarDays} title="Daily topics" body="Set what students see each day." />
+        <QuickLink href="/admin/speeches" icon={Mic2} title="Student Speeches" body="Publish speeches, poems & essays for students to read." />
+        <QuickLink href="/admin/results" icon={FileText} title="Monthly Results" body="Write notes; AI generates polished result cards." />
+        <QuickLink href="/admin/best-student" icon={Trophy} title="Best Student" body="Feature the best student of the month on every dashboard." />
         <QuickLink href="/admin/fees" icon={Receipt} title="Fees" body="Track who's paid and who hasn't." />
       </div>
     </div>

@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Trash2, Receipt, Loader2, Check } from "lucide-react";
+import { Trash2, Receipt, Loader2, Check, KeyRound } from "lucide-react";
 import { formatCurrency, monthKey } from "@/lib/format";
 
 type Fee = { id: string; amount: number; periodKey: string; paid: boolean; kind: string; dueDate: string };
@@ -131,8 +131,9 @@ export function AdminStudentsClient() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <FeeDialog student={s} onAssign={assignFee} />
+                <PasswordDialog student={s} />
                 <Button onClick={() => remove(s.id, s.name)} variant="outline" size="sm" className="border-red-200 text-red-600 hover:bg-red-50">
                   <Trash2 className="size-3.5" /> Delete
                 </Button>
@@ -238,6 +239,70 @@ function FeeDialog({
           </div>
           <Button onClick={submit} disabled={saving} className="w-full">
             {saving ? <><Loader2 className="size-4 animate-spin" /> Assigning…</> : "Assign fee"}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function PasswordDialog({ student }: { student: Student }) {
+  const [open, setOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function submit() {
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/admin/students/${student.id}/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not reset password");
+      toast.success(`Password updated for ${student.name}.`);
+      setPassword("");
+      setOpen(false);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not reset password");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm">
+          <KeyRound className="size-3.5" /> Reset password
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Reset password for {student.name}</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 py-2">
+          <div className="space-y-1.5">
+            <Label htmlFor="newpw">New password</Label>
+            <Input
+              id="newpw"
+              type="text"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="At least 6 characters"
+              minLength={6}
+            />
+            <p className="text-xs text-muted-foreground">
+              Set a new password for this student. Tell them to log in with their email and this new password.
+            </p>
+          </div>
+          <Button onClick={submit} disabled={saving || password.length < 6} className="w-full">
+            {saving ? <><Loader2 className="size-4 animate-spin" /> Resetting…</> : "Reset password"}
           </Button>
         </div>
       </DialogContent>

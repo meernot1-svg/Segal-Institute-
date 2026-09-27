@@ -26,7 +26,7 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const user = (await getCurrentUser())!;
 
-  const [totalVerbs, learned, difficult, attempts, recentAttempts, todaysTopic] = await Promise.all([
+  const [totalVerbs, learned, difficult, attempts, recentAttempts, todaysTopic, bestStudent] = await Promise.all([
     db.verb.count(),
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "learned" } }),
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "difficult" } }),
@@ -43,6 +43,11 @@ export default async function DashboardPage() {
     db.dailyTopic.findUnique({
       where: { date: todayISO() },
       select: { id: true, title: true, body: true, date: true },
+    }),
+    db.bestStudent.findFirst({
+      where: { active: true },
+      orderBy: { month: "desc" },
+      select: { id: true, name: true, photo: true, month: true, blurb: true },
     }),
   ]);
 
@@ -86,10 +91,33 @@ export default async function DashboardPage() {
             </p>
           </div>
           <CardContent className="pt-4">
-            <p className="prose-reading whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
+            <p dir="auto" className="prose-reading whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
               {todaysTopic.body}
             </p>
           </CardContent>
+        </Card>
+      )}
+
+      {/* Best Student of the Month (from admin) */}
+      {bestStudent && (
+        <Card className="mt-6 overflow-hidden border-amber-300/50">
+          <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6">
+            <img
+              src={bestStudent.photo}
+              alt={bestStudent.name}
+              className="mx-auto size-20 shrink-0 rounded-full border-2 border-amber-300 object-cover sm:mx-0 sm:size-24"
+            />
+            <div className="flex-1 text-center sm:text-left">
+              <div className="inline-flex items-center gap-2">
+                <Trophy className="size-4 text-amber-600" />
+                <p className="text-xs font-medium text-amber-700">Best Student of the Month · {bestStudent.month}</p>
+              </div>
+              <p className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-foreground">
+                {bestStudent.name}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{bestStudent.blurb}</p>
+            </div>
+          </div>
         </Card>
       )}
 
@@ -180,6 +208,18 @@ export default async function DashboardPage() {
                 icon={Sparkles}
                 title="Your profile"
                 body="Upload a photo, set your class, and see your fees."
+              />
+              <QuickAction
+                href="/speeches"
+                icon={Mic}
+                title="Student Speeches"
+                body="Read speeches, poems, and essays shared by your teacher."
+              />
+              <QuickAction
+                href="/monthly-results"
+                icon={Trophy}
+                title="My Monthly Results"
+                body="Read your monthly result cards from your teacher."
               />
             </CardContent>
           </Card>

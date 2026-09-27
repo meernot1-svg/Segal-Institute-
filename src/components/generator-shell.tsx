@@ -229,7 +229,7 @@ export function GeneratorShell({
               </div>
             )}
             {output && (
-              <div className="prose-reading whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed">
+              <div dir="auto" className="prose-reading whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed">
                 {output}
               </div>
             )}
