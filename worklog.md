@@ -639,3 +639,20 @@ Work Log:
 
 Stage Summary:
 - Entire website is now fully mobile-responsive. No horizontal scrolling at 375px (iPhone SE), 768px (tablet), or desktop.
+
+---
+Task ID: SEO-JACOBABAD
+Agent: main (Z.ai Code)
+Task: Update SEO from Lahore/Punjab to Jacobabad/Sindh.
+
+Work Log:
+- branding.ts: address now ends with "Jacobabad, Sindh"; added city, region, country, telephone (placeholder)
+- layout.tsx: title → "Segal Institute — English Academy in Jacobabad"; description mentions Jacobabad; keywords include "Segal Institute Jacobabad", "academy Jacobabad", "English academy Jacobabad", "English classes Jacobabad", "learn English in Jacobabad"; OG locale en_PK; OG/Twitter titles mention Jacobabad
+- page.tsx (homepage): metadata title/description mention Jacobabad; JSON-LD EducationalOrganization addressLocality=Jacobabad, addressRegion=Sindh, areaServed=Jacobabad, telephone placeholder, image added; hero paragraph "English academy in Jacobabad, Sindh" + "Serving students in Jacobabad, Sindh"
+- about/page.tsx: metadata mentions Jacobabad; first paragraph "English academy in Jacobabad, Sindh"; second paragraph "Based in Jacobabad, Sindh" + "Serving students in Jacobabad, Sindh"; FAQ "Can I learn English in Jacobabad?"
+- blog/learn-english-in-pakistan: metadata + body mention Jacobabad; heading "Built for Urdu and Sindhi speakers"
+- public-header footer: "Serving students in Jacobabad, Sindh" below address
+- og-image.png: regenerated with "ENGLISH ACADEMY · JACOBABAD, SINDH" text
+
+Deployed. Verified live: title, description, keywords, OG title, JSON-LD (addressLocality=Sindh, addressRegion=Jacobabad, areaServed=Jacobabad, telephone placeholder), visible content (hero, about, footer), sitemap (12 URLs), robots, og:image (96KB).
+
