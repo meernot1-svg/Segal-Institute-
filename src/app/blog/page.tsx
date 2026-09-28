@@ -21,7 +21,7 @@ const ARTICLES = [
     slug: "how-to-learn-english-verb-forms",
     title: "How to learn English verb forms (V1, V2, V3) fast",
     description:
-      "A simple daily method to master the three forms of English verbs — browse, flashcard, test.",
+      "A simple daily method to master the three forms of English verbs — browse, practice with the Sentence Generator, and ask the AI Tutor.",
     date: "2026-09-01",
   },
   {

@@ -227,7 +227,12 @@ model StudentAchievement {
 }
 
 // ---------------------------------------------------------------------------
-// Tests
+// Tests — DEPRECATED
+//
+// MCQ tests + Flashcards were removed from the product per user request.
+// The TestAttempt / TestAnswer / Question models are kept in the schema so
+// any historical test data is preserved, but NO live code queries them.
+// Safe to drop in a future migration if the data is no longer needed.
 // ---------------------------------------------------------------------------
 
 model TestAttempt {

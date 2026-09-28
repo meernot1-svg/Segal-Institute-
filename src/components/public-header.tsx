@@ -112,8 +112,9 @@ export function PublicFooter() {
         <div className="max-w-sm">
           <Logo variant="light" href="/" />
           <p className="mt-4 text-sm leading-relaxed text-white/60">
-            A focused way to learn the three forms of English verbs — with
-            practice, tests, AI help, and streaks to keep you going.
+            A focused way to learn English — verb forms, grammar lessons,
+            AI tutor, sentence + speech + poetry generators, and daily
+            topics to keep you going.
           </p>
           <p className="mt-3 text-sm leading-relaxed text-white/40">
             {branding.address}

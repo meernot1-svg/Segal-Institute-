@@ -52,12 +52,12 @@ export default function Page() {
 
       <h2 className="font-display text-xl font-semibold tracking-tight mt-10">What you get — free</h2>
       <ul className="list-disc pl-6 space-y-1">
-        <li><strong>Verb library:</strong> hundreds of English verbs with V1, V2, V3 forms and meanings.</li>
-        <li><strong>Flashcards:</strong> a daily-practice mode that prioritizes your difficult verbs.</li>
-        <li><strong>MCQ tests:</strong> timed tests in five categories with full answer review.</li>
-        <li><strong>AI tutor:</strong> ask any English grammar question, get a clear answer.</li>
+        <li><strong>Verb library:</strong> hundreds of English verbs with V1, V2, V3 forms and meanings in English, Urdu, and Sindhi.</li>
+        <li><strong>Sentence Generator:</strong> pick any lesson, get practice sentences in Urdu, Sindhi, English, or 20+ other languages.</li>
+        <li><strong>AI tutor:</strong> ask any English grammar question — tenses, articles, verbs, vocabulary, writing — and get a clear answer.</li>
         <li><strong>Speech generator:</strong> turn any topic into a structured original speech.</li>
         <li><strong>Poetry generator:</strong> generate original Urdu ghazals and nazms.</li>
+        <li><strong>Lessons:</strong> structured Basic, Junior, and Senior grammar lessons with Urdu + Sindhi sentence examples.</li>
         <li><strong>Daily topics:</strong> your teacher posts a new topic every day to keep you on track.</li>
       </ul>
 

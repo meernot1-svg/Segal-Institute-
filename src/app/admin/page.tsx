@@ -3,25 +3,26 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { todayISO, monthKey, formatCurrency } from "@/lib/format";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookA, ListChecks, TrendingUp, CalendarDays, ArrowRight, Receipt, Mic2, FileText, Trophy, ClipboardCheck } from "lucide-react";
+import { Users, BookA, CalendarDays, ArrowRight, Receipt, Mic2, FileText, Trophy, ClipboardCheck, CalendarPlus, Home } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   await getCurrentUser(); // layout already guards role
 
-  const [totalStudents, totalVerbs, totalTests, attempts, todaysTopic, unpaidFees, monthlyFees, todaysAttendance] = await Promise.all([
+  // MCQ tests + Flashcards have been removed from the product. The admin
+  // dashboard no longer reports "Tests completed" or "Avg score" — there's
+  // nothing to count. We keep students, verbs, attendance, today's topic,
+  // and fees as the headline stats.
+  const [totalStudents, totalVerbs, todaysTopic, unpaidFees, monthlyFees, todaysAttendance] = await Promise.all([
     db.profile.count({ where: { role: "student" } }),
     db.verb.count(),
-    db.testAttempt.count(),
-    db.testAttempt.findMany({ select: { percentage: true } }),
     db.dailyTopic.findUnique({ where: { date: todayISO() }, select: { id: true, title: true, body: true } }),
     db.fee.findMany({ where: { paid: false }, select: { amount: true } }),
     db.fee.findMany({ where: { periodKey: monthKey() }, select: { amount: true, paid: true } }),
     db.attendance.findMany({ where: { date: todayISO() }, select: { present: true } }),
   ]);
 
-  const avgScore = attempts.length > 0 ? Math.round(attempts.reduce((s, a) => s + a.percentage, 0) / attempts.length) : 0;
   const totalDue = unpaidFees.reduce((s, f) => s + f.amount, 0);
   const monthlyCollected = monthlyFees.filter((f) => f.paid).reduce((s, f) => s + f.amount, 0);
   const monthlyOutstanding = monthlyFees.filter((f) => !f.paid).reduce((s, f) => s + f.amount, 0);
@@ -38,12 +39,11 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stat grid */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard icon={Users} label="Total students" value={totalStudents.toLocaleString()} />
         <StatCard icon={BookA} label="Verbs in library" value={totalVerbs.toLocaleString()} />
-        <StatCard icon={ListChecks} label="Tests completed" value={totalTests.toLocaleString()} />
-        <StatCard icon={TrendingUp} label="Avg score" value={`${avgScore}%`} />
         <StatCard icon={ClipboardCheck} label="Present today" value={todaysAttendance.length > 0 ? `${attendancePct}%` : "—"} />
+        <StatCard icon={Receipt} label="Outstanding fees" value={fmt(totalDue)} />
       </div>
 
       {/* Today's topic */}
@@ -103,9 +103,11 @@ export default async function AdminDashboardPage() {
 
       {/* Quick links */}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <QuickLink href="/admin/home-content" icon={Home} title="Edit Homepage" body="Edit the public homepage — text + images — live." />
         <QuickLink href="/admin/students" icon={Users} title="Students" body="View, delete, reset passwords, and assign fees." />
         <QuickLink href="/admin/attendance" icon={ClipboardCheck} title="Attendance" body="Mark students present or absent for each day." />
         <QuickLink href="/admin/topics" icon={CalendarDays} title="Daily topics" body="Set what students see each day." />
+        <QuickLink href="/admin/events" icon={CalendarPlus} title="Calendar Events" body="Add events that appear on every student's dashboard calendar." />
         <QuickLink href="/admin/speeches" icon={Mic2} title="Student Speeches" body="Publish speeches, poems & essays for students to read." />
         <QuickLink href="/admin/results" icon={FileText} title="Monthly Results" body="Upload a result image for all students to see." />
         <QuickLink href="/admin/best-student" icon={Trophy} title="Best Student" body="Feature the best student of the month on every dashboard." />

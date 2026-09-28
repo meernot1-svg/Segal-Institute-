@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, CalendarDays, GraduationCap, BookA, ListChecks, TrendingUp, Star, Receipt } from "lucide-react";
+import { Mail, CalendarDays, GraduationCap, BookA, Star, Receipt, Flame } from "lucide-react";
 import { AvatarUploader, ProfileEditor } from "@/components/avatar-uploader";
 import { formatCurrency } from "@/lib/format";
 
@@ -11,10 +11,13 @@ export const dynamic = "force-dynamic";
 export default async function ProfilePage() {
   const user = (await getCurrentUser())!;
 
-  const [learned, difficult, attempts, favorites, fees, profile] = await Promise.all([
+  // MCQ tests + Flashcards have been removed from the product. The profile
+  // page no longer shows "Tests completed" or "Average score" — there's
+  // nothing to count. We show verbs learned, difficult verbs, favorites,
+  // and fees instead.
+  const [learned, difficult, favorites, fees, profile] = await Promise.all([
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "learned" } }),
     db.studentVerbProgress.count({ where: { profileId: user.id, status: "difficult" } }),
-    db.testAttempt.findMany({ where: { profileId: user.id }, select: { percentage: true } }),
     db.favorite.count({ where: { profileId: user.id } }),
     db.fee.findMany({
       where: { studentId: user.id },
@@ -27,8 +30,6 @@ export default async function ProfilePage() {
     }),
   ]);
 
-  const tests = attempts.length;
-  const avgScore = tests > 0 ? Math.round(attempts.reduce((s, a) => s + a.percentage, 0) / tests) : 0;
   const unpaidFees = fees.filter((f) => !f.paid);
   const totalDue = unpaidFees.reduce((s, f) => s + f.amount, 0);
 
@@ -67,9 +68,9 @@ export default async function ProfilePage() {
       {/* Stats */}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat icon={BookA} label="Verbs learned" value={learned.toLocaleString()} />
-        <Stat icon={ListChecks} label="Tests completed" value={tests.toLocaleString()} />
-        <Stat icon={TrendingUp} label="Average score" value={`${avgScore}%`} />
+        <Stat icon={Flame} label="Difficult verbs" value={difficult.toLocaleString()} />
         <Stat icon={Star} label="Favorites" value={favorites.toLocaleString()} />
+        <Stat icon={Receipt} label="Outstanding fees" value={unpaidFees.length > 0 ? formatCurrency(totalDue) : "—"} />
       </div>
 
       {/* Fees */}
@@ -154,7 +155,7 @@ export default async function ProfilePage() {
           <CardHeader><CardTitle>Difficult verbs</CardTitle></CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              You've marked <span className="font-medium text-foreground">{difficult}</span> verb{difficult === 1 ? "" : "s"} as difficult. Review them with flashcards to strengthen your recall.
+              You've marked <span className="font-medium text-foreground">{difficult}</span> verb{difficult === 1 ? "" : "s"} as difficult. Review them with the Sentence Generator or ask the AI Tutor for example sentences to strengthen your recall.
             </p>
           </CardContent>
         </Card>

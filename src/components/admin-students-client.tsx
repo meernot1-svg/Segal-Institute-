@@ -26,7 +26,7 @@ type Student = {
   classGrade: string | null;
   avatarUrl: string | null;
   createdAt: string;
-  _count: { testAttempts: number; verbProgress: number };
+  _count: { verbProgress: number };
   fees: Fee[];
   feesDue: number;
   status: string;
@@ -137,7 +137,7 @@ export function AdminStudentsClient() {
                   <p className="text-sm text-muted-foreground">{s.email}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {s.classGrade || "No class set"} · joined {new Date(s.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
-                    {" · "}{s._count.testAttempts} tests · {s._count.verbProgress} verbs
+                    {" · "}{s._count.verbProgress} verbs tracked
                   </p>
                 </div>
               </div>

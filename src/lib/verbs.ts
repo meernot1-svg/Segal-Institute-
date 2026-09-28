@@ -52,25 +52,6 @@ export function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export type McqCategory =
-  | "v1-to-v2"
-  | "v1-to-v3"
-  | "v2-to-v3"
-  | "meaning"
-  | "mixed"
-  | "random";
-
-export const MCQ_CATEGORIES: { value: McqCategory; label: string; description: string }[] = [
-  { value: "v1-to-v2", label: "V1 → V2", description: "Given the base form, choose the past simple" },
-  { value: "v1-to-v3", label: "V1 → V3", description: "Given the base form, choose the past participle" },
-  { value: "v2-to-v3", label: "V2 → V3", description: "Given the past simple, choose the past participle" },
-  { value: "meaning", label: "Meaning", description: "Given the verb, choose its meaning" },
-  { value: "mixed", label: "Mixed", description: "A random mix of all question types" },
-  { value: "random", label: "Random verbs", description: "Any category, surprise me" },
-];
-
-export const TEST_LENGTHS = [10, 20, 30, 50] as const;
-
 /**
  * Determine if a verb is regular or irregular.
  * A regular verb forms V2 and V3 by adding -ed, -d, or -ied to V1.

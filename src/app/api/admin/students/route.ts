@@ -21,7 +21,7 @@ export async function GET() {
       createdAt: true,
       status: true,
       badge: true,
-      _count: { select: { testAttempts: true, verbProgress: true } },
+      _count: { select: { verbProgress: true } },
       fees: { select: { id: true, amount: true, periodKey: true, paid: true, kind: true, dueDate: true } },
     },
   });

@@ -71,9 +71,10 @@ export default function Page() {
       <p>
         Spaced repetition + active recall is the most evidence-backed way to
         memorize. The three-step cycle above uses both: marking verbs creates
-        the <em>space</em> between exposures, and flashcards + tests force
-        <em>active recall</em> (pulling information out, not cramming it in).
-        Ten to fifteen minutes a day beats two hours once a week.
+        the <em>space</em> between exposures, and writing example sentences
+        with the Sentence Generator + quizzing yourself with the AI Tutor
+        forces <em>active recall</em> (pulling information out, not cramming
+        it in). Ten to fifteen minutes a day beats two hours once a week.
       </p>
 
       <h2 className="font-display text-xl font-semibold tracking-tight mt-10">10 common irregular verbs to start with</h2>
