@@ -11,6 +11,12 @@ type LessonSection = {
   heading: string;
   body: string;
   examples?: string[];
+  /**
+   * Parallel trilingual translations of `examples` — same length, same order.
+   * Each entry has the English (en), Urdu (ur, RTL), and Sindhi (sd, RTL)
+   * versions of the same example sentence so students see all three.
+   */
+  examplesTr?: { en: string; ur: string; sd: string }[];
   table?: { headers: string[]; rows: string[][] };
 };
 
@@ -229,8 +235,34 @@ function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
               dangerouslySetInnerHTML={{ __html: section.body }}
             />
 
-            {/* Examples */}
-            {section.examples && section.examples.length > 0 && (
+            {/* Examples — trilingual (English + Urdu + Sindhi) when examplesTr is present, otherwise English-only fallback */}
+            {section.examplesTr && section.examplesTr.length > 0 ? (
+              <div className="mt-3 space-y-2">
+                {section.examplesTr.map((ex, eIdx) => (
+                  <div key={eIdx} className="rounded-lg border border-border bg-muted/30 p-3">
+                    {/* English */}
+                    <div className="flex items-start gap-2">
+                      <span className="mt-1 size-1.5 shrink-0 rounded-full bg-brand-emerald" />
+                      <p className="text-sm text-foreground" dangerouslySetInnerHTML={{ __html: ex.en }} />
+                    </div>
+                    {/* Urdu */}
+                    {ex.ur && (
+                      <div className="mt-1.5 flex items-start gap-2 border-t border-border/60 pt-1.5" dir="auto">
+                        <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">UR</span>
+                        <p className="text-sm text-foreground" dir="auto" dangerouslySetInnerHTML={{ __html: ex.ur }} />
+                      </div>
+                    )}
+                    {/* Sindhi */}
+                    {ex.sd && (
+                      <div className="mt-1.5 flex items-start gap-2 border-t border-border/60 pt-1.5" dir="auto">
+                        <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">SD</span>
+                        <p className="text-sm text-foreground" dir="auto" dangerouslySetInnerHTML={{ __html: ex.sd }} />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : section.examples && section.examples.length > 0 ? (
               <div className="mt-3 space-y-1.5">
                 {section.examples.map((ex, eIdx) => (
                   <div key={eIdx} className="flex items-start gap-2 rounded-lg bg-muted/40 px-3 py-2">
@@ -239,7 +271,7 @@ function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
                   </div>
                 ))}
               </div>
-            )}
+            ) : null}
 
             {/* Table */}
             {section.table && section.table.rows.length > 0 && (

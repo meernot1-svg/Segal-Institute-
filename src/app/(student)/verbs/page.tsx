@@ -62,7 +62,7 @@ export default async function VerbsPage({ searchParams }: { searchParams: Promis
     minTier: { in: accessibleTiers },
   };
   if (q) {
-    where.OR = [{ v1: { contains: q } }, { meaning: { contains: q } }];
+    where.OR = [{ v1: { contains: q } }, { meaning: { contains: q } }, { meaningUr: { contains: q } }, { meaningSd: { contains: q } }];
   }
   if (letter && letter.length === 1) {
     where.v1 = { startsWith: letter };
@@ -231,6 +231,8 @@ function VerbSection({
     v2Alts: string;
     v3Alts: string;
     meaning: string;
+    meaningUr: string;
+    meaningSd: string;
     difficulty: number;
     progress: { status: string }[];
     favorites: { id: string }[];
@@ -259,7 +261,7 @@ function VerbSection({
       )}
 
       {/* Desktop table */}
-      <div className="hidden overflow-hidden rounded-xl border border-border md:block">
+      <div className="hidden overflow-x-auto rounded-xl border border-border md:block">
         <table className="w-full text-sm">
           <thead className="bg-muted/60 text-left">
             <tr className="text-xs text-muted-foreground">
@@ -267,7 +269,9 @@ function VerbSection({
               <th className="px-4 py-3 font-medium">Type</th>
               <th className="px-4 py-3 font-medium">V2</th>
               <th className="px-4 py-3 font-medium">V3</th>
-              <th className="px-4 py-3 font-medium">Meaning</th>
+              <th className="px-4 py-3 font-medium">Meaning (EN)</th>
+              <th className="px-4 py-3 font-medium" dir="rtl">اردو</th>
+              <th className="px-4 py-3 font-medium" dir="rtl">سنڌي</th>
               <th className="px-4 py-3 font-medium">Level</th>
               <th className="px-4 py-3 text-right font-medium">Actions</th>
             </tr>
@@ -288,7 +292,13 @@ function VerbSection({
                   <td className="px-4 py-3"><VerbTypeBadge type={verbType} /></td>
                   <td className="px-4 py-3 text-muted-foreground">{v.v2}</td>
                   <td className="px-4 py-3 text-muted-foreground">{v.v3}</td>
-                  <td className="px-4 py-3 max-w-[280px] truncate text-muted-foreground" title={v.meaning}>{v.meaning}</td>
+                  <td className="px-4 py-3 max-w-[260px] truncate text-muted-foreground" title={v.meaning}>{v.meaning}</td>
+                  <td className="px-4 py-3 max-w-[160px] truncate text-muted-foreground" dir="auto" title={v.meaningUr}>
+                    {v.meaningUr ? v.meaningUr : <span className="text-muted-foreground/40">—</span>}
+                  </td>
+                  <td className="px-4 py-3 max-w-[160px] truncate text-muted-foreground" dir="auto" title={v.meaningSd}>
+                    {v.meaningSd ? v.meaningSd : <span className="text-muted-foreground/40">—</span>}
+                  </td>
                   <td className="px-4 py-3"><DiffBadge level={v.difficulty} /></td>
                   <td className="px-4 py-3">
                     <div className="flex justify-end">
@@ -324,10 +334,30 @@ function VerbSection({
                       <span className="font-medium text-foreground">{v.v3}</span>
                     </p>
                   </div>
-                  <p className="mt-1.5 truncate text-sm text-muted-foreground">{v.meaning}</p>
                 </Link>
                 <DiffBadge level={v.difficulty} />
               </div>
+
+              {/* Trilingual meanings */}
+              <div className="mt-3 grid gap-1.5 rounded-lg bg-muted/40 p-3 text-sm">
+                <p className="truncate text-muted-foreground" title={v.meaning}>
+                  <span className="mr-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/70">EN</span>
+                  {v.meaning}
+                </p>
+                {v.meaningUr && (
+                  <p className="truncate text-foreground" dir="auto" title={v.meaningUr}>
+                    <span className="mr-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/70">UR</span>
+                    {v.meaningUr}
+                  </p>
+                )}
+                {v.meaningSd && (
+                  <p className="truncate text-foreground" dir="auto" title={v.meaningSd}>
+                    <span className="mr-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/70">SD</span>
+                    {v.meaningSd}
+                  </p>
+                )}
+              </div>
+
               <div className="mt-3 border-t border-border pt-3">
                 <VerbActions verbId={v.id} initialStatus={st} initialFavorited={fav} />
               </div>

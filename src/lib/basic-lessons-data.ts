@@ -14,6 +14,13 @@ export type LessonSection = {
   heading: string;
   body: string;
   examples?: string[];
+  /**
+   * Parallel translations of `examples` — same length, same order.
+   * Each entry carries the English (en), Urdu (ur, RTL), and Sindhi (sd, RTL)
+   * versions of the same example sentence so students see all three.
+   * The `examples` array above is kept for backward compatibility.
+   */
+  examplesTr?: { en: string; ur: string; sd: string }[];
   table?: { headers: string[]; rows: string[][] };
 };
 
@@ -46,6 +53,23 @@ export const BASIC_LESSONS: Lesson[] = [
           "V1: I <strong>go</strong> to school every day.",
           "V2: Yesterday I <strong>went</strong> to school.",
           "V3: I have <strong>gone</strong> to school already.",
+        ],
+        examplesTr: [
+          {
+            en: "V1: I <strong>go</strong> to school every day.",
+            ur: "V1: میں ہر روز اسکول <strong>جاتا</strong> ہوں۔",
+            sd: "V1: مان هر روز اسڪول <strong>وڃان</strong> ٿو.",
+          },
+          {
+            en: "V2: Yesterday I <strong>went</strong> to school.",
+            ur: "V2: کل میں اسکول <strong>گیا</strong>۔",
+            sd: "V2: ڪالهه مان اسڪول <strong>ويو</strong>.",
+          },
+          {
+            en: "V3: I have <strong>gone</strong> to school already.",
+            ur: "V3: میں پہلے ہی اسکول <strong>جا چکا</strong> ہوں۔",
+            sd: "V3: مان اڳ ۾ ئي اسڪول <strong>ويو آهيان</strong>.",
+          },
         ],
       },
     ],
@@ -82,6 +106,38 @@ export const BASIC_LESSONS: Lesson[] = [
           "climb → climbed → climbed (چڑھنا)",
           "study → studied → studied (مطالعہ کرنا)",
           "stop → stopped → stopped (روکنا)",
+        ],
+        examplesTr: [
+          {
+            en: "accept → accepted → accepted",
+            ur: "accept → accepted → accepted (قبول کرنا)",
+            sd: "accept → accepted → accepted (قبول ڪرڻ)",
+          },
+          {
+            en: "finish → finished → finished",
+            ur: "finish → finished → finished (مکمل کرنا)",
+            sd: "finish → finished → finished (مڪمل ڪرڻ)",
+          },
+          {
+            en: "walk → walked → walked",
+            ur: "walk → walked → walked (چلنا)",
+            sd: "walk → walked → walked (هلڻ)",
+          },
+          {
+            en: "climb → climbed → climbed",
+            ur: "climb → climbed → climbed (چڑھنا)",
+            sd: "climb → climbed → climbed (چڙهڻ)",
+          },
+          {
+            en: "study → studied → studied",
+            ur: "study → studied → studied (مطالعہ کرنا)",
+            sd: "study → studied → studied (مطالعو ڪرڻ)",
+          },
+          {
+            en: "stop → stopped → stopped",
+            ur: "stop → stopped → stopped (روکنا)",
+            sd: "stop → stopped → stopped (روڪڻ)",
+          },
         ],
       },
     ],
@@ -132,6 +188,98 @@ export const BASIC_LESSONS: Lesson[] = [
           "win → won → won (جیتنا)",
           "understand → understood → understood (سمجھنا)",
         ],
+        examplesTr: [
+          {
+            en: "be → was/were → been",
+            ur: "be → was/were → been (ہونا)",
+            sd: "be → was/were → been (هجڻ)",
+          },
+          {
+            en: "go → went → gone",
+            ur: "go → went → gone (جانا)",
+            sd: "go → went → gone (وڃڻ)",
+          },
+          {
+            en: "see → saw → seen",
+            ur: "see → saw → seen (دیکھنا)",
+            sd: "see → saw → seen (ڏسڻ)",
+          },
+          {
+            en: "take → took → taken",
+            ur: "take → took → taken (لینا)",
+            sd: "take → took → taken (وٺڻ)",
+          },
+          {
+            en: "write → wrote → written",
+            ur: "write → wrote → written (لکھنا)",
+            sd: "write → wrote → written (لکڻ)",
+          },
+          {
+            en: "make → made → made",
+            ur: "make → made → made (بنانا)",
+            sd: "make → made → made (بڻائڻ)",
+          },
+          {
+            en: "do → did → done",
+            ur: "do → did → done (کرنا)",
+            sd: "do → did → done (ڪرڻ)",
+          },
+          {
+            en: "have → had → had",
+            ur: "have → had → had (رکھنا)",
+            sd: "have → had → had (رکڻ)",
+          },
+          {
+            en: "come → came → come",
+            ur: "come → came → come (آنا)",
+            sd: "come → came → come (اچڻ)",
+          },
+          {
+            en: "know → knew → known",
+            ur: "know → knew → known (جاننا)",
+            sd: "know → knew → known (ڄاڻڻ)",
+          },
+          {
+            en: "give → gave → given",
+            ur: "give → gave → given (دینا)",
+            sd: "give → gave → given (ڏيڻ)",
+          },
+          {
+            en: "find → found → found",
+            ur: "find → found → found (تلاش کرنا)",
+            sd: "find → found → found (ڳولڻ)",
+          },
+          {
+            en: "tell → told → told",
+            ur: "tell → told → told (بتانا)",
+            sd: "tell → told → told (ٻڌائڻ)",
+          },
+          {
+            en: "think → thought → thought",
+            ur: "think → thought → thought (سوچنا)",
+            sd: "think → thought → thought (سوچڻ)",
+          },
+          {
+            en: "speak → spoke → spoken",
+            ur: "speak → spoke → spoken (بولنا)",
+            sd: "speak → spoke → spoken (ڳالهائڻ)",
+          },
+          {
+            en: "teach → taught → taught",
+            ur: "teach → taught → taught (پڑھانا)",
+            sd: "teach → taught → taught (پڙهائڻ)",
+          },
+          {
+            en: "win → won → won",
+            ur: "win → won → won (جیتنا)",
+            sd: "win → won → won (جيتڻ)",
+          },
+          {
+            en: "understand → understood → understood",
+            ur: "understand → understood → understood (سمجھنا)",
+            sd: "understand → understood → understood (سمجھڻ)",
+          },
+        ],
       },
     ],
   },
@@ -154,6 +302,33 @@ export const BASIC_LESSONS: Lesson[] = [
           "car → cars",
           "tree → trees",
         ],
+        examplesTr: [
+          {
+            en: "cat → cats",
+            ur: "cat → cats (بلی)",
+            sd: "cat → cats (ٻلي)",
+          },
+          {
+            en: "dog → dogs",
+            ur: "dog → dogs (کتا)",
+            sd: "dog → dogs (ڪتو)",
+          },
+          {
+            en: "book → books",
+            ur: "book → books (کتاب)",
+            sd: "book → books (ڪتاب)",
+          },
+          {
+            en: "car → cars",
+            ur: "car → cars (گاڑی)",
+            sd: "car → cars (گاڏي)",
+          },
+          {
+            en: "tree → trees",
+            ur: "tree → trees (درخت)",
+            sd: "tree → trees (وڻ)",
+          },
+        ],
       },
       {
         heading: "Ending in -s, -ss, -sh, -ch, -x, -z (-es)",
@@ -165,6 +340,38 @@ export const BASIC_LESSONS: Lesson[] = [
           "watch → watches",
           "box → boxes",
           "quiz → quizzes",
+        ],
+        examplesTr: [
+          {
+            en: "bus → buses",
+            ur: "bus → buses (بس)",
+            sd: "bus → buses (بس)",
+          },
+          {
+            en: "glass → glasses",
+            ur: "glass → glasses (گلاس)",
+            sd: "glass → glasses (گلاس)",
+          },
+          {
+            en: "brush → brushes",
+            ur: "brush → brushes (برش)",
+            sd: "brush → brushes (برش)",
+          },
+          {
+            en: "watch → watches",
+            ur: "watch → watches (گھڑی)",
+            sd: "watch → watches (گهڙي)",
+          },
+          {
+            en: "box → boxes",
+            ur: "box → boxes (ڈبہ)",
+            sd: "box → boxes (ڊٻو)",
+          },
+          {
+            en: "quiz → quizzes",
+            ur: "quiz → quizzes (مختصر امتحان)",
+            sd: "quiz → quizzes (مختصر امتحان)",
+          },
         ],
       },
       {
@@ -178,6 +385,38 @@ export const BASIC_LESSONS: Lesson[] = [
           "family → families",
           "story → stories",
         ],
+        examplesTr: [
+          {
+            en: "baby → babies",
+            ur: "baby → babies (بچہ)",
+            sd: "baby → babies (ٻار)",
+          },
+          {
+            en: "city → cities",
+            ur: "city → cities (شہر)",
+            sd: "city → cities (شهر)",
+          },
+          {
+            en: "country → countries",
+            ur: "country → countries (ملک)",
+            sd: "country → countries (ملڪ)",
+          },
+          {
+            en: "party → parties",
+            ur: "party → parties (پارٹی)",
+            sd: "party → parties (پارٽي)",
+          },
+          {
+            en: "family → families",
+            ur: "family → families (خاندان)",
+            sd: "family → families (خاندان)",
+          },
+          {
+            en: "story → stories",
+            ur: "story → stories (کہانی)",
+            sd: "story → stories (آکاڻي)",
+          },
+        ],
       },
       {
         heading: "Vowel + y (-s)",
@@ -188,6 +427,33 @@ export const BASIC_LESSONS: Lesson[] = [
           "toy → toys",
           "day → days",
           "monkey → monkeys",
+        ],
+        examplesTr: [
+          {
+            en: "boy → boys",
+            ur: "boy → boys (لڑکا)",
+            sd: "boy → boys (ڇوڪرو)",
+          },
+          {
+            en: "key → keys",
+            ur: "key → keys (چابی)",
+            sd: "key → keys (چاٻي)",
+          },
+          {
+            en: "toy → toys",
+            ur: "toy → toys (کھلونا)",
+            sd: "toy → toys (کھڏاڻو)",
+          },
+          {
+            en: "day → days",
+            ur: "day → days (دن)",
+            sd: "day → days (ڏينهن)",
+          },
+          {
+            en: "monkey → monkeys",
+            ur: "monkey → monkeys (بندر)",
+            sd: "monkey → monkeys (ٻنڊڙو)",
+          },
         ],
       },
       {
@@ -203,6 +469,48 @@ export const BASIC_LESSONS: Lesson[] = [
           "thief → thieves",
           "loaf → loaves",
         ],
+        examplesTr: [
+          {
+            en: "leaf → leaves",
+            ur: "leaf → leaves (پتہ)",
+            sd: "leaf → leaves (پن)",
+          },
+          {
+            en: "wolf → wolves",
+            ur: "wolf → wolves (بھیڑیا)",
+            sd: "wolf → wolves (ڀوليو)",
+          },
+          {
+            en: "life → lives",
+            ur: "life → lives (زندگی)",
+            sd: "life → lives (زندگی)",
+          },
+          {
+            en: "knife → knives",
+            ur: "knife → knives (چاقو)",
+            sd: "knife → knives (ڇري)",
+          },
+          {
+            en: "wife → wives",
+            ur: "wife → wives (بیوی)",
+            sd: "wife → wives (گهرواري)",
+          },
+          {
+            en: "half → halves",
+            ur: "half → halves (آدھا)",
+            sd: "half → halves (اڌ)",
+          },
+          {
+            en: "thief → thieves",
+            ur: "thief → thieves (چور)",
+            sd: "thief → thieves (چور)",
+          },
+          {
+            en: "loaf → loaves",
+            ur: "loaf → loaves (ڈبل روٹی)",
+            sd: "loaf → loaves (ٻٽي روٽي)",
+          },
+        ],
       },
       {
         heading: "Ending in -o (-oes)",
@@ -214,6 +522,38 @@ export const BASIC_LESSONS: Lesson[] = [
           "echo → echoes",
           "volcano → volcanoes",
           "mosquito → mosquitoes",
+        ],
+        examplesTr: [
+          {
+            en: "potato → potatoes",
+            ur: "potato → potatoes (آلو)",
+            sd: "potato → potatoes (ٻاٽاٽو)",
+          },
+          {
+            en: "tomato → tomatoes",
+            ur: "tomato → tomatoes (ٹماٹر)",
+            sd: "tomato → tomatoes (ٽماٽو)",
+          },
+          {
+            en: "hero → heroes",
+            ur: "hero → heroes (ہیرو)",
+            sd: "hero → heroes (هيرو)",
+          },
+          {
+            en: "echo → echoes",
+            ur: "echo → echoes (گونج)",
+            sd: "echo → echoes (گونج)",
+          },
+          {
+            en: "volcano → volcanoes",
+            ur: "volcano → volcanoes (آتش فشاں)",
+            sd: "volcano → volcanoes (آتش فشان)",
+          },
+          {
+            en: "mosquito → mosquitoes",
+            ur: "mosquito → mosquitoes (مچھر)",
+            sd: "mosquito → mosquitoes (مڇو)",
+          },
         ],
       },
       {
@@ -265,6 +605,38 @@ export const BASIC_LESSONS: Lesson[] = [
           "series → series",
           "species → species",
           "aircraft → aircraft",
+        ],
+        examplesTr: [
+          {
+            en: "sheep → sheep",
+            ur: "sheep → sheep (بھیڑ)",
+            sd: "sheep → sheep (رکڙ)",
+          },
+          {
+            en: "deer → deer",
+            ur: "deer → deer (ہرن)",
+            sd: "deer → deer (هرڻ)",
+          },
+          {
+            en: "fish → fish",
+            ur: "fish → fish (مچھلی)",
+            sd: "fish → fish (مڇي)",
+          },
+          {
+            en: "series → series",
+            ur: "series → series (سیریز)",
+            sd: "series → series (سيريز)",
+          },
+          {
+            en: "species → species",
+            ur: "species → species (نسل)",
+            sd: "species → species (نسل)",
+          },
+          {
+            en: "aircraft → aircraft",
+            ur: "aircraft → aircraft (ہوائی جہاز)",
+            sd: "aircraft → aircraft (هوائي جهاز)",
+          },
         ],
       },
     ],

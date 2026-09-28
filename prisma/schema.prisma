@@ -85,6 +85,10 @@ model Verb {
   v2Alts    String   @default("[]")
   v3Alts    String   @default("[]")
   meaning   String
+  // Urdu translation of the meaning (Urdu script, e.g. "جانا")
+  meaningUr String   @default("")
+  // Sindhi translation of the meaning (Sindhi-Arabic script, e.g. "وڃڻ")
+  meaningSd String   @default("")
   // "en" | "sd" (Sindhi) | ...
   meaningLanguage String @default("en")
   // "pdf" | "regular-pattern" | "dataset" | "seed" | "tier-import"

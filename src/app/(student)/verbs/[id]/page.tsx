@@ -101,10 +101,30 @@ export default async function VerbDetailPage({
             ))}
           </div>
 
-          {/* Meaning */}
+          {/* Meaning — trilingual (English + Urdu + Sindhi) */}
           <div className="mt-6 rounded-xl border border-border bg-card p-5">
             <p className="text-xs font-semibold text-muted-foreground">Meaning</p>
-            <p className="mt-1.5 text-lg text-foreground">{verb.meaning}</p>
+            <div className="mt-2 space-y-2">
+              <div className="flex items-baseline gap-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">EN</span>
+                <p className="text-lg text-foreground">{verb.meaning}</p>
+              </div>
+              {verb.meaningUr && (
+                <div className="flex items-baseline gap-2 border-t border-border pt-2" dir="auto">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">اردو</span>
+                  <p className="text-lg text-foreground">{verb.meaningUr}</p>
+                </div>
+              )}
+              {verb.meaningSd && (
+                <div className="flex items-baseline gap-2 border-t border-border pt-2" dir="auto">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">سنڌي</span>
+                  <p className="text-lg text-foreground">{verb.meaningSd}</p>
+                </div>
+              )}
+              {!verb.meaningUr && !verb.meaningSd && (
+                <p className="text-xs text-muted-foreground/60 italic">Urdu + Sindhi translations are being added — check back soon.</p>
+              )}
+            </div>
           </div>
 
           {/* Meta */}
