@@ -2145,3 +2145,115 @@ Stage Summary:
   code, only explanatory comments in redirect pages).
 - Lint clean. Agent-browser visual confirms the lessons page renders the trilingual
   vocabulary cards + the embedded Sentence Generator on mobile.
+
+---
+Task ID: VERB-MEANINGS-ALL-4-BADGES
+Agent: main (Z.ai Code)
+Task: Add Urdu + Sindhi meanings to verbs for all 4 badges (basic, junior, senior, elite_senior). Earlier turn added meanings to 939/969 verbs; this turn fills in the remaining 30.
+
+Work Log:
+
+PART 1 — Identified the 30 verbs still missing Urdu + Sindhi meanings:
+
+Queried the database and found exactly 30 verbs with empty `meaningUr` and/or `meaningSd`:
+
+- **5 verbs (basic tier) had Urdu text in the `meaning` field** (from a PDF import that wrote Urdu into the English-meaning column):
+  - bid (meaning="بولی لگانا")
+  - deal (meaning="نبٹنا، سلوک کرنا")
+  - do (meaning="کرنا")
+  - dream (meaning="خواب دیکھنا")
+  - preach (meaning="وعظ کرنا، تبلیغ کرنا")
+  These needed: move Urdu → meaningUr, add English to meaning, add Sindhi to meaningSd.
+
+- **25 verbs (across basic, junior, senior tiers) had English meanings** and just needed Urdu + Sindhi added:
+  - senior: analyze, beam, bomb, box, branch, brave, burnish, bus, bust, clutch, coil
+  - junior: apply, approach, approve, attract, balance, ban, behave, belong, block, bore, camp, clear, concern
+  - basic: book
+
+PART 2 — Wrote a seed script for the 30 missing verbs:
+
+- prisma/seed-verb-translations-final.ts (NEW):
+  - Group 1 (5 verbs): moves the Urdu from `meaning` → `meaningUr`, sets an English `meaning`, adds a Sindhi `meaningSd`.
+    - bid → EN="to make an offer at an auction", UR="بولی لگانا", SD="ڀاڙو لڳائڻ"
+    - deal → EN="to handle or distribute", UR="نبٹنا، سلوک کرنا", SD="نبائڻ، سلو ڪرڻ"
+    - do → EN="to perform or carry out", UR="کرنا", SD="ڪرڻ"
+    - dream → EN="to see in sleep", UR="خواب دیکھنا", SD="خواب ڏسڻ"
+    - preach → EN="to give a religious talk", UR="وعظ کرنا، تبلیغ کرنا", SD="وعظ ڪرڻ، تبليغ ڪرڻ"
+  - Group 2 (25 verbs): adds Urdu + Sindhi to the existing English meaning.
+    - analyze → UR="تجزیہ کرنا", SD="تجزيو ڪرڻ"
+    - apply → UR="درخواست دینا، لگانا", SD="درخواست ڏيڻ، لڳائڻ"
+    - approach → UR="قریب آنا", SD="ويجهو اچڻ"
+    - approve → UR="منظور کرنا", SD="منظور ڪرڻ"
+    - attract → UR="کھینچنا، متوجہ کرنا", SD="ڪشش ڪرڻ، متوجهه ڪرڻ"
+    - balance → UR="متوازن رکھنا", SD="متوازن رکڻ"
+    - ban → UR="روکنا، پابندی لگانا", SD="روڪڻ، پابندي لڳائڻ"
+    - beam → UR="چمکنا", SD="چمڪڻ"
+    - behave → UR="رفتار کرنا، پیش آنا", SD="هل چل ڪرڻ، پيش اچڻ"
+    - belong → UR="تعلق رکھنا", SD="تعلق رکڻ"
+    - block → UR="روکنا، بند کرنا", SD="روڪڻ، بند ڪرڻ"
+    - bomb → UR="بمباری کرنا", SD="بمباري ڪرڻ"
+    - book → UR="محفوظ کرنا، بکنگ کرنا", SD="محفوظ ڪرڻ، بڪنگ ڪرڻ"
+    - bore → UR="اکتانا، بور کرنا", SD="اُڪتائڻ، بور ڪرڻ"
+    - box → UR="مکے بازی کرنا", SD="مڪي بازي ڪرڻ"
+    - branch → UR="شاخیں نکلنا", SD="شاخون نڪرڻ"
+    - brave → UR="ہمت سے سامنا کرنا", SD="همت سانمنهن ڪرڻ"
+    - burnish → UR="چمکانا، صاف کرنا", SD="چمڪائڻ، صاف ڪرڻ"
+    - bus → UR="بس سے لے جانا", SD="بس سان کڻي وڃڻ"
+    - bust → UR="گرفتار کرنا", SD="گرفتار ڪرڻ"
+    - camp → UR="ڈیرہ ڈالنا، خیمہ لگانا", SD="خيمو لڳائڻ، ڪئمپ هڻڻ"
+    - clear → UR="صاف کرنا، ہٹانا", SD="صاف ڪرڻ، هٽائڻ"
+    - clutch → UR="جپٹنا، پکڑنا", SD="پڪڙڻ، جهٽڪڻ"
+    - coil → UR="لپیٹنا، گھومنا", SD="وڙهڻ، گهمڻ"
+    - concern → UR="فکر مند ہونا", SD="فڪرمنده ٿيڻ"
+  - Idempotent: only updates verbs whose meaningUr or meaningSd is empty.
+
+PART 3 — Ran the seed script:
+
+- Used the direct Supabase URL (port 5432) because the pooled URL (port 6543) timed out on sequential UPDATEs.
+- First run updated all 30 verbs (5 Group 1 + 25 Group 2). The pooled-URL run timed out but the server-side updates completed; the second direct-URL run confirmed 25 were already done and updated the last 5.
+- Final state: **969/969 verbs with Urdu meaning, 969/969 with Sindhi meaning, 0 still missing.**
+
+PART 4 — Per-tier verification (the user's "all 4 badges" request):
+
+- **basic**: 190 verbs, **190 with Urdu, 190 with Sindhi** ✓
+- **junior**: 357 verbs, **357 with Urdu, 357 with Sindhi** ✓
+- **senior**: 422 verbs, **422 with Urdu, 422 with Sindhi** ✓
+- **elite_senior**: 0 verbs (no verbs are gated to this tier yet — they share the same pool as senior, so every verb the elite_senior student sees also has Urdu + Sindhi)
+
+Verification:
+
+- `bun run lint` → clean (no errors, no warnings).
+- Started dev server with the explicit Supabase env vars.
+
+End-to-end test results:
+
+[Verb detail pages — previously-missing verbs now show trilingual meanings]
+  - /verbs/[id] for "do" (basic):  EN="to perform or carry out" | UR="کرنا" | SD="ڪرڻ" ✓
+  - /verbs/[id] for "dream" (basic): EN="to see in sleep" | UR="خواب دیکھنا" | SD="خواب ڏسڻ" ✓
+  - /verbs/[id] for "analyze" (senior): EN="to examine in detail" | UR="تجزیہ کرنا" | SD="تجزيو ڪرڻ" ✓
+
+[Verbs list page /verbs — agent-browser visual (mobile 390x844)]
+  - HTTP 200. Desktop table header: V1 | Type | V2 | V3 | Meaning (EN) | اردو | سنڌي | Level | Actions
+  - Every verb row shows all 3 meanings. Sample (including previously-missing verbs):
+    - accept → to receive willingly | قبول کرنا | قبول ڪرڻ
+    - act → to do something | عمل کرنا | اڀڻياسي ڪرڻ
+    - add → to join | شامل کرنا | شامل ڪرڻ
+    - admit → to confess | تسلیم کرنا | تسليم ڪرڻ
+    - adopt → to take as one's own | اپنانا | اپنائڻ
+    - advise → to recommend | مشورہ دينا | صلاح ڏيڻ
+    - agree → to concur | متفق ہونا | متافق ٿيڻ
+    - allow → to permit | اجازت دينا | اجازت ڏيڻ
+    - analyze (was missing!) → to examine in detail | تجزیہ کرنا | تجزيو ڪرڻ ✓
+  - 969 verbs total, all with trilingual meanings.
+
+Stage Summary:
+- All 969 verbs across all 4 badge tiers (basic 190, junior 357, senior 422, elite_senior 0 —
+  shares the same pool) now have Urdu (نستعلیق) + Sindhi (Sindhi-Arabic) meanings in the database.
+  The 30 verbs that were previously missing translations have been filled in.
+- 5 of those 30 had Urdu text stuck in the English-meaning column (from a PDF import) —
+  the Urdu was correctly moved to `meaningUr`, an English meaning was added, and a Sindhi
+  translation was added.
+- The verbs list page (/verbs) and verb detail page (/verbs/[id]) both render the trilingual
+  meanings (EN / اردو / سنڌي) for every verb the student can access, regardless of their badge tier.
+- Lint clean. Agent-browser visual confirms the trilingual meanings render correctly in the
+  verbs list table on mobile.
