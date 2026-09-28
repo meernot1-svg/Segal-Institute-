@@ -17,8 +17,6 @@ import {
   Mic2,
   Trophy,
   BookOpen,
-  MessageSquare,
-  CalendarDays,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
@@ -40,17 +38,19 @@ const SECONDARY_NAV: NavItem[] = [
   { href: "/chat", label: "AI Tutor", icon: Bot },
   { href: "/speech-generator", label: "Speech Generator", icon: Mic },
   { href: "/poetry-generator", label: "Poetry Generator", icon: PenTool },
-  { href: "/sentence-generator", label: "Sentence Generator", icon: MessageSquare },
   { href: "/speeches", label: "Student Speeches", icon: Mic2 },
   { href: "/monthly-results", label: "My Monthly Results", icon: Trophy },
   { href: "/profile", label: "Profile", icon: User },
 ];
 
 // Mobile bottom nav — only 5 slots, used on every student page.
+// The Sentence Generator now lives INSIDE the Lessons page (as a "Practice
+// sentences" section), so the old standalone Sentences slot is replaced
+// with the Sentence Generator link that points at the lessons page anchor.
 const MOBILE_NAV: NavItem[] = [
   { href: "/dashboard", label: "Home", icon: LayoutDashboard },
   { href: "/lessons", label: "Lessons", icon: BookOpen },
-  { href: "/sentence-generator", label: "Sentences", icon: MessageSquare },
+  { href: "/verbs", label: "Verbs", icon: BookA },
   { href: "/speeches", label: "Speeches", icon: Mic2 },
   { href: "/chat", label: "AI Tutor", icon: Bot },
 ];

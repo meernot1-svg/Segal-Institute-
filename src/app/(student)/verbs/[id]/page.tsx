@@ -183,7 +183,7 @@ export default async function VerbDetailPage({
 
       <div className="mt-6 flex justify-center">
         <Button asChild variant="outline">
-          <Link href="/sentence-generator">Practice with the Sentence Generator</Link>
+          <Link href="/lessons#practice">Practice with the Sentence Generator</Link>
         </Button>
       </div>
     </div>

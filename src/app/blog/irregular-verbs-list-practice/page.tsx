@@ -86,7 +86,7 @@ export default function Page() {
           <Link href="/verbs" className="text-brand-emerald-deep underline-offset-4 hover:underline">verbs page</Link>{" "}
           and read each aloud. Use the pronunciation button to hear it.</li>
         <li><strong>Day 2:</strong> Use the{" "}
-          <Link href="/sentence-generator" className="text-brand-emerald-deep underline-offset-4 hover:underline">Sentence Generator</Link>{" "}
+          <Link href="/lessons#practice" className="text-brand-emerald-deep underline-offset-4 hover:underline">Sentence Generator</Link>{" "}
           to write 5 example sentences with each verb. Mark any tricky verbs as <em>difficult</em>.</li>
         <li><strong>Day 3:</strong> Open the{" "}
           <Link href="/chat" className="text-brand-emerald-deep underline-offset-4 hover:underline">AI Tutor</Link>{" "}

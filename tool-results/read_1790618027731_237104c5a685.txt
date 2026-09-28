@@ -1,0 +1,690 @@
+     1→/**
+     2→ * Senior-tier lessons — extracted from "Senior English Grammar Academy Workbook" PDF (61 pages).
+     3→ * 42 grammar lessons. Accessible only to Senior and Elite Senior badge holders.
+     4→ * Each lesson: Meaning → Where used → Nishaniyan → Sentence Formation → Key Patterns
+     5→ */
+     6→
+     7→import type { Lesson } from "./basic-lessons-data";
+     8→
+     9→export const SENIOR_LESSONS: Lesson[] = [
+    10→  { title: "1. Mind If", subtitle: "Polite permission", icon: "Clock", sections: [
+    11→    { heading: "Where Used", body: "Polite permission." },
+    12→    { heading: "Sentence Formation", body: "Would you mind if + Subject + V2 + Object?" },
+    13→    { heading: "Key Patterns", body: "", examples: [
+    14→      "Would you mind if I opened the door?",
+    15→      "Would you mind if I did not open the door?",
+    16→      "Would you mind if I sat here?",
+    17→      "Wouldn't you mind if I sat here?",
+    18→    ],
+    19→    examplesTr: [
+    20→      { en: "Would you mind if I opened the door?", ur: "کیا آپ کو اعتراض ہوگا اگر میں دروازہ کھول دوں؟", sd: "ڇا اوھين کي اعتراض ٿيندو هجي جيڪڏهن مان دروازو کوليان؟" },
+    21→      { en: "Would you mind if I did not open the door?", ur: "کیا آپ کو اعتراض ہوگا اگر میں دروازہ نہ کھولوں؟", sd: "ڇا اوھين کي اعتراض ٿيندو هجي جيڪڏهن مان دروازو نه کوليان؟" },
+    22→      { en: "Would you mind if I sat here?", ur: "کیا آپ کو اعتراض ہوگا اگر میں یہاں بیٹھ جاؤں؟", sd: "ڇا اوھين کي اعتراض ٿيندو هجي جيڪڏهن مان هتي ويهان؟" },
+    23→      { en: "Wouldn't you mind if I sat here?", ur: "کیا آپ کو اعتراض نہیں ہوگا اگر میں یہاں بیٹھ جاؤں؟", sd: "ڇا اوھين کي اعتراض نه ٿيندو هجي جيڪڏهن مان هتي ويهان؟" },
+    24→    ]},
+    25→  ]},
+    26→  { title: "2. What If — Supposition", subtitle: "Possible situation/result", icon: "Clock", sections: [
+    27→    { heading: "Where Used", body: "Possible situation or result." },
+    28→    { heading: "Sentence Formation", body: "What if + Subject + V1/V2…?" },
+    29→    { heading: "Key Patterns", body: "", examples: [
+    30→      "What if it rains tomorrow?",
+    31→      "What if he does not come?",
+    32→      "What if we miss the bus?",
+    33→      "What if we do not reach on time?",
+    34→    ],
+    35→    examplesTr: [
+    36→      { en: "What if it rains tomorrow?", ur: "اگر کل بارش ہو تو؟", sd: "جيڪڏهن سڀاڻي وسڪارو ٿئي ته؟" },
+    37→      { en: "What if he does not come?", ur: "اگر وہ نہ آئے تو؟", sd: "جيڪڏهن هوءَ نه اچي ته؟" },
+    38→      { en: "What if we miss the bus?", ur: "اگر ہم بس نہ پکڑ سکیں تو؟", sd: "جيڪڏهن اسان بسن وڃائي ڇڏياري ته؟" },
+    39→      { en: "What if we do not reach on time?", ur: "اگر ہم وقت پر نہ پہنچیں تو؟", sd: "جيڪڏهن اسان وقت تي نه پهٽون ته؟" },
+    40→    ]},
+    41→  ]},
+    42→  { title: "3. What If — Showing Fear", subtitle: "Worry and fear", icon: "Clock", sections: [
+    43→    { heading: "Where Used", body: "Worry or fear." },
+    44→    { heading: "Sentence Formation", body: "What if + feared situation?" },
+    45→    { heading: "Key Patterns", body: "", examples: [
+    46→      "What if I fail the exam?",
+    47→      "What if he does not return?",
+    48→      "What if we miss the bus?",
+    49→      "What if we do not get a ticket?",
+    50→    ],
+    51→    examplesTr: [
+    52→      { en: "What if I fail the exam?", ur: "اگر میں امتحان میں ناکام ہو جاؤں تو؟", sd: "جيڪڏهن مان امتحان ۾ ناڪام ٿي وڃان ته؟" },
+    53→      { en: "What if he does not return?", ur: "اگر وہ واپس نہ آئے تو؟", sd: "جيڪڏهن هوءَ موٽي نه اچي ته؟" },
+    54→      { en: "What if we miss the bus?", ur: "اگر ہم بس نہ پکڑ سکیں تو؟", sd: "جيڪڏهن اسان بسن وڃائي ڇڏياري ته؟" },
+    55→      { en: "What if we do not get a ticket?", ur: "اگر ہم کو ٹکٹ نہ ملے تو؟", sd: "جيڪڏهن اسان کي ٽڪيٽ نه ملي ته؟" },
+    56→    ]},
+    57→  ]},
+    58→  { title: "4. Unless", subtitle: "Negative condition", icon: "Clock", sections: [
+    59→    { heading: "Where Used", body: "Negative condition (if not)." },
+    60→    { heading: "Sentence Formation", body: "Main clause + unless + Subject + V1. Normally do not add 'not' after unless." },
+    61→    { heading: "Key Patterns", body: "", examples: [
+    62→      "You will fail unless you study.",
+    63→      "I will not go unless he comes.",
+    64→      "Will you go unless he comes?",
+    65→      "Won't you go unless he comes?",
+    66→    ],
+    67→    examplesTr: [
+    68→      { en: "You will fail unless you study.", ur: "تم ناکام ہو جاؤ گے جب تک تم نہ پڑھو۔", sd: "اوھين ناڪام ٿي ويندا جيستائين اوھين نه پڙهيو." },
+    69→      { en: "I will not go unless he comes.", ur: "میں نہیں جاؤں گا جب تک وہ نہ آئے۔", sd: "مان نه ويندس جيستائين هوءَ نه اچي." },
+    70→      { en: "Will you go unless he comes?", ur: "کیا تم جاؤ گے جب تک وہ نہ آئے؟", sd: "ڇا اوھين ويندا جيستائين هوءَ نه اچي؟" },
+    71→      { en: "Won't you go unless he comes?", ur: "کیا تم نہیں جاؤ گے جب تک وہ نہ آئے؟", sd: "ڇا اوھين نه ويندا جيستائين هوءَ نه اچي؟" },
+    72→    ]},
+    73→  ]},
+    74→  { title: "5. Either…Or", subtitle: "Two alternatives, one choice", icon: "Clock", sections: [
+    75→    { heading: "Where Used", body: "Two alternatives; one choice." },
+    76→    { heading: "Sentence Formation", body: "Subject + V + either + A + or + B." },
+    77→    { heading: "Key Patterns", body: "", examples: [
+    78→      "You can either study or play.",
+    79→      "You cannot either study or play.",
+    80→      "Can you either study or play?",
+    81→      "Can't you either study or play?",
+    82→    ],
+    83→    examplesTr: [
+    84→      { en: "You can either study or play.", ur: "تم یا تو پڑھ سکتے ہو یا کھیل سکتے ہو۔", sd: "اوھين يا ته پڙهي سگهو ٿا يا کائي سگهو ٿا." },
+    85→      { en: "You cannot either study or play.", ur: "تم نہ پڑھ سکتے ہو نہ کھیل سکتے ہو۔", sd: "اوھين نه پڙهي سگهو ٿا نه کائي سگهو ٿا." },
+    86→      { en: "Can you either study or play?", ur: "کیا تم یا تو پڑھ سکتے ہو یا کھیل سکتے ہو؟", sd: "ڇا اوھين يا ته پڙهي سگهو ٿا يا کائي سگهو ٿا؟" },
+    87→      { en: "Can't you either study or play?", ur: "کیا تم نہ پڑھ سکتے ہو نہ کھیل سکتے ہو؟", sd: "ڇا اوھين نه پڙهي سگهو ٿا نه کائي سگهو ٿا؟" },
+    88→    ]},
+    89→  ]},
+    90→  { title: "6. Neither…Nor", subtitle: "Reject both options", icon: "Clock", sections: [
+    91→    { heading: "Where Used", body: "Reject both options or persons." },
+    92→    { heading: "Sentence Formation", body: "Neither + A + nor + B. Avoid double negatives." },
+    93→    { heading: "Key Patterns", body: "", examples: [
+    94→      "Neither Ali nor Ahmed is present.",
+    95→      "Neither Ali nor Ahmed came.",
+    96→      "Did neither Ali nor Ahmed come?",
+    97→      "Didn't either Ali or Ahmed come?",
+    98→    ],
+    99→    examplesTr: [
+   100→      { en: "Neither Ali nor Ahmed is present.", ur: "نہ علی حاضر ہے نہ احمد۔", sd: "نه علي حاضر آهي نه احمد." },
+   101→      { en: "Neither Ali nor Ahmed came.", ur: "نہ علی آیا نہ احمد۔", sd: "نه علي آيو نه احمد." },
+   102→      { en: "Did neither Ali nor Ahmed come?", ur: "کیا نہ علی آیا نہ احمد؟", sd: "ڇا نه علي آيو نه احمد؟" },
+   103→      { en: "Didn't either Ali or Ahmed come?", ur: "کیا علی یا احمد میں سے کوئی نہیں آیا؟", sd: "ڇا علي يا احمد مان ڪو به نه آيو؟" },
+   104→    ]},
+   105→  ]},
+   106→  { title: "7. As Well As", subtitle: "Add extra information", icon: "Clock", sections: [
+   107→    { heading: "Where Used", body: "Add extra information." },
+   108→    { heading: "Sentence Formation", body: "A + as well as + B. Verb follows the main subject." },
+   109→    { heading: "Key Patterns", body: "", examples: [
+   110→      "He plays cricket as well as football.",
+   111→      "He doesn't play cricket as well as football.",
+   112→      "Does he play cricket as well as football?",
+   113→      "Doesn't he play cricket as well as football?",
+   114→    ],
+   115→    examplesTr: [
+   116→      { en: "He plays cricket as well as football.", ur: "وہ کرکٹ کے ساتھ ساتھ فٹ بال بھی کھیلتا ہے۔", sd: "هوءَ ڪرڪيٽ سان گڏوگڏ فٽ بال به کائيندو آهي." },
+   117→      { en: "He doesn't play cricket as well as football.", ur: "وہ کرکٹ کے ساتھ ساتھ فٹ بال بھی نہیں کھیلتا۔", sd: "هوءَ ڪرڪيٽ سان گڏوگڏ فٽ بال به نه کائيندو آهي." },
+   118→      { en: "Does he play cricket as well as football?", ur: "کیا وہ کرکٹ کے ساتھ ساتھ فٹ بال بھی کھیلتا ہے؟", sd: "ڇا هوءَ ڪرڪيٽ سان گڏوگڏ فٽ بال به کائيندو آهي؟" },
+   119→      { en: "Doesn't he play cricket as well as football?", ur: "کیا وہ کرکٹ کے ساتھ ساتھ فٹ بال بھی نہیں کھیلتا؟", sd: "ڇا هوءَ ڪرڪيٽ سان گڏوگڏ فٽ بال به نه کائيندو آهي؟" },
+   120→    ]},
+   121→  ]},
+   122→  { title: "8. Lest", subtitle: "Formal warning or fear", icon: "Clock", sections: [
+   123→    { heading: "Where Used", body: "Formal warning or fear." },
+   124→    { heading: "Sentence Formation", body: "Main clause + lest + Subject + should + V1." },
+   125→    { heading: "Key Patterns", body: "", examples: [
+   126→      "Work hard lest you should fail.",
+   127→      "Do not go outside lest you should fall ill.",
+   128→      "Should we hurry lest we should miss the train?",
+   129→      "Shouldn't we hurry lest we should miss the train?",
+   130→    ],
+   131→    examplesTr: [
+   132→      { en: "Work hard lest you should fail.", ur: "محنت کرو کہیں ایسا نہ ہو کہ تم ناکام ہو جاؤ۔", sd: "محنت ڪريو متان اوھين ناڪام ٿي وڃو." },
+   133→      { en: "Do not go outside lest you should fall ill.", ur: "باہر مت جانا کہیں ایسا نہ ہو کہ تم بیمار ہو جاؤ۔", sd: "ٻاهر نه وڃو متان اوھين بيمار ٿي پئو." },
+   134→      { en: "Should we hurry lest we should miss the train?", ur: "کیا ہمیں جلدی کرنی چاہیے کہیں ایسا نہ ہو کہ ہم ٹرین نہ پا سکیں؟", sd: "ڇا اسان کي جلدي ڪرڻ گهرجي متان اسان ريٽرهي وڃائجي؟" },
+   135→      { en: "Shouldn't we hurry lest we should miss the train?", ur: "کیا ہمیں جلدی نہیں کرنی چاہیے کہیں ایسا نہ ہو کہ ہم ٹرین نہ پا سکیں؟", sd: "ڇا اسان کي جلدي نه ڪرڻ گهرجي متان اسان ريٽرهي وڃائجي؟" },
+   136→    ]},
+   137→  ]},
+   138→  { title: "9. Has To / Have To", subtitle: "Present necessity", icon: "Clock", sections: [
+   139→    { heading: "Where Used", body: "Present necessity." },
+   140→    { heading: "Sentence Formation", body: "He/She/It + has to + V1; I/You/We/They + have to + V1." },
+   141→    { heading: "Key Patterns", body: "", examples: [
+   142→      "He has to study.",
+   143→      "He doesn't have to study.",
+   144→      "Does he have to study?",
+   145→      "Doesn't he have to study?",
+   146→    ],
+   147→    examplesTr: [
+   148→      { en: "He has to study.", ur: "اسے پڑھنا ہے۔", sd: "کيس پڙهڻو آهي." },
+   149→      { en: "He doesn't have to study.", ur: "اسے نہیں پڑھنا۔", sd: "کيس پڙهڻو ڪانهي." },
+   150→      { en: "Does he have to study?", ur: "کیا اسے پڑھنا ہے؟", sd: "ڇا کيس پڙهڻو آهي؟" },
+   151→      { en: "Doesn't he have to study?", ur: "کیا اسے نہیں پڑھنا؟", sd: "ڇا کيس پڙهڻو ڪانهي؟" },
+   152→    ]},
+   153→  ]},
+   154→  { title: "10. Had To", subtitle: "Past necessity", icon: "Clock", sections: [
+   155→    { heading: "Where Used", body: "Past necessity." },
+   156→    { heading: "Sentence Formation", body: "Subject + had to + V1. Negative: did not have to + V1." },
+   157→    { heading: "Key Patterns", body: "", examples: [
+   158→      "I had to leave early.",
+   159→      "I did not have to leave early.",
+   160→      "Did you have to leave early?",
+   161→      "Didn't you have to leave early?",
+   162→    ],
+   163→    examplesTr: [
+   164→      { en: "I had to leave early.", ur: "مجھے جلدی جانا پڑا۔", sd: "مون کي جلدي وڃڻو پيو." },
+   165→      { en: "I did not have to leave early.", ur: "مجھے جلدی نہیں جانا پڑا۔", sd: "مون کي جلدي وڃڻو ڪو نه پيو." },
+   166→      { en: "Did you have to leave early?", ur: "کیا آپ کو جلدی جانا پڑا؟", sd: "ڇا اوھين کي جلدي وڃڻو پيو؟" },
+   167→      { en: "Didn't you have to leave early?", ur: "کیا آپ کو جلدی نہیں جانا پڑا؟", sd: "ڇا اوھين کي جلدي وڃڻو ڪو نه پيو؟" },
+   168→    ]},
+   169→  ]},
+   170→  { title: "11. Will Have To / Shall Have To", subtitle: "Future necessity", icon: "Clock", sections: [
+   171→    { heading: "Where Used", body: "Future necessity." },
+   172→    { heading: "Sentence Formation", body: "Subject + will have to + V1." },
+   173→    { heading: "Key Patterns", body: "", examples: [
+   174→      "I will have to study.",
+   175→      "I will not have to study.",
+   176→      "Will I have to study?",
+   177→      "Won't I have to study?",
+   178→    ],
+   179→    examplesTr: [
+   180→      { en: "I will have to study.", ur: "مجھے پڑھنا پڑے گا۔", sd: "مون کي پڙهڻو پوندو." },
+   181→      { en: "I will not have to study.", ur: "مجھے نہیں پڑھنا پڑے گا۔", sd: "مون کي پڙهڻو نه پوندو." },
+   182→      { en: "Will I have to study?", ur: "کیا مجھے پڑھنا پڑے گا؟", sd: "ڇا مون کي پڙهڻو پوندو؟" },
+   183→      { en: "Won't I have to study?", ur: "کیا مجھے نہیں پڑھنا پڑے گا؟", sd: "ڇا مون کي پڙهڻو نه پوندو؟" },
+   184→    ]},
+   185→  ]},
+   186→  { title: "12. As If / As Though", subtitle: "Appearance or unreal comparison", icon: "Clock", sections: [
+   187→    { heading: "Where Used", body: "Appearance or unreal comparison." },
+   188→    { heading: "Sentence Formation", body: "S + V + as if/as though + clause." },
+   189→    { heading: "Key Patterns", body: "", examples: [
+   190→      "He behaves as if he were rich.",
+   191→      "He does not behave as if he were rich.",
+   192→      "Does he behave as if he were rich?",
+   193→      "Use the natural negative-question form; some fixed structures are normally not split.",
+   194→    ],
+   195→    examplesTr: [
+   196→      { en: "He behaves as if he were rich.", ur: "وہ ایسا برتاؤ کرتا ہے جیسے وہ امیر ہو۔", sd: "هوءَ اهڙو اچار رکي ٿو ڄڻ ته هوءَ مالدار هجي." },
+   197→      { en: "He does not behave as if he were rich.", ur: "وہ ایسا برتاؤ نہیں کرتا جیسے وہ امیر ہو۔", sd: "هوءَ اهڙو اچار نه رکي ڄڻ ته هوءَ مالدار هجي." },
+   198→      { en: "Does he behave as if he were rich?", ur: "کیا وہ ایسا برتاؤ کرتا ہے جیسے وہ امیر ہو؟", sd: "ڇا هوءَ اهڙو اچار رکي ٿو ڄڻ ته هوءَ مالدار هجي؟" },
+   199→      { en: "Use the natural negative-question form; some fixed structures are normally not split.", ur: "قدرتی نفی-سوال کی شکل استعمال کریں؛ کچھ مستحکم ساختوں کو عام طور پر نہیں توڑا جاتا۔", sd: "قدرتي منفي-سوال واري شڪل استعمال ڪريو؛ ڪي به مستحڪم بناوتن کي عام طور نه ڀڃيو ويندو آهي." },
+   200→    ]},
+   201→  ]},
+   202→  { title: "13. Remove 'To'", subtitle: "Modals, let, make, had better, would rather", icon: "Clock", sections: [
+   203→    { heading: "Where Used", body: "After modals, let, make, had better, would rather — 'to' is removed." },
+   204→    { heading: "Sentence Formation", body: "Modal + V1 / Let + O + V1 / had better + V1" },
+   205→    { heading: "Key Patterns", body: "", examples: [
+   206→      "I can swim. (not: I can to swim)",
+   207→      "Let me go. (not: Let me to go)",
+   208→      "You had better study. (not: had better to study)",
+   209→      "I would rather stay. (not: would rather to stay)",
+   210→    ],
+   211→    examplesTr: [
+   212→      { en: "I can swim. (not: I can to swim)", ur: "میں تیر سکتا ہوں۔ (نہیں: I can to swim)", sd: "مان تري سگهان ٿو. (نه: I can to swim)" },
+   213→      { en: "Let me go. (not: Let me to go)", ur: "مجھے جانے دو۔ (نہیں: Let me to go)", sd: "مون کي وڃڻ ڏيو. (نه: Let me to go)" },
+   214→      { en: "You had better study. (not: had better to study)", ur: "تمہیں پڑھنا چاہیے۔ (نہیں: had better to study)", sd: "اوھين کي پڙهڻ گهرجي. (نه: had better to study)" },
+   215→      { en: "I would rather stay. (not: would rather to stay)", ur: "میں رہنا پسند کروں گا۔ (نہیں: would rather to stay)", sd: "مان رهڻ پسند ڪريان. (نه: would rather to stay)" },
+   216→    ]},
+   217→  ]},
+   218→  { title: "14. Know How To", subtitle: "Skill or method", icon: "Clock", sections: [
+   219→    { heading: "Where Used", body: "Skill or method." },
+   220→    { heading: "Sentence Formation", body: "know/knows + how to + V1" },
+   221→    { heading: "Key Patterns", body: "", examples: [
+   222→      "I know how to swim.",
+   223→      "I do not know how to swim.",
+   224→      "Do you know how to swim?",
+   225→      "Does she know how to cook?",
+   226→    ],
+   227→    examplesTr: [
+   228→      { en: "I know how to swim.", ur: "مجھے تیرنا آتا ہے۔", sd: "مون کي ترڻ ايندو آهي." },
+   229→      { en: "I do not know how to swim.", ur: "مجھے تیرنا نہیں آتا۔", sd: "مون کي ترڻ نه ايندو آهي." },
+   230→      { en: "Do you know how to swim?", ur: "کیا آپ کو تیرنا آتا ہے؟", sd: "ڇا اوھين کي ترڻ ايندو آهي؟" },
+   231→      { en: "Does she know how to cook?", ur: "کیا اسے کھانا بنانا آتا ہے؟", sd: "ڇا کيس کاڌو ٺاهڻ ايندو آهي؟" },
+   232→    ]},
+   233→  ]},
+   234→  { title: "15. Not To Talk / Speak / Mention", subtitle: "Negative infinitive or reported command", icon: "Clock", sections: [
+   235→    { heading: "Where Used", body: "Negative infinitive or reported command." },
+   236→    { heading: "Sentence Formation", body: "verb + object + not to + V1" },
+   237→    { heading: "Key Patterns", body: "", examples: [
+   238→      "I told him not to talk in class.",
+   239→      "She asked me not to mention it.",
+   240→      "He warned them not to speak loudly.",
+   241→      "Did she tell you not to go?",
+   242→    ],
+   243→    examplesTr: [
+   244→      { en: "I told him not to talk in class.", ur: "میں نے اسے کہا کہ کلاس میں بات نہ کرے۔", sd: "مون کيس چيو ته ڪلاس ۾ ڳالهائي نه." },
+   245→      { en: "She asked me not to mention it.", ur: "اس نے مجھ سے کہا کہ اس کا ذکر نہ کروں۔", sd: "هن مون کان چيو ته ان جو ذڪر نه ڪريان." },
+   246→      { en: "He warned them not to speak loudly.", ur: "اس نے انہیں تنبیہ کی کہ زور سے بات نہ کریں۔", sd: "هن کين تنبيه ڪئي ته زور سان ڳالهائي نه." },
+   247→      { en: "Did she tell you not to go?", ur: "کیا اس نے آپ سے کہا کہ نہ جائیں؟", sd: "ڇا هن اوھين کي چيو ته نه وڃو؟" },
+   248→    ]},
+   249→  ]},
+   250→  { title: "16. Not Only…But Also", subtitle: "Parallel addition or emphasis", icon: "Clock", sections: [
+   251→    { heading: "Where Used", body: "Parallel addition or emphasis." },
+   252→    { heading: "Sentence Formation", body: "not only A but also B" },
+   253→    { heading: "Key Patterns", body: "", examples: [
+   254→      "He is not only intelligent but also hardworking.",
+   255→      "She not only sings but also dances.",
+   256→      "They not only passed the test but also scored highest.",
+   257→      "Did he not only write the book but also publish it?",
+   258→    ],
+   259→    examplesTr: [
+   260→      { en: "He is not only intelligent but also hardworking.", ur: "وہ نہ صرف ذہین ہے بلکہ محنتی بھی ہے۔", sd: "هوءَ نه رڳو ذهين آهي پر محنتي به آهي." },
+   261→      { en: "She not only sings but also dances.", ur: "وہ نہ صرف گاتی ہے بلکہ ناچتی بھی ہے۔", sd: "هوءَ نه رڳو ڳائي ٿي پر ناچي به ٿي." },
+   262→      { en: "They not only passed the test but also scored highest.", ur: "انہوں نے نہ صرف امتحان پاس کیا بلکہ سب سے زیادہ نمبر بھی حاصل کیے۔", sd: "کين نه رڳو امتحان پاس ڪيو پر بهترين نمبر به حاصل ڪيا." },
+   263→      { en: "Did he not only write the book but also publish it?", ur: "کیا اس نے نہ صرف کتاب لکھی بلکہ شائع بھی کی؟", sd: "ڇا هن نه رڳو ڪتاب لکيو پر شايع به ڪيو؟" },
+   264→    ]},
+   265→  ]},
+   266→  { title: "17. In Spite Of", subtitle: "Contrast", icon: "Clock", sections: [
+   267→    { heading: "Where Used", body: "Contrast — similar to 'despite' but always followed by 'of'." },
+   268→    { heading: "Sentence Formation", body: "in spite of + noun/pronoun/V-ing" },
+   269→    { heading: "Key Patterns", body: "", examples: [
+   270→      "In spite of the rain, we played cricket.",
+   271→      "He passed in spite of his illness.",
+   272→      "She succeeded in spite of being poor.",
+   273→      "Did they come in spite of the storm?",
+   274→    ],
+   275→    examplesTr: [
+   276→      { en: "In spite of the rain, we played cricket.", ur: "بارش کے باوجود، ہم نے کرکٹ کھیلی۔", sd: "وسڪاري جي باوجود، اسان ڪرڪيٽ کايئي." },
+   277→      { en: "He passed in spite of his illness.", ur: "اس نے بیماری کے باوجود پاس کیا۔", sd: "هن بيماري جي باوجود پاس ڪئي." },
+   278→      { en: "She succeeded in spite of being poor.", ur: "غریب ہونے کے باوجود وہ کامیاب ہو گئی۔", sd: "غريب هجڻ جي باوجود هوءَ ڪامياب ٿي." },
+   279→      { en: "Did they come in spite of the storm?", ur: "کیا وہ طوفان کے باوجود آئے؟", sd: "ڇا هو طوفان جي باوجود آيا؟" },
+   280→    ]},
+   281→  ]},
+   282→  { title: "18. Despite", subtitle: "Contrast (no 'of')", icon: "Clock", sections: [
+   283→    { heading: "Where Used", body: "Contrast; no 'of' after despite." },
+   284→    { heading: "Sentence Formation", body: "despite + noun/pronoun/V-ing" },
+   285→    { heading: "Key Patterns", body: "", examples: [
+   286→      "Despite the rain, we played cricket.",
+   287→      "He passed despite his illness.",
+   288→      "She succeeded despite being poor.",
+   289→      "Did they come despite the storm?",
+   290→    ],
+   291→    examplesTr: [
+   292→      { en: "Despite the rain, we played cricket.", ur: "بارش کے باوجود، ہم نے کرکٹ کھیلی۔", sd: "وسڪاري جي باوجود، اسان ڪرڪيٽ کايئي." },
+   293→      { en: "He passed despite his illness.", ur: "اس نے بیماری کے باوجود پاس کیا۔", sd: "هن بيماري جي باوجود پاس ڪئي." },
+   294→      { en: "She succeeded despite being poor.", ur: "غریب ہونے کے باوجود وہ کامیاب ہو گئی۔", sd: "غريب هجڻ جي باوجود هوءَ ڪامياب ٿي." },
+   295→      { en: "Did they come despite the storm?", ur: "کیا وہ طوفان کے باوجود آئے؟", sd: "ڇا هو طوفان جي باوجود آيا؟" },
+   296→    ]},
+   297→  ]},
+   298→  { title: "19. As Soon As", subtitle: "Immediate sequence", icon: "Clock", sections: [
+   299→    { heading: "Where Used", body: "Immediate sequence." },
+   300→    { heading: "Sentence Formation", body: "as soon as + present, will + V1" },
+   301→    { heading: "Key Patterns", body: "", examples: [
+   302→      "As soon as he arrives, I will tell him.",
+   303→      "As soon as the bell rings, the class will start.",
+   304→      "I will call you as soon as I reach home.",
+   305→      "Will you tell me as soon as you get the result?",
+   306→    ],
+   307→    examplesTr: [
+   308→      { en: "As soon as he arrives, I will tell him.", ur: "جیسے ہی وہ پہنچے گا، میں اسے بتا دوں گا۔", sd: "جيئن ئي هوءَ پهچندو، تيئن مان کيس ٻڌايان." },
+   309→      { en: "As soon as the bell rings, the class will start.", ur: "جیسے ہی گھنٹی بجے گی، کلاس شروع ہو جائے گی۔", sd: "جيئن ئي گهنٽي وڄندي، تيئن ڪلاس شروع ٿيندي." },
+   310→      { en: "I will call you as soon as I reach home.", ur: "میں گھر پہنچتے ہی آپ کو فون کروں گا۔", sd: "مان گهر پهچندي ئي اوھين کي فون ڪريان." },
+   311→      { en: "Will you tell me as soon as you get the result?", ur: "کیا آپ مجھے نتیجہ ملتے ہی بتائیں گے؟", sd: "ڇا اوھين مون کي نتيجو ملندي ئي ٻڌايو؟" },
+   312→    ]},
+   313→  ]},
+   314→  { title: "20. No Sooner…Than", subtitle: "Formal immediate sequence with inversion", icon: "Clock", sections: [
+   315→    { heading: "Where Used", body: "Formal immediate sequence; requires inversion." },
+   316→    { heading: "Sentence Formation", body: "No sooner had + S + V3 + than + S + V2" },
+   317→    { heading: "Key Patterns", body: "", examples: [
+   318→      "No sooner had I arrived than the phone rang.",
+   319→      "No sooner had she sat down than the bell rang.",
+   320→      "No sooner had they left than it started raining.",
+   321→      "No sooner had the teacher entered than the students stood up.",
+   322→    ],
+   323→    examplesTr: [
+   324→      { en: "No sooner had I arrived than the phone rang.", ur: "جیسے ہی میں پہنچا، فون بج گیا۔", sd: "جيئن ئي مان پهتس، تيئن فون وڄي پيو." },
+   325→      { en: "No sooner had she sat down than the bell rang.", ur: "جیسے ہی وہ بیٹھی، گھنٹی بج گئی۔", sd: "جيئن ئي هوءَ ويهي، تيئن گهنٽي وڄي پئي." },
+   326→      { en: "No sooner had they left than it started raining.", ur: "جیسے ہی وہ نکلے، بارش شروع ہو گئی۔", sd: "جيئن ئي هو نڪتا، تيئن وسڪارو شروع ٿيو." },
+   327→      { en: "No sooner had the teacher entered than the students stood up.", ur: "جیسے ہی استاد اندر آیا، طلباء کھڑے ہو گئے۔", sd: "جيئن ئي استاد اندر آيو، تيئن شاگرد کڙا ٿيا." },
+   328→    ]},
+   329→  ]},
+   330→  { title: "21. Can't Help", subtitle: "Uncontrollable reaction", icon: "Clock", sections: [
+   331→    { heading: "Where Used", body: "Uncontrollable reaction." },
+   332→    { heading: "Sentence Formation", body: "can't help + V-ing" },
+   333→    { heading: "Key Patterns", body: "", examples: [
+   334→      "I can't help laughing at his jokes.",
+   335→      "She can't help crying when she watches sad movies.",
+   336→      "They can't help wondering about the result.",
+   337→      "Can you help feeling sorry for him?",
+   338→    ],
+   339→    examplesTr: [
+   340→      { en: "I can't help laughing at his jokes.", ur: "میں اس کے مذاق پر ہنسے بغیر نہیں رہ سکتا۔", sd: "مان سندس مزاق تي کلڻ کان سواءِ نه رهي سگهان ٿو." },
+   341→      { en: "She can't help crying when she watches sad movies.", ur: "وہ اداس فلمیں دیکھ کر روئے بغیر نہیں رہ سکتی۔", sd: "هوءَ اداس فلمون ڏسي روئڻ کان سواءِ نه رهي سگهي ٿي." },
+   342→      { en: "They can't help wondering about the result.", ur: "وہ نتیجے کے بارے میں سوچے بغیر نہیں رہ سکتے۔", sd: "هو نتيجي بابت سوچڻ کان سواءِ نه رهي سگهن ٿا." },
+   343→      { en: "Can you help feeling sorry for him?", ur: "کیا آپ اس پر افسوس محسوس کیے بغیر نہیں رہ سکتے؟", sd: "ڇا اوھين کيس افسوس محسوس ڪرڻ کان سواءِ نه رهي سگهو ٿا؟" },
+   344→    ]},
+   345→  ]},
+   346→  { title: "22. Supposed To", subtitle: "Duty, expectation, or schedule", icon: "Clock", sections: [
+   347→    { heading: "Where Used", body: "Duty, expectation, or schedule." },
+   348→    { heading: "Sentence Formation", body: "be supposed to + V1" },
+   349→    { heading: "Key Patterns", body: "", examples: [
+   350→      "He is supposed to be here by 9 AM.",
+   351→      "She is not supposed to use her phone in class.",
+   352→      "Are they supposed to submit the report today?",
+   353→      "We were supposed to meet at the station.",
+   354→    ],
+   355→    examplesTr: [
+   356→      { en: "He is supposed to be here by 9 AM.", ur: "اس کا صبح 9 بجے تک یہاں ہونا چاہیے۔", sd: "کيس صبح 9 وڳي تائين هتي هجڻ گهرجي." },
+   357→      { en: "She is not supposed to use her phone in class.", ur: "اسے کلاس میں اپنا فون استعمال نہیں کرنا چاہیے۔", sd: "کيس ڪلاس ۾ پنهنجو فون استعمال نه ڪرڻ گهرجي." },
+   358→      { en: "Are they supposed to submit the report today?", ur: "کیا آج ان سے رپورٹ جمع کرانے کی توقّع ہے؟", sd: "ڇا اڄ کانئن رپورٽ جمع ڪرڻ جي توقع آهي؟" },
+   359→      { en: "We were supposed to meet at the station.", ur: "ہمیں اسٹیشن پر ملنا تھا۔", sd: "اسان کي اسٽيشن تي ملڻو هو." },
+   360→    ]},
+   361→  ]},
+   362→  { title: "23. While", subtitle: "Simultaneous or background action", icon: "Clock", sections: [
+   363→    { heading: "Where Used", body: "Simultaneous or background action." },
+   364→    { heading: "Sentence Formation", body: "while + clause" },
+   365→    { heading: "Key Patterns", body: "", examples: [
+   366→      "While I was studying, she was cooking.",
+   367→      "He fell asleep while watching TV.",
+   368→      "While they were playing, it started to rain.",
+   369→      "Did she call while I was out?",
+   370→    ],
+   371→    examplesTr: [
+   372→      { en: "While I was studying, she was cooking.", ur: "جب میں پڑھ رہا تھا، وہ کھانا بنا رہی تھی۔", sd: "جڏهن مان پڙهي رهيو هوس، تڏهن هوءَ کاڌو پچائي رهي هئي." },
+   373→      { en: "He fell asleep while watching TV.", ur: "ٹی وی دیکھتے ہوئے وہ سو گیا۔", sd: "ٽي وي ڏسندي هوءَ کڀرو ٿي ويو." },
+   374→      { en: "While they were playing, it started to rain.", ur: "جب وہ کھیل رہے تھے، بارش شروع ہو گئی۔", sd: "جڏهن هو کائي رهيا هئا، تڏهن وسڪارو شروع ٿيو." },
+   375→      { en: "Did she call while I was out?", ur: "کیا اس نے فون کیا جب میں باہر تھا؟", sd: "ڇا هن فون ڪيو جڏهن مان ٻاهر هوس؟" },
+   376→    ]},
+   377→  ]},
+   378→  { title: "24. Hardly / Scarcely / Barely", subtitle: "Immediate past sequence with inversion", icon: "Clock", sections: [
+   379→    { heading: "Where Used", body: "Immediate past sequence; requires inversion." },
+   380→    { heading: "Sentence Formation", body: "Hardly/Scarcely/Barely + had + S + V3 + when + S + V2" },
+   381→    { heading: "Key Patterns", body: "", examples: [
+   382→      "Hardly had I reached the station when the train left.",
+   383→      "Scarcely had she finished speaking when the bell rang.",
+   384→      "Barely had they sat down when the show started.",
+   385→      "Hardly had the teacher entered when the students stood up.",
+   386→    ],
+   387→    examplesTr: [
+   388→      { en: "Hardly had I reached the station when the train left.", ur: "میں اسٹیشن پہنچتے ہی ٹرین نکل گئی۔", sd: "مان اسٽيشن پهچندي ئي ريٽرهي نڪري وئي." },
+   389→      { en: "Scarcely had she finished speaking when the bell rang.", ur: "وہ بات مکمل کرتے ہی گھنٹی بج گئی۔", sd: "هوءَ ڳالهائڻ مڪمل ڪندي ئي گهنٽي وڄي پئي." },
+   390→      { en: "Barely had they sat down when the show started.", ur: "وہ بیٹھتے ہی شو شروع ہو گیا۔", sd: "هو ويهندڙي ئي شو شروع ٿيو." },
+   391→      { en: "Hardly had the teacher entered when the students stood up.", ur: "استاد اندر آتے ہی طلباء کھڑے ہو گئے۔", sd: "استاد اندر اچڻ سانئي شاگرد کڙا ٿيا." },
+   392→    ]},
+   393→  ]},
+   394→  { title: "25. May / Might", subtitle: "Possibility; may also permission", icon: "Clock", sections: [
+   395→    { heading: "Where Used", body: "Possibility; may also permission." },
+   396→    { heading: "Sentence Formation", body: "may/might + V1" },
+   397→    { heading: "Key Patterns", body: "", examples: [
+   398→      "It may rain today.",
+   399→      "She might come tomorrow.",
+   400→      "May I borrow your pen?",
+   401→      "He might not attend the meeting.",
+   402→    ],
+   403→    examplesTr: [
+   404→      { en: "It may rain today.", ur: "آج بارش ہو سکتی ہے۔", sd: "اڄ وسڪارو ٿي سگهي ٿو." },
+   405→      { en: "She might come tomorrow.", ur: "وہ کل آ سکتی ہے۔", sd: "هوءَ سڀاڻي اچي سگهي ٿي." },
+   406→      { en: "May I borrow your pen?", ur: "کیا میں آپ کا قلم لے سکتا ہوں؟", sd: "ڇا مان اوھانجي پينڪڙي وٺي سگهان ٿو؟" },
+   407→      { en: "He might not attend the meeting.", ur: "وہ اجلاس میں شاید نہ آئے۔", sd: "هوءَ شايد اجلاس ۾ نه اچي." },
+   408→    ]},
+   409→  ]},
+   410→  { title: "26. Though / Although / Even Though", subtitle: "Contrast", icon: "Clock", sections: [
+   411→    { heading: "Where Used", body: "Contrast." },
+   412→    { heading: "Sentence Formation", body: "Though/Although/Even though + clause, main clause" },
+   413→    { heading: "Key Patterns", body: "", examples: [
+   414→      "Although it was raining, we played cricket.",
+   415→      "Even though she was tired, she finished her homework.",
+   416→      "Though he studied hard, he did not pass.",
+   417→      "Did they come although it was snowing?",
+   418→    ],
+   419→    examplesTr: [
+   420→      { en: "Although it was raining, we played cricket.", ur: "اگرچہ بارش ہو رہی تھی، ہم نے کرکٹ کھیلی۔", sd: "جيتوڻي وسڪارو پي رهيو هو، اسان ڪرڪيٽ کايئي." },
+   421→      { en: "Even though she was tired, she finished her homework.", ur: "اگرچہ وہ تھکی ہوئی تھی، اس نے اپنا ہوم ورک مکمل کیا۔", sd: "جيتوڻي هوءَ ٿڪل هئي، هن پنهنجو گهرڙو ڪم مڪمل ڪيو." },
+   422→      { en: "Though he studied hard, he did not pass.", ur: "اگرچہ اس نے محنت سے پڑھا، وہ پاس نہ ہوا۔", sd: "جيتوڻي هن محنت سان پڙهيو، هوءَ پاس نه ٿيو." },
+   423→      { en: "Did they come although it was snowing?", ur: "کیا وہ آئے اگرچہ برف باری ہو رہی تھی؟", sd: "ڇا هو آيا جيتوڻي برفباري پي رهي هئي؟" },
+   424→    ]},
+   425→  ]},
+   426→  { title: "27. Provided That", subtitle: "Condition or requirement", icon: "Clock", sections: [
+   427→    { heading: "Where Used", body: "Condition or requirement." },
+   428→    { heading: "Sentence Formation", body: "provided that + clause" },
+   429→    { heading: "Key Patterns", body: "", examples: [
+   430→      "You may go provided that you finish your work.",
+   431→      "I will help you provided that you help me.",
+   432→      "They can join provided that they register first.",
+   433→      "Will she come provided that we invite her?",
+   434→    ],
+   435→    examplesTr: [
+   436→      { en: "You may go provided that you finish your work.", ur: "آپ جا سکتے ہیں بشرطیکہ آپ اپنا کام مکمل کریں۔", sd: "اوھين وڃي سگهو ٿا بشرطيڪه اوھين پنهنجو ڪم مڪمل ڪريو." },
+   437→      { en: "I will help you provided that you help me.", ur: "میں آپ کی مدد کروں گا بشرطیکہ آپ میری مدد کریں۔", sd: "مان اوھين جي مدد ڪريان بشرطيڪه اوھين مون جي مدد ڪريو." },
+   438→      { en: "They can join provided that they register first.", ur: "وہ شامل ہو سکتے ہیں بشرطیکہ وہ پہلے رجسٹر ہوں۔", sd: "هو شامل ٿي سگهن ٿا بشرطيڪه هو پهرين رجسٽر ٿين." },
+   439→      { en: "Will she come provided that we invite her?", ur: "کیا وہ آئے گی بشرطیکہ ہم اسے دعوت دیں؟", sd: "ڇا هوءَ اچي بشرطيڪه اسان کيس دعوت ڏيون؟" },
+   440→    ]},
+   441→  ]},
+   442→  { title: "28. Having", subtitle: "Completed action before main clause", icon: "Clock", sections: [
+   443→    { heading: "Where Used", body: "Completed action before the main clause." },
+   444→    { heading: "Sentence Formation", body: "Having + V3, main clause" },
+   445→    { heading: "Key Patterns", body: "", examples: [
+   446→      "Having finished his homework, he went to play.",
+   447→      "Having eaten dinner, they went for a walk.",
+   448→      "Having completed the project, she submitted it.",
+   449→      "Having read the book, I can discuss it.",
+   450→    ],
+   451→    examplesTr: [
+   452→      { en: "Having finished his homework, he went to play.", ur: "اپنا ہوم ورک مکمل کر کے، وہ کھیلنے چلا گیا۔", sd: "پنهنجو گهرڙو ڪم مڪمل ڪري، هوءَ کائڻ ويو." },
+   453→      { en: "Having eaten dinner, they went for a walk.", ur: "رات کا کھانا کھا کر، وہ سیر کو نکلے۔", sd: "رات جو کاڌو کائي، هو سير تي نڪتا." },
+   454→      { en: "Having completed the project, she submitted it.", ur: "پروجیکٹ مکمل کر کے، اس نے اسے جمع کر دیا۔", sd: "پروجيڪٽ مڪمل ڪري، هن کيس جمع ڪيو." },
+   455→      { en: "Having read the book, I can discuss it.", ur: "کتاب پڑھ چکے ہوئے، میں اس پر بات کر سکتا ہوں۔", sd: "ڪتاب پڙهي چڪو مان، ان تي ڳالهائي سگهان ٿو." },
+   456→    ]},
+   457→  ]},
+   458→  { title: "29. Able To / In A Position To", subtitle: "Ability or capacity", icon: "Clock", sections: [
+   459→    { heading: "Where Used", body: "Ability or capacity." },
+   460→    { heading: "Sentence Formation", body: "be + able to + V1 / be + in a position to + V1" },
+   461→    { heading: "Key Patterns", body: "", examples: [
+   462→      "I am able to solve this problem.",
+   463→      "She was able to pass the test.",
+   464→      "They are not in a position to help us.",
+   465→      "Will you be able to attend the meeting?",
+   466→    ],
+   467→    examplesTr: [
+   468→      { en: "I am able to solve this problem.", ur: "میں اس مسئلے کو حل کرنے کے قابل ہوں۔", sd: "مان هن مشڪلي کي حل ڪرڻ جي لائق آهيان." },
+   469→      { en: "She was able to pass the test.", ur: "وہ امتحان پاس کرنے کے قابل تھی۔", sd: "هوءَ امتحان پاس ڪرڻ جي لائق هئي." },
+   470→      { en: "They are not in a position to help us.", ur: "وہ ہماری مدد کے قابل نہیں ہیں۔", sd: "هو اسان جي مدد ڪرڻ جي حالت ۾ نه آهن." },
+   471→      { en: "Will you be able to attend the meeting?", ur: "کیا آپ اجلاس میں شامل ہونے کے قابل ہوں گے؟", sd: "ڇا اوھين اجلاس ۾ شامل ٿيڻ جي لائق هوندا؟" },
+   472→    ]},
+   473→  ]},
+   474→  { title: "30. Let", subtitle: "Permission or allowing", icon: "Clock", sections: [
+   475→    { heading: "Where Used", body: "Permission or allowing." },
+   476→    { heading: "Sentence Formation", body: "Let + object + V1 (no 'to')" },
+   477→    { heading: "Key Patterns", body: "", examples: [
+   478→      "Let me go.",
+   479→      "She let him use her phone.",
+   480→      "They did not let us enter.",
+   481→      "Did the teacher let you leave early?",
+   482→    ],
+   483→    examplesTr: [
+   484→      { en: "Let me go.", ur: "مجھے جانے دو۔", sd: "مون کي وڃڻ ڏيو." },
+   485→      { en: "She let him use her phone.", ur: "اس نے اسے اپنا فون استعمال کرنے دیا۔", sd: "هن کيس پنهنجو فون استعمال ڪرڻ ڏنو." },
+   486→      { en: "They did not let us enter.", ur: "انہوں نے ہمیں اندر آنے نہیں دیا۔", sd: "کين اسان کي اندر اچڻ نه ڏنو." },
+   487→      { en: "Did the teacher let you leave early?", ur: "کیا استاد نے آپ کو جلدی جانے دیا؟", sd: "ڇا استاد اوھين کي جلدي وڃڻ ڏنو؟" },
+   488→    ]},
+   489→  ]},
+   490→  { title: "31. Let's", subtitle: "Suggestion", icon: "Clock", sections: [
+   491→    { heading: "Where Used", body: "Suggestion." },
+   492→    { heading: "Sentence Formation", body: "let's + V1; let's not + V1" },
+   493→    { heading: "Key Patterns", body: "", examples: [
+   494→      "Let's go for a walk.",
+   495→      "Let's not argue about this.",
+   496→      "Let's study together for the exam.",
+   497→      "Let's not waste time.",
+   498→    ],
+   499→    examplesTr: [
+   500→      { en: "Let's go for a walk.", ur: "چلیں سیر کو چلتے ہیں۔", sd: "اچو ته سير تي وڃون." },
+   501→      { en: "Let's not argue about this.", ur: "آئیے اس پر بحث نہ کریں۔", sd: "اچو ان تي بحث نه ڪريون." },
+   502→      { en: "Let's study together for the exam.", ur: "آئیے مل کر امتحان کے لیے پڑھیں۔", sd: "اچو گڏجي امتحان لاءِ پڙهون." },
+   503→      { en: "Let's not waste time.", ur: "آئیے وقت ضائع نہ کریں۔", sd: "اچو وقت ضايع نه ڪريون." },
+   504→    ]},
+   505→  ]},
+   506→  { title: "32. Zero Conditional", subtitle: "Facts, rules, and general truths", icon: "GitBranch", sections: [
+   507→    { heading: "Where Used", body: "Facts, rules, and general truths." },
+   508→    { heading: "Sentence Formation", body: "If + present, present" },
+   509→    { heading: "Key Patterns", body: "", examples: [
+   510→      "If you heat ice, it melts.",
+   511→      "If water reaches 100°C, it boils.",
+   512→      "If you mix blue and yellow, you get green.",
+   513→      "If people eat too much, they get fat.",
+   514→    ],
+   515→    examplesTr: [
+   516→      { en: "If you heat ice, it melts.", ur: "اگر آپ برف گرم کریں تو وہ پگھل جاتی ہے۔", sd: "جيڪڏهن اوھين برف گرم ڪريو ته اها پگهري وڃي ٿي." },
+   517→      { en: "If water reaches 100°C, it boils.", ur: "اگر پانی 100 ڈگری تک پہنچے، تو وہ ابلتا ہے۔", sd: "جيڪڏهن پاڻي 100 ڊگري تي پهچي ته اها اُڀلي ٿو." },
+   518→      { en: "If you mix blue and yellow, you get green.", ur: "اگر آپ نیلا اور پیلا ملا دیں، تو آپ کو سبز ملتا ہے۔", sd: "جيڪڏهن اوھين نيرو ۽ پيلو ملائيو ته اوھين سائو ملائي ٿو." },
+   519→      { en: "If people eat too much, they get fat.", ur: "اگر لوگ بہت زیادہ کھائیں تو وہ موٹے ہو جاتے ہیں۔", sd: "جيڪڏهن ماڻهو گهڻو کائين ته هو موٽا ٿي وڃن ٿا." },
+   520→    ]},
+   521→  ]},
+   522→  { title: "33. First Conditional", subtitle: "Real or possible future", icon: "GitBranch", sections: [
+   523→    { heading: "Where Used", body: "Real or possible future condition." },
+   524→    { heading: "Sentence Formation", body: "If + present, will + V1" },
+   525→    { heading: "Key Patterns", body: "", examples: [
+   526→      "If it rains, I will stay home.",
+   527→      "If you study hard, you will pass the exam.",
+   528→      "If she calls, I will answer.",
+   529→      "If they come early, we will start on time.",
+   530→    ],
+   531→    examplesTr: [
+   532→      { en: "If it rains, I will stay home.", ur: "اگر بارش ہو، تو میں گھر پر رہوں گا۔", sd: "جيڪڏهن وسڪارو ٿئي ته مان گهر رهندس." },
+   533→      { en: "If you study hard, you will pass the exam.", ur: "اگر آپ محنت سے پڑھیں، تو آپ امتحان پاس کر لیں گے۔", sd: "جيڪڏهن اوھين محنت سان پڙهيو ته اوھين امتحان پاس ڪندا." },
+   534→      { en: "If she calls, I will answer.", ur: "اگر وہ فون کرے، تو میں جواب دوں گا۔", sd: "جيڪڏهن هوءَ فون ڪري ته مان جواب ڏيندس." },
+   535→      { en: "If they come early, we will start on time.", ur: "اگر وہ جلدی آئیں، تو ہم وقت پر شروع کریں گے۔", sd: "جيڪڏهن هو جلدي اچن ته اسان وقت تي شروع ڪنداسين." },
+   536→    ]},
+   537→  ]},
+   538→  { title: "34. Second Conditional", subtitle: "Imaginary or unlikely present/future", icon: "GitBranch", sections: [
+   539→    { heading: "Where Used", body: "Imaginary or unlikely present or future condition." },
+   540→    { heading: "Sentence Formation", body: "If + past, would + V1" },
+   541→    { heading: "Key Patterns", body: "", examples: [
+   542→      "If I had money, I would travel the world.",
+   543→      "If she were here, she would help us.",
+   544→      "If I were you, I would apologize.",
+   545→      "If they knew the truth, they would be angry.",
+   546→    ],
+   547→    examplesTr: [
+   548→      { en: "If I had money, I would travel the world.", ur: "اگر میرے پاس پیسہ ہوتا، تو میں دنیا گھومتا۔", sd: "جيڪڏهن مون وٽ پيسا هجي ها ته مان دنيا گهمان ها." },
+   549→      { en: "If she were here, she would help us.", ur: "اگر وہ یہاں ہوتی، تو ہماری مدد کرتی۔", sd: "جيڪڏهن هوءَ هتي هجي ها ته اسان جي مدد ڪري ها." },
+   550→      { en: "If I were you, I would apologize.", ur: "اگر میں آپ کی جگہ ہوتا، تو معذرت چاہتا۔", sd: "جيڪڏهن مان اوھانجي جاءِ تي هجان ها ته معافي گهران ها." },
+   551→      { en: "If they knew the truth, they would be angry.", ur: "اگر انہیں سچ پتہ ہوتا، تو وہ ناراض ہوتے۔", sd: "جيڪڏهن کين سچ معلوم هجي ها ته هو ناراض هجن ها." },
+   552→    ]},
+   553→  ]},
+   554→  { title: "35. Third Conditional", subtitle: "Imagined past result (regret)", icon: "GitBranch", sections: [
+   555→    { heading: "Where Used", body: "Imagined past result; regret." },
+   556→    { heading: "Sentence Formation", body: "If + had + V3, would have + V3" },
+   557→    { heading: "Key Patterns", body: "", examples: [
+   558→      "If I had studied, I would have passed.",
+   559→      "If she had left earlier, she would have caught the train.",
+   560→      "If they had known, they would have helped.",
+   561→      "If he had asked, I would have given it to him.",
+   562→    ],
+   563→    examplesTr: [
+   564→      { en: "If I had studied, I would have passed.", ur: "اگر میں پڑھا ہوتا، تو کامیاب ہو جاتا۔", sd: "جيڪڏهن مون پڙهيو هجي ها ته ڪامياب ٿي وڃان ها." },
+   565→      { en: "If she had left earlier, she would have caught the train.", ur: "اگر وہ جلدی نکلتی، تو ٹرین پا لیت۔", sd: "جيڪڏهن هوءَ جلدي نڪتي هجي ها ته ريٽرهي وڃي ها." },
+   566→      { en: "If they had known, they would have helped.", ur: "اگر انہیں معلوم ہوتا، تو وہ مدد کرتے۔", sd: "جيڪڏهن کين معلوم هجي ها ته هو مدد ڪري ها." },
+   567→      { en: "If he had asked, I would have given it to him.", ur: "اگر اس نے مانگا ہوتا، تو میں اسے دے دیتا۔", sd: "جيڪڏهن هن گهريو هجي ها ته مان کيس ڏئي ڇڏيان ها." },
+   568→    ]},
+   569→  ]},
+   570→  { title: "36. Mixed Conditional", subtitle: "Past cause + present consequence", icon: "GitBranch", sections: [
+   571→    { heading: "Where Used", body: "Past cause with present consequence." },
+   572→    { heading: "Sentence Formation", body: "If + had + V3, would + V1 (present result)" },
+   573→    { heading: "Key Patterns", body: "", examples: [
+   574→      "If I had studied medicine, I would be a doctor now.",
+   575→      "If she had married him, she would live in Karachi today.",
+   576→      "If they had saved money, they would be rich now.",
+   577→      "If he had taken the job, he would be happier today.",
+   578→    ],
+   579→    examplesTr: [
+   580→      { en: "If I had studied medicine, I would be a doctor now.", ur: "اگر میں طب پڑھا ہوتا، تو اب ڈاکٹر ہوتا۔", sd: "جيڪڏهن مون طب پڙهيو هجي ها ته هاڻي ڊاڪٽر هجان." },
+   581→      { en: "If she had married him, she would live in Karachi today.", ur: "اگر اس نے اس سے شادی کی ہوتی، تو آج کراچی میں رہتی۔", sd: "جيڪڏهن هن کانئس شادي ڪئي هجي ها ته اڄ ڪراچي ۾ رهي ها." },
+   582→      { en: "If they had saved money, they would be rich now.", ur: "اگر انہوں نے پیسہ بچایا ہوتا، تو اب امیر ہوتے۔", sd: "جيڪڏهن کين پيسو بچايو هجي ها ته هاڻي مالدار هجن." },
+   583→      { en: "If he had taken the job, he would be happier today.", ur: "اگر اس نے نوکری قبول کی ہوتی، تو آج زیادہ خوش ہوتا۔", sd: "جيڪڏهن هن نوکري قبول ڪئي هجي ها ته اڄ وڌيڪ خوش هجي." },
+   584→    ]},
+   585→  ]},
+   586→  { title: "37. Had Better", subtitle: "Strong advice or warning", icon: "Clock", sections: [
+   587→    { heading: "Where Used", body: "Strong advice or warning." },
+   588→    { heading: "Sentence Formation", body: "had better + V1; had better not + V1" },
+   589→    { heading: "Key Patterns", body: "", examples: [
+   590→      "You had better study tonight.",
+   591→      "You had better not be late.",
+   592→      "She had better finish her homework before going out.",
+   593→      "We had better leave now or we'll miss the bus.",
+   594→    ],
+   595→    examplesTr: [
+   596→      { en: "You had better study tonight.", ur: "آپ کو آج رات پڑھنا چاہیے۔", sd: "اوھين کي اڄ رات پڙهڻ گهرجي." },
+   597→      { en: "You had better not be late.", ur: "آپ کو دیر نہیں کرنا چاہیے۔", sd: "اوھين کي دير نه ڪرڻ گهرجي." },
+   598→      { en: "She had better finish her homework before going out.", ur: "اسے باہر جانے سے پہلے اپنا ہوم ورک مکمل کر لینا چاہیے۔", sd: "کيس ٻاهر وڃڻ کان اڳ پنهنجو گهرڙو ڪم مڪمل ڪرڻ گهرجي." },
+   599→      { en: "We had better leave now or we'll miss the bus.", ur: "ہمیں اب جانا چاہیے ورنہ ہم بس نہیں پا سکیں گے۔", sd: "اسان کي هاڻي وڃڻ گهرجي نه ته اسان بسن وڃائي ڇڏينداسين." },
+   600→    ]},
+   601→  ]},
+   602→  { title: "38. Exclamatory Sentences", subtitle: "Joy, surprise, praise, regret", icon: "Clock", sections: [
+   603→    { heading: "Where Used", body: "Expressing joy, surprise, praise, or regret." },
+   604→    { heading: "Sentence Formation", body: "What + a/an + adjective + noun! / How + adjective!" },
+   605→    { heading: "Key Patterns", body: "", examples: [
+   606→      "What a beautiful flower!",
+   607→      "How wonderful the weather is!",
+   608→      "What a pity he missed the party!",
+   609→      "How fast she runs!",
+   610→    ],
+   611→    examplesTr: [
+   612→      { en: "What a beautiful flower!", ur: "کیسا خوبصورت پھول ہے!", sd: "ڪهو سهڻو گل آهي!" },
+   613→      { en: "How wonderful the weather is!", ur: "موسم کیا خوبصورت ہے!", sd: "موسم ڪهو سهڻو آهي!" },
+   614→      { en: "What a pity he missed the party!", ur: "افسوس کہ وہ پارٹی سے محروم رہا!", sd: "ارمان ته هو پارٽي وڃائي ڇڏيائين!" },
+   615→      { en: "How fast she runs!", ur: "وہ کتنی تیز دوڑتی ہے!", sd: "هوءَ ڪيتري تيز ڊوڙي ٿي!" },
+   616→    ]},
+   617→  ]},
+   618→  { title: "39. Optative Sentences", subtitle: "Wish, prayer, blessing", icon: "Clock", sections: [
+   619→    { heading: "Where Used", body: "Wish, prayer, or blessing." },
+   620→    { heading: "Sentence Formation", body: "May + Subject + V1…" },
+   621→    { heading: "Key Patterns", body: "", examples: [
+   622→      "May you live long!",
+   623→      "May God bless you!",
+   624→      "May you succeed in life!",
+   625→      "May Allah give you health and happiness!",
+   626→    ],
+   627→    examplesTr: [
+   628→      { en: "May you live long!", ur: "اللہ آپ کو لمبی زندگی دے!", sd: "اللہ اوھين کي ڊگهي زندگي ڏي!" },
+   629→      { en: "May God bless you!", ur: "اللہ آپ کو برکت دے!", sd: "اللہ اوھين کي برکت ڏي!" },
+   630→      { en: "May you succeed in life!", ur: "اللہ آپ کو زندگی میں کامیابی دے!", sd: "اللہ اوھين کي زندگي ۾ ڪاميابي ڏي!" },
+   631→      { en: "May Allah give you health and happiness!", ur: "اللہ آپ کو صحت اور خوشی عطا کرے!", sd: "اللہ اوھين کي صحت ۽ خوشي عطا ڪري!" },
+   632→    ]},
+   633→  ]},
+   634→  { title: "40. What If — Quick Review", subtitle: "Supposition or fear", icon: "Clock", sections: [
+   635→    { heading: "Where Used", body: "Supposition or fear." },
+   636→    { heading: "Sentence Formation", body: "What if + clause?" },
+   637→    { heading: "Key Patterns", body: "", examples: [
+   638→      "What if we lose the match?",
+   639→      "What if she doesn't come?",
+   640→      "What if the train is late?",
+   641→      "What if they reject our application?",
+   642→    ],
+   643→    examplesTr: [
+   644→      { en: "What if we lose the match?", ur: "اگر ہم میچ ہار جائیں تو؟", sd: "جيڪڏهن اسان ميچ هاري وڃائون ته؟" },
+   645→      { en: "What if she doesn't come?", ur: "اگر وہ نہ آئے تو؟", sd: "جيڪڏهن هوءَ نه اچي ته؟" },
+   646→      { en: "What if the train is late?", ur: "اگر ٹرین دیر سے آئے تو؟", sd: "جيڪڏهن ريٽرهي دير سان اچي ته؟" },
+   647→      { en: "What if they reject our application?", ur: "اگر وہ ہماری درخواست رد کر دیں تو؟", sd: "جيڪڏهن هو اسان جي درخواست رد ڪن ته؟" },
+   648→    ]},
+   649→  ]},
+   650→  { title: "41. Conditional Sentences — Five-Part Revision", subtitle: "All five conditional patterns", icon: "GitBranch", sections: [
+   651→    { heading: "Where Used", body: "Revision of all five conditional patterns." },
+   652→    {
+   653→      heading: "All Five Conditionals",
+   654→      body: "",
+   655→      table: {
+   656→        headers: ["Type", "Structure", "Example"],
+   657→        rows: [
+   658→          ["Zero", "If + present, present", "If you heat ice, it melts."],
+   659→          ["First", "If + present, will + V1", "If it rains, I will stay home."],
+   660→          ["Second", "If + past, would + V1", "If I had money, I would travel."],
+   661→          ["Third", "If + had V3, would have V3", "If I had studied, I would have passed."],
+   662→          ["Mixed", "If + had V3, would + V1", "If I had studied, I would be a doctor."],
+   663→        ],
+   664→      },
+   665→    },
+   666→  ]},
+   667→  { title: "42. Master Grammar Pattern Review", subtitle: "Quick reference and error prevention", icon: "BookOpen", sections: [
+   668→    { heading: "Where Used", body: "Quick reference and error prevention for all 42 lessons." },
+   669→    {
+   670→      heading: "Key Formulas Summary",
+   671→      body: "",
+   672→      table: {
+   673→        headers: ["Pattern", "Formula"],
+   674→        rows: [
+   675→          ["Mind if", "Would you mind if + S + V2?"],
+   676→          ["Unless", "Main + unless + S + V1 (no 'not')"],
+   677→          ["Lest", "Main + lest + S + should + V1"],
+   678→          ["No sooner", "No sooner had + S + V3 + than + S + V2"],
+   679→          ["Hardly/Scarcely", "Hardly had + S + V3 + when + S + V2"],
+   680→          ["Can't help", "can't help + V-ing"],
+   681→          ["Not only…but also", "not only A but also B"],
+   682→          ["In spite of / Despite", "+ noun/pronoun/V-ing"],
+   683→          ["Conditionals", "Zero → First → Second → Third → Mixed"],
+   684→        ],
+   685→      },
+   686→    },
+   687→    { heading: "Common Mistakes", body: "Use the exact formula of each lesson; do not add or remove 'to' or auxiliaries randomly. Remember: 'unless' already means 'if not' — don't use 'not' after it. 'Despite' does not take 'of'. After 'lest', always use 'should'." },
+   688→  ]},
+   689→];
+   690→

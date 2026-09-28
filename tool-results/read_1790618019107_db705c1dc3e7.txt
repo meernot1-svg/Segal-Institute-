@@ -1,0 +1,1039 @@
+     1→/**
+     2→ * Junior-tier lessons — extracted from "Junior English Grammar COMPLETE Workbook" PDF.
+     3→ * 16 lessons covering: 12 Tenses + To Be Verbs + Have/Has/Had + Have To/Has To/Had To
+     4→ * + Demonstrative Adjectives.
+     5→ * Each lesson follows the workbook's pattern: Use → Nishaniyan → Formation → Examples
+     6→ * → Four Forms → Common Mistakes.
+     7→ */
+     8→
+     9→import type { Lesson } from "./basic-lessons-data";
+    10→
+    11→export const JUNIOR_LESSONS: Lesson[] = [
+    12→  // === PART A: 12 TENSES ===
+    13→  {
+    14→    title: "1. Present Simple",
+    15→    subtitle: "Habits, routines, facts and general truths",
+    16→    icon: "Clock",
+    17→    sections: [
+    18→      { heading: "Use", body: "Habits, routines, repeated actions, facts and general truths." },
+    19→      { heading: "Nishaniyan (Identifying Signs)", body: "every day, usually, always, often, sometimes, generally, daily" },
+    20→      { heading: "Formation", body: "<strong>Subject + V1(s/es) + Object</strong><br>Third person singular (he/she/it) adds -s or -es." },
+    21→      {
+    22→        heading: "Solved Examples",
+    23→        body: "English sentences with Urdu and Sindhi meanings:",
+    24→        examples: [
+    25→          "I go to school every day. (میں روزانہ سکول جاتا ہوں / مان روزانو سڪول وڃان ٿو)",
+    26→          "She reads a book every night. (وہ ہر رات ایک کتاب پڑھتی ہے / هوءَ هر رات ڪتاب پڙهي ٿي)",
+    27→          "They play cricket after school. (وہ سکول کے بعد کرکٹ کھیلتے ہیں / هو سڪول کانپوءِ ڪرڪيٽ کائيندا آهن)",
+    28→          "He helps his mother. (وہ اپنی ماں کی مدد کرتا ہے / هوءَ پنهنجي ماءُ جي مدد ڪندو آهي)",
+    29→          "The sun rises in the east. (سورج مشرق میں نکلتا ہے / سج اڀرندي پاسي اڀرندو آهي)",
+    30→        ],
+    31→        examplesTr: [
+    32→          {
+    33→            en: "I go to school every day.",
+    34→            ur: "میں روزانہ سکول جاتا ہوں۔",
+    35→            sd: "مان روزانو سڪول وڃان ٿو.",
+    36→          },
+    37→          {
+    38→            en: "She reads a book every night.",
+    39→            ur: "وہ ہر رات ایک کتاب پڑھتی ہے۔",
+    40→            sd: "هوءَ هر رات ڪتاب پڙهي ٿي.",
+    41→          },
+    42→          {
+    43→            en: "They play cricket after school.",
+    44→            ur: "وہ سکول کے بعد کرکٹ کھیلتے ہیں۔",
+    45→            sd: "هو سڪول کانپوءِ ڪرڪيٽ کائيندا آهن.",
+    46→          },
+    47→          {
+    48→            en: "He helps his mother.",
+    49→            ur: "وہ اپنی ماں کی مدد کرتا ہے۔",
+    50→            sd: "هوءَ پنهنجي ماءُ جي مدد ڪندو آهي.",
+    51→          },
+    52→          {
+    53→            en: "The sun rises in the east.",
+    54→            ur: "سورج مشرق میں نکلتا ہے۔",
+    55→            sd: "سج اڀرندي پاسي اڀرندو آهي.",
+    56→          },
+    57→        ],
+    58→      },
+    59→      {
+    60→        heading: "Four Forms",
+    61→        body: "",
+    62→        table: {
+    63→          headers: ["Form", "Example"],
+    64→          rows: [
+    65→            ["Affirmative", "She plays cricket."],
+    66→            ["Negative", "She does not play cricket."],
+    67→            ["Interrogative", "Does she play cricket?"],
+    68→            ["Interrogative Negative", "Does she not play cricket?"],
+    69→          ],
+    70→        },
+    71→      },
+    72→      { heading: "Common Mistakes", body: "Do <strong>not</strong> use V2 after does/did; use V1: <em>Does she play?</em> not <em>Does she played?</em>" },
+    73→    ],
+    74→  },
+    75→  {
+    76→    title: "2. Present Continuous",
+    77→    subtitle: "Actions happening now or around the present time",
+    78→    icon: "Clock",
+    79→    sections: [
+    80→      { heading: "Use", body: "An action happening now or around the present time." },
+    81→      { heading: "Nishaniyan (Identifying Signs)", body: "now, right now, at the moment, currently, today" },
+    82→      { heading: "Formation", body: "<strong>Subject + am/is/are + V-ing + Object</strong>" },
+    83→      {
+    84→        heading: "Solved Examples",
+    85→        body: "",
+    86→        examples: [
+    87→          "I am studying English now. (میں اب انگریزی پڑھ رہا ہوں)",
+    88→          "She is cooking dinner. (وہ کھانا پکا رہی ہے)",
+    89→          "They are playing football. (وہ فٹبال کھیل رہے ہیں)",
+    90→          "He is writing a letter. (وہ خط لکھ رہا ہے)",
+    91→          "We are learning grammar. (ہم گرامر سیکھ رہے ہیں)",
+    92→        ],
+    93→        examplesTr: [
+    94→          {
+    95→            en: "I am studying English now.",
+    96→            ur: "میں اب انگریزی پڑھ رہا ہوں۔",
+    97→            sd: "مان هاڻي انگريزي پڙهي رهيو آهيان.",
+    98→          },
+    99→          {
+   100→            en: "She is cooking dinner.",
+   101→            ur: "وہ کھانا پکا رہی ہے۔",
+   102→            sd: "هوءَ کائڻي پچائي رهي آهي.",
+   103→          },
+   104→          {
+   105→            en: "They are playing football.",
+   106→            ur: "وہ فٽبال کھیل رہے ہیں۔",
+   107→            sd: "هو فٽبال کائي رهيا آهن.",
+   108→          },
+   109→          {
+   110→            en: "He is writing a letter.",
+   111→            ur: "وہ خط لکھ رہا ہے۔",
+   112→            sd: "هو خط لکي رهيو آهي.",
+   113→          },
+   114→          {
+   115→            en: "We are learning grammar.",
+   116→            ur: "ہم گرامر سیکھ رہے ہیں۔",
+   117→            sd: "اسين گرامر سکي رهيا آهيون.",
+   118→          },
+   119→        ],
+   120→      },
+   121→      {
+   122→        heading: "Four Forms",
+   123→        body: "",
+   124→        table: {
+   125→          headers: ["Form", "Example"],
+   126→          rows: [
+   127→            ["Affirmative", "She is reading a book."],
+   128→            ["Negative", "She is not reading a book."],
+   129→            ["Interrogative", "Is she reading a book?"],
+   130→            ["Interrogative Negative", "Is she not reading a book?"],
+   131→          ],
+   132→        },
+   133→      },
+   134→      { heading: "Common Mistakes", body: "Use the correct form of <strong>be</strong> before V-ing. <em>I am going</em> not <em>I going</em>." },
+   135→    ],
+   136→  },
+   137→  {
+   138→    title: "3. Present Perfect",
+   139→    subtitle: "Recently completed actions connected to the present",
+   140→    icon: "Clock",
+   141→    sections: [
+   142→      { heading: "Use", body: "An action completed recently or with a result connected to the present." },
+   143→      { heading: "Nishaniyan (Identifying Signs)", body: "already, just, yet, ever, never, so far, recently" },
+   144→      { heading: "Formation", body: "<strong>Subject + has/have + V3 + Object</strong>" },
+   145→      {
+   146→        heading: "Solved Examples",
+   147→        body: "",
+   148→        examples: [
+   149→          "I have finished my homework. (میں اپنا ہوم ورک مکمل کر چکا ہوں)",
+   150→          "She has visited Karachi twice. (اس نے کراچی دو بار دیکھا ہے)",
+   151→          "They have eaten dinner. (انہوں نے کھانا کھا لیا ہے)",
+   152→          "He has lost his pen. (اس کا قلم گم ہو گیا ہے)",
+   153→          "We have lived here for five years. (ہم یہاں پانچ سال سے رہ رہے ہیں)",
+   154→        ],
+   155→        examplesTr: [
+   156→          {
+   157→            en: "I have finished my homework.",
+   158→            ur: "میں اپنا ہوم ورک مکمل کر چکا ہوں۔",
+   159→            sd: "مان پنهنجو گهر ڪم مڪمل ڪري چڪو آهيان.",
+   160→          },
+   161→          {
+   162→            en: "She has visited Karachi twice.",
+   163→            ur: "اس نے کراچی دو بار دیکھا ہے۔",
+   164→            sd: "هن ڪراچي ٻه ڀيرا ڏٺو آهي.",
+   165→          },
+   166→          {
+   167→            en: "They have eaten dinner.",
+   168→            ur: "انہوں نے کھانا کھا لیا ہے۔",
+   169→            sd: "هنن کائڻي کائي وٺي آهي.",
+   170→          },
+   171→          {
+   172→            en: "He has lost his pen.",
+   173→            ur: "اس کا قلم گم ہو گیا ہے۔",
+   174→            sd: "هن جو قلم وڃائي ويو آهي.",
+   175→          },
+   176→          {
+   177→            en: "We have lived here for five years.",
+   178→            ur: "ہم یہاں پانچ سال سے رہ رہے ہیں۔",
+   179→            sd: "اسين هتي پنجن سالن کان رهي رهيا آهيون.",
+   180→          },
+   181→        ],
+   182→      },
+   183→      {
+   184→        heading: "Four Forms",
+   185→        body: "",
+   186→        table: {
+   187→          headers: ["Form", "Example"],
+   188→          rows: [
+   189→            ["Affirmative", "She has written a letter."],
+   190→            ["Negative", "She has not written a letter."],
+   191→            ["Interrogative", "Has she written a letter?"],
+   192→            ["Interrogative Negative", "Has she not written a letter?"],
+   193→          ],
+   194→        },
+   195→      },
+   196→      { heading: "Common Mistakes", body: "Use <strong>has</strong> with he/she/it and <strong>have</strong> with I/we/you/they." },
+   197→    ],
+   198→  },
+   199→  {
+   200→    title: "4. Present Perfect Continuous",
+   201→    subtitle: "Actions that started in the past and continue up to now",
+   202→    icon: "Clock",
+   203→    sections: [
+   204→      { heading: "Use", body: "An action that started in the past and has continued up to now." },
+   205→      { heading: "Nishaniyan (Identifying Signs)", body: "since, for, all day, all morning, how long" },
+   206→      { heading: "Formation", body: "<strong>Subject + has/have been + V-ing + Object</strong>" },
+   207→      {
+   208→        heading: "Solved Examples",
+   209→        body: "",
+   210→        examples: [
+   211→          "I have been studying for two hours. (میں دو گھنٹے سے پڑھ رہا ہوں)",
+   212→          "She has been cooking since morning. (وہ صبح سے کھانا پکا رہی ہے)",
+   213→          "It has been raining all day. (پورا دن بارش ہو رہی ہے)",
+   214→          "They have been working since 9 AM. (وہ صبح 9 بجے سے کام کر رہے ہیں)",
+   215→          "He has been waiting for an hour. (وہ ایک گھنٹے سے انتظار کر رہا ہے)",
+   216→        ],
+   217→        examplesTr: [
+   218→          {
+   219→            en: "I have been studying for two hours.",
+   220→            ur: "میں دو گھنٹے سے پڑھ رہا ہوں۔",
+   221→            sd: "مان ٻن ڪلاڪن کان پڙهي رهيو آهيان.",
+   222→          },
+   223→          {
+   224→            en: "She has been cooking since morning.",
+   225→            ur: "وہ صبح سے کھانا پکا رہی ہے۔",
+   226→            sd: "هوءَ صبح کان کائڻي پچائي رهي آهي.",
+   227→          },
+   228→          {
+   229→            en: "It has been raining all day.",
+   230→            ur: "پورا دن بارش ہو رہی ہے۔",
+   231→            sd: "پورو ڏينهن وساءُ پيو ٿئي.",
+   232→          },
+   233→          {
+   234→            en: "They have been working since 9 AM.",
+   235→            ur: "وہ صبح 9 بجے سے کام کر رہے ہیں۔",
+   236→            sd: "هو صبح 9 وڄي کان ڪم ڪري رهيا آهن.",
+   237→          },
+   238→          {
+   239→            en: "He has been waiting for an hour.",
+   240→            ur: "وہ ایک گھنٹے سے انتظار کر رہا ہے۔",
+   241→            sd: "هو هڪ ڪلاڪ کان انتظار ڪري رهيو آهي.",
+   242→          },
+   243→        ],
+   244→      },
+   245→      {
+   246→        heading: "Four Forms",
+   247→        body: "",
+   248→        table: {
+   249→          headers: ["Form", "Example"],
+   250→          rows: [
+   251→            ["Affirmative", "She has been reading a book."],
+   252→            ["Negative", "She has not been reading a book."],
+   253→            ["Interrogative", "Has she been reading a book?"],
+   254→            ["Interrogative Negative", "Has she not been reading a book?"],
+   255→          ],
+   256→        },
+   257→      },
+   258→      { heading: "Common Mistakes", body: "Don't forget <strong>been</strong>: <em>I have been working</em> not <em>I have working</em>." },
+   259→    ],
+   260→  },
+   261→  {
+   262→    title: "5. Past Simple",
+   263→    subtitle: "Completed actions in the past",
+   264→    icon: "Clock",
+   265→    sections: [
+   266→      { heading: "Use", body: "Completed actions in the past." },
+   267→      { heading: "Nishaniyan (Identifying Signs)", body: "yesterday, last night, last week, ago, in 2020" },
+   268→      { heading: "Formation", body: "<strong>Subject + V2 + Object</strong>" },
+   269→      {
+   270→        heading: "Solved Examples",
+   271→        body: "",
+   272→        examples: [
+   273→          "I went to school yesterday. (میں کل سکول گیا تھا)",
+   274→          "She ate dinner at 8 PM. (اس نے رات 8 بجے کھانا کھایا)",
+   275→          "They played cricket last Sunday. (انہوں نے گزشتہ اتوار کرکٹ کھیلی)",
+   276→          "He wrote a letter to his father. (اس نے اپنے والد کو خط لکھا)",
+   277→          "We saw a movie last night. (ہم نے کل رات فلم دیکھی)",
+   278→        ],
+   279→        examplesTr: [
+   280→          {
+   281→            en: "I went to school yesterday.",
+   282→            ur: "میں کل سکول گیا تھا۔",
+   283→            sd: "مان ڪالهه سڪول ويو هوس.",
+   284→          },
+   285→          {
+   286→            en: "She ate dinner at 8 PM.",
+   287→            ur: "اس نے رات 8 بجے کھانا کھایا۔",
+   288→            sd: "هن رات 8 وڄي کائڻي کاڌي.",
+   289→          },
+   290→          {
+   291→            en: "They played cricket last Sunday.",
+   292→            ur: "انہوں نے گزشتہ اتوار کرکٹ کھیلی۔",
+   293→            sd: "هنن گزريل آچر ڪرڪيٽ کاڌي.",
+   294→          },
+   295→          {
+   296→            en: "He wrote a letter to his father.",
+   297→            ur: "اس نے اپنے والد کو خط لکھا۔",
+   298→            sd: "هن پنهنجي پيءُ کي خط لکيو.",
+   299→          },
+   300→          {
+   301→            en: "We saw a movie last night.",
+   302→            ur: "ہم نے کل رات فلم دیکھی۔",
+   303→            sd: "اسين ڪالهه رات فلم ڏٺي.",
+   304→          },
+   305→        ],
+   306→      },
+   307→      {
+   308→        heading: "Four Forms",
+   309→        body: "",
+   310→        table: {
+   311→          headers: ["Form", "Example"],
+   312→          rows: [
+   313→            ["Affirmative", "She played cricket."],
+   314→            ["Negative", "She did not play cricket."],
+   315→            ["Interrogative", "Did she play cricket?"],
+   316→            ["Interrogative Negative", "Did she not play cricket?"],
+   317→          ],
+   318→        },
+   319→      },
+   320→      { heading: "Common Mistakes", body: "After <strong>did/did not</strong>, always use <strong>V1</strong>: <em>Did she go?</em> not <em>Did she went?</em>" },
+   321→    ],
+   322→  },
+   323→  {
+   324→    title: "6. Past Continuous",
+   325→    subtitle: "Actions in progress at a particular time in the past",
+   326→    icon: "Clock",
+   327→    sections: [
+   328→      { heading: "Use", body: "An action that was in progress at a particular time in the past." },
+   329→      { heading: "Nishaniyan (Identifying Signs)", body: "while, when, at 5 pm yesterday, at that time" },
+   330→      { heading: "Formation", body: "<strong>Subject + was/were + V-ing + Object</strong>" },
+   331→      {
+   332→        heading: "Solved Examples",
+   333→        body: "",
+   334→        examples: [
+   335→          "I was studying when she called. (وہ بل کرنے کے وقت میں پڑھ رہا تھا)",
+   336→          "They were playing cricket at 5 PM. (وہ شام 5 بجے کرکٹ کھیل رہے تھے)",
+   337→          "She was cooking when the lights went out. (بتی بند ہونے کے وقت وہ کھانا پکا رہی تھی)",
+   338→          "He was reading a book in the library. (وہ لائبریری میں کتاب پڑھ رہا تھا)",
+   339→          "We were watching TV when you came. (جب تم آئے ہم ٹی وی دیکھ رہے تھے)",
+   340→        ],
+   341→        examplesTr: [
+   342→          {
+   343→            en: "I was studying when she called.",
+   344→            ur: "وہ بل کرنے کے وقت میں پڑھ رہا تھا۔",
+   345→            sd: "هن سڏڻ جي مهل مان پڙهي رهيو هوس.",
+   346→          },
+   347→          {
+   348→            en: "They were playing cricket at 5 PM.",
+   349→            ur: "وہ شام 5 بجے کرکٹ کھیل رہے تھے۔",
+   350→            sd: "هو شام 5 وڄي ڪرڪيٽ کائي رهيا هئا.",
+   351→          },
+   352→          {
+   353→            en: "She was cooking when the lights went out.",
+   354→            ur: "بتی بند ہونے کے وقت وہ کھانا پکا رہی تھی۔",
+   355→            sd: "بتيون بند ٿيڻ جي مهل هوءَ کائڻي پچائي رهي هئي.",
+   356→          },
+   357→          {
+   358→            en: "He was reading a book in the library.",
+   359→            ur: "وہ لائبریری میں کتاب پڑھ رہا تھا۔",
+   360→            sd: "هو لائبريري ۾ ڪتاب پڙهي رهيو هو.",
+   361→          },
+   362→          {
+   363→            en: "We were watching TV when you came.",
+   364→            ur: "جب تم آئے ہم ٹی وی دیکھ رہے تھے۔",
+   365→            sd: "جڏهن توهان آيا تڏهن اسين ٽي وي ڏسي رهيا هئاسين.",
+   366→          },
+   367→        ],
+   368→      },
+   369→      {
+   370→        heading: "Four Forms",
+   371→        body: "",
+   372→        table: {
+   373→          headers: ["Form", "Example"],
+   374→          rows: [
+   375→            ["Affirmative", "She was reading a book."],
+   376→            ["Negative", "She was not reading a book."],
+   377→            ["Interrogative", "Was she reading a book?"],
+   378→            ["Interrogative Negative", "Was she not reading a book?"],
+   379→          ],
+   380→        },
+   381→      },
+   382→      { heading: "Common Mistakes", body: "Use <strong>was</strong> with I/he/she/it and <strong>were</strong> with we/you/they." },
+   383→    ],
+   384→  },
+   385→  {
+   386→    title: "7. Past Perfect",
+   387→    subtitle: "Actions completed before another past action",
+   388→    icon: "Clock",
+   389→    sections: [
+   390→      { heading: "Use", body: "An action completed before another past action." },
+   391→      { heading: "Nishaniyan (Identifying Signs)", body: "before, after, already, by the time" },
+   392→      { heading: "Formation", body: "<strong>Subject + had + V3 + Object</strong>" },
+   393→      {
+   394→        heading: "Solved Examples",
+   395→        body: "",
+   396→        examples: [
+   397→          "I had eaten dinner before she arrived. (اس کے آنے سے پہلے میں کھانا کھا چکا تھا)",
+   398→          "They had finished the test when the bell rang. (جب گھنٹی بجی انہوں نے ٹیسٹ مکمل کر لیا تھا)",
+   399→          "She had left before I reached home. (اس نے میرے گھر پہنچنے سے پہلے نکل دیا تھا)",
+   400→          "He had written the letter before I called him. (اس نے میرے بل کرنے سے پہلے خط لکھ لیا تھا)",
+   401→          "We had completed the work by 5 PM. (ہم نے شام 5 بجے تک کام مکمل کر لیا تھا)",
+   402→        ],
+   403→        examplesTr: [
+   404→          {
+   405→            en: "I had eaten dinner before she arrived.",
+   406→            ur: "اس کے آنے سے پہلے میں کھانا کھا چکا تھا۔",
+   407→            sd: "هن جي اچڻ کان اڳ مان کائڻي کائي چڪو هوس.",
+   408→          },
+   409→          {
+   410→            en: "They had finished the test when the bell rang.",
+   411→            ur: "جب گھنٹی بجی انہوں نے ٹیسٹ مکمل کر لیا تھا۔",
+   412→            sd: "جڏهن گهنٽي وڄي تڏهن هنن ٽيسٽ مڪمل ڪري ڇڏيو هو.",
+   413→          },
+   414→          {
+   415→            en: "She had left before I reached home.",
+   416→            ur: "اس نے میرے گھر پہنچنے سے پہلے نکل دیا تھا۔",
+   417→            sd: "هن منهنجي گهر پهچڻ کان اڳ نڪري ويو هو.",
+   418→          },
+   419→          {
+   420→            en: "He had written the letter before I called him.",
+   421→            ur: "اس نے میرے بل کرنے سے پہلے خط لکھ لیا تھا۔",
+   422→            sd: "هن منهنجي سڏڻ کان اڳ خط لکي ڇڏيو هو.",
+   423→          },
+   424→          {
+   425→            en: "We had completed the work by 5 PM.",
+   426→            ur: "ہم نے شام 5 بجے تک کام مکمل کر لیا تھا۔",
+   427→            sd: "اسين شام 5 وڄي تائين ڪم مڪمل ڪري ڇڏيو هو.",
+   428→          },
+   429→        ],
+   430→      },
+   431→      {
+   432→        heading: "Four Forms",
+   433→        body: "",
+   434→        table: {
+   435→          headers: ["Form", "Example"],
+   436→          rows: [
+   437→            ["Affirmative", "She had written a letter."],
+   438→            ["Negative", "She had not written a letter."],
+   439→            ["Interrogative", "Had she written a letter?"],
+   440→            ["Interrogative Negative", "Had she not written a letter?"],
+   441→          ],
+   442→        },
+   443→      },
+   444→      { heading: "Common Mistakes", body: "<strong>had</strong> is the same for all subjects. Don't use <em>has</em> or <em>have</em> in past perfect." },
+   445→    ],
+   446→  },
+   447→  {
+   448→    title: "8. Past Perfect Continuous",
+   449→    subtitle: "Actions that continued for a period before another past event",
+   450→    icon: "Clock",
+   451→    sections: [
+   452→      { heading: "Use", body: "An action that continued for a period before another past event." },
+   453→      { heading: "Nishaniyan (Identifying Signs)", body: "for, since, before, until then" },
+   454→      { heading: "Formation", body: "<strong>Subject + had been + V-ing + Object</strong>" },
+   455→      {
+   456→        heading: "Solved Examples",
+   457→        body: "",
+   458→        examples: [
+   459→          "I had been waiting for an hour when the bus came. (بس آنے کے وقت میں ایک گھنٹے سے انتظار کر رہا تھا)",
+   460→          "She had been teaching for 10 years before she retired. (ریٹائر ہونے سے پہلے وہ 10 سال سے پڑھا رہی تھی)",
+   461→          "They had been playing since morning when it rained. (جب بارش ہوئی وہ صبح سے کھیل رہے تھے)",
+   462→          "He had been working all day before he rested. (اس نے آرام کرنے سے پہلے پورا دن کام کیا تھا)",
+   463→          "We had been walking for two hours when we found the shop. (جب ہمیں دکان ملی ہم دو گھنٹے سے چل رہے تھے)",
+   464→        ],
+   465→        examplesTr: [
+   466→          {
+   467→            en: "I had been waiting for an hour when the bus came.",
+   468→            ur: "بس آنے کے وقت میں ایک گھنٹے سے انتظار کر رہا تھا۔",
+   469→            sd: "بس اچڻ جي مهل مان هڪ ڪلاڪ کان انتظار ڪري رهيو هوس.",
+   470→          },
+   471→          {
+   472→            en: "She had been teaching for 10 years before she retired.",
+   473→            ur: "ریٹائر ہونے سے پہلے وہ 10 سال سے پڑھا رہی تھی۔",
+   474→            sd: "ريٽائر ٿيڻ کان اڳ هوءَ 10 سالن کان پڙهائي رهي هئي.",
+   475→          },
+   476→          {
+   477→            en: "They had been playing since morning when it rained.",
+   478→            ur: "جب بارش ہوئی وہ صبح سے کھیل رہے تھے۔",
+   479→            sd: "جڏهن وساءُ ٿيو تڏهن هو صبح کان کائي رهيا هئا.",
+   480→          },
+   481→          {
+   482→            en: "He had been working all day before he rested.",
+   483→            ur: "اس نے آرام کرنے سے پہلے پورا دن کام کیا تھا۔",
+   484→            sd: "هن آرام ڪرڻ کان اڳ پورو ڏينهن ڪم ڪيو هو.",
+   485→          },
+   486→          {
+   487→            en: "We had been walking for two hours when we found the shop.",
+   488→            ur: "جب ہمیں دکان ملی ہم دو گھنٹے سے چل رہے تھے۔",
+   489→            sd: "جڏهن دکان ملڻ تڏهن اسين ٻن ڪلاڪن کان هلندا پئي هئاسين.",
+   490→          },
+   491→        ],
+   492→      },
+   493→      {
+   494→        heading: "Four Forms",
+   495→        body: "",
+   496→        table: {
+   497→          headers: ["Form", "Example"],
+   498→          rows: [
+   499→            ["Affirmative", "She had been reading a book."],
+   500→            ["Negative", "She had not been reading a book."],
+   501→            ["Interrogative", "Had she been reading a book?"],
+   502→            ["Interrogative Negative", "Had she not been reading a book?"],
+   503→          ],
+   504→        },
+   505→      },
+   506→      { heading: "Common Mistakes", body: "Don't forget <strong>been</strong>: <em>had been working</em> not <em>had working</em>." },
+   507→    ],
+   508→  },
+   509→  {
+   510→    title: "9. Future Simple",
+   511→    subtitle: "Predictions, decisions, promises and future actions",
+   512→    icon: "Clock",
+   513→    sections: [
+   514→      { heading: "Use", body: "Predictions, decisions, promises and future actions." },
+   515→      { heading: "Nishaniyan (Identifying Signs)", body: "tomorrow, next week, next year, soon, later" },
+   516→      { heading: "Formation", body: "<strong>Subject + will + V1 + Object</strong>" },
+   517→      {
+   518→        heading: "Solved Examples",
+   519→        body: "",
+   520→        examples: [
+   521→          "I will go to school tomorrow. (میں کل سکول جاؤں گا)",
+   522→          "She will cook dinner tonight. (وہ آج رات کھانا پکائے گی)",
+   523→          "They will play cricket on Sunday. (وہ اتوار کو کرکٹ کھیلیں گے)",
+   524→          "He will write a letter to his friend. (وہ اپنے دوست کو خط لکھے گا)",
+   525→          "We will visit Karachi next month. (ہم اگلے مہینے کراچی جائیں گے)",
+   526→        ],
+   527→        examplesTr: [
+   528→          {
+   529→            en: "I will go to school tomorrow.",
+   530→            ur: "میں کل سکول جاؤں گا۔",
+   531→            sd: "مان سڀاڻي سڪول ويندس.",
+   532→          },
+   533→          {
+   534→            en: "She will cook dinner tonight.",
+   535→            ur: "وہ آج رات کھانا پکائے گی۔",
+   536→            sd: "هوءَ اڄ رات کائڻي پچائيندي.",
+   537→          },
+   538→          {
+   539→            en: "They will play cricket on Sunday.",
+   540→            ur: "وہ اتوار کو کرکٹ کھیلیں گے۔",
+   541→            sd: "هو آچر تي ڪرڪيٽ کائيندا.",
+   542→          },
+   543→          {
+   544→            en: "He will write a letter to his friend.",
+   545→            ur: "وہ اپنے دوست کو خط لکھے گا۔",
+   546→            sd: "هو پنهنجي دوست کي خط لکندو.",
+   547→          },
+   548→          {
+   549→            en: "We will visit Karachi next month.",
+   550→            ur: "ہم اگلے مہینے کراچی جائیں گے۔",
+   551→            sd: "اسين اڳي مهيني ڪراچي وينداسين.",
+   552→          },
+   553→        ],
+   554→      },
+   555→      {
+   556→        heading: "Four Forms",
+   557→        body: "",
+   558→        table: {
+   559→          headers: ["Form", "Example"],
+   560→          rows: [
+   561→            ["Affirmative", "She will play cricket."],
+   562→            ["Negative", "She will not play cricket."],
+   563→            ["Interrogative", "Will she play cricket?"],
+   564→            ["Interrogative Negative", "Will she not play cricket?"],
+   565→          ],
+   566→        },
+   567→      },
+   568→      { heading: "Common Mistakes", body: "After <strong>will</strong>, always use <strong>V1</strong>: <em>I will go</em> not <em>I will goes</em> or <em>I will went</em>." },
+   569→    ],
+   570→  },
+   571→  {
+   572→    title: "10. Future Continuous",
+   573→    subtitle: "Actions that will be in progress at a future time",
+   574→    icon: "Clock",
+   575→    sections: [
+   576→      { heading: "Use", body: "An action that will be in progress at a future time." },
+   577→      { heading: "Nishaniyan (Identifying Signs)", body: "this time tomorrow, at 8 pm tomorrow, next week at this time" },
+   578→      { heading: "Formation", body: "<strong>Subject + will be + V-ing + Object</strong>" },
+   579→      {
+   580→        heading: "Solved Examples",
+   581→        body: "",
+   582→        examples: [
+   583→          "This time tomorrow, I will be flying to Karachi. (اس وقت کل، میں کراچی اڑ رہا ہوں گا)",
+   584→          "At 8 PM, she will be studying. (رات 8 بجے، وہ پڑھ رہی ہوگی)",
+   585→          "They will be playing cricket at 5 PM. (وہ شام 5 بجے کرکٹ کھیل رہے ہوں گے)",
+   586→          "He will be writing a letter in the evening. (وہ شام کو خط لکھ رہا ہوگا)",
+   587→          "We will be traveling next week. (ہم اگلے ہفتے سفر کر رہے ہوں گے)",
+   588→        ],
+   589→        examplesTr: [
+   590→          {
+   591→            en: "This time tomorrow, I will be flying to Karachi.",
+   592→            ur: "اس وقت کل، میں کراچی اڑ رہا ہوں گا۔",
+   593→            sd: "سڀاڻي هن مهل، مان ڪراچي ڏانهن اڏامي رهيو هوندس.",
+   594→          },
+   595→          {
+   596→            en: "At 8 PM, she will be studying.",
+   597→            ur: "رات 8 بجے، وہ پڑھ رہی ہوگی۔",
+   598→            sd: "رات 8 وڄي، هوءَ پڙهي رهي هوندي.",
+   599→          },
+   600→          {
+   601→            en: "They will be playing cricket at 5 PM.",
+   602→            ur: "وہ شام 5 بجے کرکٹ کھیل رہے ہوں گے۔",
+   603→            sd: "هو شام 5 وڄي ڪرڪيٽ کائي رهيا هوندا.",
+   604→          },
+   605→          {
+   606→            en: "He will be writing a letter in the evening.",
+   607→            ur: "وہ شام کو خط لکھ رہا ہوگا۔",
+   608→            sd: "هو شام جو خط لکي رهيو هوندو.",
+   609→          },
+   610→          {
+   611→            en: "We will be traveling next week.",
+   612→            ur: "ہم اگلے ہفتے سفر کر رہے ہوں گے۔",
+   613→            sd: "اسين اڳي هفتي سفر ڪري رهيا هونداسين.",
+   614→          },
+   615→        ],
+   616→      },
+   617→      {
+   618→        heading: "Four Forms",
+   619→        body: "",
+   620→        table: {
+   621→          headers: ["Form", "Example"],
+   622→          rows: [
+   623→            ["Affirmative", "She will be reading a book."],
+   624→            ["Negative", "She will not be reading a book."],
+   625→            ["Interrogative", "Will she be reading a book?"],
+   626→            ["Interrogative Negative", "Will she not be reading a book?"],
+   627→          ],
+   628→        },
+   629→      },
+   630→      { heading: "Common Mistakes", body: "Don't forget <strong>be</strong>: <em>will be going</em> not <em>will going</em>." },
+   631→    ],
+   632→  },
+   633→  {
+   634→    title: "11. Future Perfect",
+   635→    subtitle: "Actions that will be completed before a future time",
+   636→    icon: "Clock",
+   637→    sections: [
+   638→      { heading: "Use", body: "An action that will be completed before a future time." },
+   639→      { heading: "Nishaniyan (Identifying Signs)", body: "by, by the time, before, by next week" },
+   640→      { heading: "Formation", body: "<strong>Subject + will have + V3 + Object</strong>" },
+   641→      {
+   642→        heading: "Solved Examples",
+   643→        body: "",
+   644→        examples: [
+   645→          "By next year, I will have graduated. (اگلے سال تک، میں گریجویٹ ہو چکا ہوں گا)",
+   646→          "She will have finished her homework by 10 PM. (وہ رات 10 بجے تک اپنا ہوم ورک مکمل کر چکی ہوگی)",
+   647→          "They will have built the house by December. (وہ دسمبر تک گھر بنا چکے ہوں گے)",
+   648→          "He will have written the book by next month. (وہ اگلے مہینے تک کتاب لکھ چکا ہوگا)",
+   649→          "We will have completed the project by Friday. (ہم جمعہ تک پراجیکٹ مکمل کر چکے ہوں گے)",
+   650→        ],
+   651→        examplesTr: [
+   652→          {
+   653→            en: "By next year, I will have graduated.",
+   654→            ur: "اگلے سال تک، میں گریجویٹ ہو چکا ہوں گا۔",
+   655→            sd: "اڳي سال تائين، مان گريجوئيٽ ٿي چڪو هوندس.",
+   656→          },
+   657→          {
+   658→            en: "She will have finished her homework by 10 PM.",
+   659→            ur: "وہ رات 10 بجے تک اپنا ہوم ورک مکمل کر چکی ہوگی۔",
+   660→            sd: "هوءَ رات 10 وڄي تائين پنهنجو گهر ڪم مڪمل ڪري چڪي هوندي.",
+   661→          },
+   662→          {
+   663→            en: "They will have built the house by December.",
+   664→            ur: "وہ دسمبر تک گھر بنا چکے ہوں گے۔",
+   665→            sd: "هو ڊسمبر تائين گهر ٺاهي چڪا هوندا.",
+   666→          },
+   667→          {
+   668→            en: "He will have written the book by next month.",
+   669→            ur: "وہ اگلے مہینے تک کتاب لکھ چکا ہوگا۔",
+   670→            sd: "هو اڳي مهيني تائين ڪتاب لکي چڪو هوندو.",
+   671→          },
+   672→          {
+   673→            en: "We will have completed the project by Friday.",
+   674→            ur: "ہم جمعہ تک پراجیکٹ مکمل کر چکے ہوں گے۔",
+   675→            sd: "اسين جمعي تائين پراجيڪٽ مڪمل ڪري چڪا هونداسين.",
+   676→          },
+   677→        ],
+   678→      },
+   679→      {
+   680→        heading: "Four Forms",
+   681→        body: "",
+   682→        table: {
+   683→          headers: ["Form", "Example"],
+   684→          rows: [
+   685→            ["Affirmative", "She will have written a letter."],
+   686→            ["Negative", "She will not have written a letter."],
+   687→            ["Interrogative", "Will she have written a letter?"],
+   688→            ["Interrogative Negative", "Will she not have written a letter?"],
+   689→          ],
+   690→        },
+   691→      },
+   692→      { heading: "Common Mistakes", body: "Don't forget <strong>have</strong>: <em>will have finished</em> not <em>will finished</em>." },
+   693→    ],
+   694→  },
+   695→  {
+   696→    title: "12. Future Perfect Continuous",
+   697→    subtitle: "Actions that will have continued for a period up to a future time",
+   698→    icon: "Clock",
+   699→    sections: [
+   700→      { heading: "Use", body: "An action that will have continued for a period up to a future time." },
+   701→      { heading: "Nishaniyan (Identifying Signs)", body: "for, by then, by next month, for two hours" },
+   702→      { heading: "Formation", body: "<strong>Subject + will have been + V-ing + Object</strong>" },
+   703→      {
+   704→        heading: "Solved Examples",
+   705→        body: "",
+   706→        examples: [
+   707→          "By 2027, I will have been teaching for 20 years. (2027 تک، میں 20 سال سے پڑھا رہا ہوں گا)",
+   708→          "She will have been working for 8 hours by closing time. (بند ہونے کے وقت تک وہ 8 گھنٹے سے کام کر رہی ہوگی)",
+   709→          "They will have been studying for three hours by noon. (دوپہر تک وہ تین گھنٹے سے پڑھ رہے ہوں گے)",
+   710→          "He will have been living here for 10 years by next year. (اگلے سال تک وہ 10 سال سے یہاں رہ رہا ہوگا)",
+   711→          "We will have been traveling for a week by Sunday. (اتوار تک ہم ایک ہفتے سے سفر کر رہے ہوں گے)",
+   712→        ],
+   713→        examplesTr: [
+   714→          {
+   715→            en: "By 2027, I will have been teaching for 20 years.",
+   716→            ur: "2027 تک، میں 20 سال سے پڑھا رہا ہوں گا۔",
+   717→            sd: "2027 تائين، مان 20 سالن کان پڙهائي رهيو هوندس.",
+   718→          },
+   719→          {
+   720→            en: "She will have been working for 8 hours by closing time.",
+   721→            ur: "بند ہونے کے وقت تک وہ 8 گھنٹے سے کام کر رہی ہوگی۔",
+   722→            sd: "بند ٿيڻ جي مهل تائين هوءَ 8 ڪلاڪن کان ڪم ڪري رهي هوندي.",
+   723→          },
+   724→          {
+   725→            en: "They will have been studying for three hours by noon.",
+   726→            ur: "دوپہر تک وہ تین گھنٹے سے پڑھ رہے ہوں گے۔",
+   727→            sd: "ڏوپهر تائين هو ٽن ڪلاڪن کان پڙهي رهيا هوندا.",
+   728→          },
+   729→          {
+   730→            en: "He will have been living here for 10 years by next year.",
+   731→            ur: "اگلے سال تک وہ 10 سال سے یہاں رہ رہا ہوگا۔",
+   732→            sd: "اڳي سال تائين هو 10 سالن کان هتي رهي رهيو هوندو.",
+   733→          },
+   734→          {
+   735→            en: "We will have been traveling for a week by Sunday.",
+   736→            ur: "اتوار تک ہم ایک ہفتے سے سفر کر رہے ہوں گے۔",
+   737→            sd: "آچر تائين اسين هڪ هفتي کان سفر ڪري رهيا هونداسين.",
+   738→          },
+   739→        ],
+   740→      },
+   741→      {
+   742→        heading: "Four Forms",
+   743→        body: "",
+   744→        table: {
+   745→          headers: ["Form", "Example"],
+   746→          rows: [
+   747→            ["Affirmative", "She will have been reading a book."],
+   748→            ["Negative", "She will not have been reading a book."],
+   749→            ["Interrogative", "Will she have been reading a book?"],
+   750→            ["Interrogative Negative", "Will she not have been reading a book?"],
+   751→          ],
+   752→        },
+   753→      },
+   754→      { heading: "Common Mistakes", body: "Don't forget <strong>been</strong>: <em>will have been working</em> not <em>will have working</em>." },
+   755→    ],
+   756→  },
+   757→  // === PART B: TO BE VERBS ===
+   758→  {
+   759→    title: "13. To Be Verbs — am, is, are, was, were",
+   760→    subtitle: "Describing identity, condition, location, age, or state",
+   761→    icon: "Settings",
+   762→    sections: [
+   763→      { heading: "Use", body: "To describe a person/thing, identity, condition, location, age, or state. These verbs can also act as helping verbs in continuous tenses." },
+   764→      {
+   765→        heading: "Present Forms (am/is/are)",
+   766→        body: "Used for present states, descriptions, and continuous tenses.",
+   767→        table: {
+   768→          headers: ["Subject", "Verb"],
+   769→          rows: [
+   770→            ["I", "am"],
+   771→            ["He / She / It", "is"],
+   772→            ["We / You / They", "are"],
+   773→          ],
+   774→        },
+   775→      },
+   776→      {
+   777→        heading: "Past Forms (was/were)",
+   778→        body: "Used for past states, descriptions, and past continuous tenses.",
+   779→        table: {
+   780→          headers: ["Subject", "Verb"],
+   781→          rows: [
+   782→            ["I / He / She / It", "was"],
+   783→            ["We / You / They", "were"],
+   784→          ],
+   785→        },
+   786→      },
+   787→      {
+   788→        heading: "Examples",
+   789→        body: "",
+   790→        examples: [
+   791→          "I am a student. (میں ایک طالب علم ہوں)",
+   792→          "She is a teacher. (وہ ایک استاد ہے)",
+   793→          "They are happy. (وہ خوش ہیں)",
+   794→          "He was at home yesterday. (وہ کل گھر پر تھا)",
+   795→          "We were tired after the match. (ہم میچ کے بعد تھک گئے تھے)",
+   796→        ],
+   797→        examplesTr: [
+   798→          {
+   799→            en: "I am a student.",
+   800→            ur: "میں ایک طالب علم ہوں۔",
+   801→            sd: "مان هڪ شاگرد آهيان.",
+   802→          },
+   803→          {
+   804→            en: "She is a teacher.",
+   805→            ur: "وہ ایک استاد ہے۔",
+   806→            sd: "هوءَ هڪ استاد آهي.",
+   807→          },
+   808→          {
+   809→            en: "They are happy.",
+   810→            ur: "وہ خوش ہیں۔",
+   811→            sd: "هو خوش آهن.",
+   812→          },
+   813→          {
+   814→            en: "He was at home yesterday.",
+   815→            ur: "وہ کل گھر پر تھا۔",
+   816→            sd: "هو ڪالهه گهر ۾ هو.",
+   817→          },
+   818→          {
+   819→            en: "We were tired after the match.",
+   820→            ur: "ہم میچ کے بعد تھک گئے تھے۔",
+   821→            sd: "اسين ميچ کانپوءِ ٿڪجي پيا هئاسين.",
+   822→          },
+   823→        ],
+   824→      },
+   825→      { heading: "Common Mistakes", body: "I is → <strong>I am</strong>. He are → <strong>He is</strong>. They is → <strong>They are</strong>. Use <strong>was</strong> with I/he/she/it and <strong>were</strong> with we/you/they." },
+   826→    ],
+   827→  },
+   828→  // === PART C: HAVE / HAS / HAD ===
+   829→  {
+   830→    title: "14. Have / Has / Had",
+   831→    subtitle: "Showing possession, relationships, experiences",
+   832→    icon: "Settings",
+   833→    sections: [
+   834→      { heading: "Use", body: "To show possession, relationships, experiences, or things someone has. <strong>Have/has</strong> are present; <strong>had</strong> is past for all subjects." },
+   835→      {
+   836→        heading: "Present Forms",
+   837→        body: "",
+   838→        table: {
+   839→          headers: ["Subject", "Verb"],
+   840→          rows: [
+   841→            ["I / We / You / They", "have"],
+   842→            ["He / She / It", "has"],
+   843→          ],
+   844→        },
+   845→      },
+   846→      {
+   847→        heading: "Past Form",
+   848→        body: "<strong>had</strong> — same for all subjects.",
+   849→      },
+   850→      {
+   851→        heading: "Examples",
+   852→        body: "",
+   853→        examples: [
+   854→          "I have a book. (میرے پاس ایک کتاب ہے)",
+   855→          "She has two brothers. (اس کے دو بھائی ہیں)",
+   856→          "They have a car. (ان کے پاس گاڑی ہے)",
+   857→          "He had a headache yesterday. (اسے کل سر درد تھا)",
+   858→          "We had dinner at 8 PM. (ہم نے رات 8 بجے کھانا کھایا)",
+   859→        ],
+   860→        examplesTr: [
+   861→          {
+   862→            en: "I have a book.",
+   863→            ur: "میرے پاس ایک کتاب ہے۔",
+   864→            sd: "مون وٽ هڪ ڪتاب آهي.",
+   865→          },
+   866→          {
+   867→            en: "She has two brothers.",
+   868→            ur: "اس کے دو بھائی ہیں۔",
+   869→            sd: "هن جا ٻه ڀاءُ آهن.",
+   870→          },
+   871→          {
+   872→            en: "They have a car.",
+   873→            ur: "ان کے پاس گاڑی ہے۔",
+   874→            sd: "هنن وٽ ڪار آهي.",
+   875→          },
+   876→          {
+   877→            en: "He had a headache yesterday.",
+   878→            ur: "اسے کل سر درد تھا۔",
+   879→            sd: "هن کي ڪالهه سر درد هو.",
+   880→          },
+   881→          {
+   882→            en: "We had dinner at 8 PM.",
+   883→            ur: "ہم نے رات 8 بجے کھانا کھایا۔",
+   884→            sd: "اسين رات 8 وڄي کائڻي کاڌي.",
+   885→          },
+   886→        ],
+   887→      },
+   888→      { heading: "Common Mistakes", body: "He have → <strong>He has</strong>. After does/did, use <strong>have</strong>: <em>Does he have...?</em> not <em>Does he has...?</em> <em>Did she have...?</em> not <em>Did she had...?</em>" },
+   889→    ],
+   890→  },
+   891→  // === PART D: HAVE TO / HAS TO / HAD TO ===
+   892→  {
+   893→    title: "15. Have To / Has To / Had To",
+   894→    subtitle: "Expressing necessity, duty, obligation",
+   895→    icon: "Settings",
+   896→    sections: [
+   897→      { heading: "Use", body: "To express necessity, duty, obligation, or something that is required." },
+   898→      { heading: "Nishaniyan", body: "must, need to, have to, has to, had to; words such as every day, tomorrow, yesterday may show the time." },
+   899→      {
+   900→        heading: "Present Forms",
+   901→        body: "",
+   902→        table: {
+   903→          headers: ["Subject", "Form", "Example"],
+   904→          rows: [
+   905→            ["I / We / You / They", "have to + V1", "I have to go now."],
+   906→            ["He / She / It", "has to + V1", "She has to study."],
+   907→          ],
+   908→        },
+   909→      },
+   910→      {
+   911→        heading: "Past Form",
+   912→        body: "<strong>had to + V1</strong> — same for all subjects.",
+   913→        examples: [
+   914→          "I had to leave early. (مجھے جلدی جانا پڑا)",
+   915→          "She had to cook dinner. (اسے کھانا پکانا پڑا)",
+   916→          "They had to walk home. (انہیں پیدل گھر جانا پڑا)",
+   917→        ],
+   918→        examplesTr: [
+   919→          {
+   920→            en: "I had to leave early.",
+   921→            ur: "مجھے جلدی جانا پڑا۔",
+   922→            sd: "مون کي جلدي وڃڻو پيو.",
+   923→          },
+   924→          {
+   925→            en: "She had to cook dinner.",
+   926→            ur: "اسے کھانا پکانا پڑا۔",
+   927→            sd: "هن کي کائڻي پچائڻي پئي.",
+   928→          },
+   929→          {
+   930→            en: "They had to walk home.",
+   931→            ur: "انہیں پیدل گھر جانا پڑا۔",
+   932→            sd: "هنن کي پيرن تي گهر وڃڻو پيو.",
+   933→          },
+   934→        ],
+   935→      },
+   936→      {
+   937→        heading: "Examples",
+   938→        body: "",
+   939→        examples: [
+   940→          "I have to finish my homework. (مجھے اپنا ہوم ورک مکمل کرنا ہے)",
+   941→          "She has to wear a uniform. (اسے یونیفارم پہننا ہے)",
+   942→          "They have to attend the class. (انہیں کلاس میں شامل ہونا ہے)",
+   943→          "He had to work late yesterday. (اسے کل دیر تک کام کرنا پڑا)",
+   944→          "We have to leave by 5 PM. (ہمیں شام 5 بجے تک جانا ہے)",
+   945→        ],
+   946→        examplesTr: [
+   947→          {
+   948→            en: "I have to finish my homework.",
+   949→            ur: "مجھے اپنا ہوم ورک مکمل کرنا ہے۔",
+   950→            sd: "مون کي پنهنجو گهر ڪم مڪمل ڪرڻو آهي.",
+   951→          },
+   952→          {
+   953→            en: "She has to wear a uniform.",
+   954→            ur: "اسے یونیفارم پہننا ہے۔",
+   955→            sd: "هن کي يونيفورم پائڻي آهي.",
+   956→          },
+   957→          {
+   958→            en: "They have to attend the class.",
+   959→            ur: "انہیں کلاس میں شامل ہونا ہے۔",
+   960→            sd: "هنن کي ڪلاس ۾ شامل ٿيڻو آهي.",
+   961→          },
+   962→          {
+   963→            en: "He had to work late yesterday.",
+   964→            ur: "اسے کل دیر تک کام کرنا پڑا۔",
+   965→            sd: "هن کي ڪالهه دير تائين ڪم ڪرڻو پيو.",
+   966→          },
+   967→          {
+   968→            en: "We have to leave by 5 PM.",
+   969→            ur: "ہمیں شام 5 بجے تک جانا ہے۔",
+   970→            sd: "اسان کي شام 5 وڄي تائين وڃڻو آهي.",
+   971→          },
+   972→        ],
+   973→      },
+   974→      { heading: "Common Mistakes", body: "Does she has to → <strong>Does she have to</strong>. Did he had to → <strong>Did he have to</strong>. After does/did, use <strong>have</strong>, not has/had." },
+   975→    ],
+   976→  },
+   977→  // === PART E: DEMONSTRATIVE ADJECTIVES ===
+   978→  {
+   979→    title: "16. Demonstrative Adjectives — this, that, these, those",
+   980→    subtitle: "Pointing to people or things with distance and number",
+   981→    icon: "MapPin",
+   982→    sections: [
+   983→      { heading: "Use", body: "These words point to people or things and come before a noun. They show distance and number." },
+   984→      {
+   985→        heading: "The Four Demonstratives",
+   986→        body: "",
+   987→        table: {
+   988→          headers: ["Word", "Distance", "Number", "Example"],
+   989→          rows: [
+   990→            ["this", "near", "singular", "This book is mine."],
+   991→            ["that", "far", "singular", "That house is big."],
+   992→            ["these", "near", "plural", "These pens are blue."],
+   993→            ["those", "far", "plural", "Those students are bright."],
+   994→          ],
+   995→        },
+   996→      },
+   997→      {
+   998→        heading: "Examples",
+   999→        body: "",
+  1000→        examples: [
+  1001→          "This is my pen. (یہ میرا قلم ہے)",
+  1002→          "That is your bag. (وہ آپ کا بیگ ہے)",
+  1003→          "These are our books. (یہ ہماری کتابیں ہیں)",
+  1004→          "Those are their chairs. (وہ ان کی کرسیاں ہیں)",
+  1005→          "This student is very intelligent. (یہ طالب علم بہت ذہین ہے)",
+  1006→        ],
+  1007→        examplesTr: [
+  1008→          {
+  1009→            en: "This is my pen.",
+  1010→            ur: "یہ میرا قلم ہے۔",
+  1011→            sd: "هي منهنجو قلم آهي.",
+  1012→          },
+  1013→          {
+  1014→            en: "That is your bag.",
+  1015→            ur: "وہ آپ کا بیگ ہے۔",
+  1016→            sd: "اهو توهان جو بيگ آهي.",
+  1017→          },
+  1018→          {
+  1019→            en: "These are our books.",
+  1020→            ur: "یہ ہماری کتابیں ہیں۔",
+  1021→            sd: "هي اسان جا ڪتاب آهن.",
+  1022→          },
+  1023→          {
+  1024→            en: "Those are their chairs.",
+  1025→            ur: "وہ ان کی کرسیاں ہیں۔",
+  1026→            sd: "اهي هنن جون ڪرسيون آهن.",
+  1027→          },
+  1028→          {
+  1029→            en: "This student is very intelligent.",
+  1030→            ur: "یہ طالب علم بہت ذہین ہے۔",
+  1031→            sd: "هي شاگرد تمام هوشيار آهي.",
+  1032→          },
+  1033→        ],
+  1034→      },
+  1035→      { heading: "Common Mistakes", body: "<strong>This/these</strong> are for things near the speaker. <strong>That/those</strong> are for things farther away. Match number: <em>this book</em> (singular) but <em>these books</em> (plural)." },
+  1036→    ],
+  1037→  },
+  1038→];
+  1039→

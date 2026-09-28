@@ -4,6 +4,8 @@ import { tierRank, tierLabel, TIER_LABELS, TIER_DOT_COLORS, type BadgeTier } fro
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { BookA, CheckCircle2, Zap, Layers, BookOpen, Clock, Type, MapPin, Repeat, Settings, GitBranch, MessageSquare, BarChart3, List, Lock } from "lucide-react";
+import { GeneratorShell } from "@/components/generator-shell";
+import { LESSON_DROPDOWN_OPTIONS } from "@/lib/lesson-options";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +27,12 @@ type Lesson = {
   subtitle: string;
   icon: string;
   sections: LessonSection[];
+  /**
+   * Key terms / words introduced in this lesson, each with its Urdu and
+   * Sindhi translation. Rendered as a "Words in this lesson" card so students
+   * see the trilingual meaning of every new term.
+   */
+  vocabulary?: { term: string; ur: string; sd: string }[];
 };
 
 // Import lesson data
@@ -72,7 +80,7 @@ export default async function LessonsPage() {
             Lessons
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Structured English lessons for your level.
+            Structured English lessons for your level — explained in detail with example sentences in English, Urdu, and Sindhi. Each lesson ends with a "Words in this lesson" card showing key terms in all three languages.
           </p>
         </div>
         <span className={cn(
@@ -180,12 +188,108 @@ export default async function LessonsPage() {
         </div>
       )}
 
+      {/* Sentence Generator — embedded in the Lessons page so students can
+          practice the grammar concepts they just read about. The anchor
+          #practice is what /lessons#practice scrolls to. */}
+      <div id="practice" className="mt-12 scroll-mt-20">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="inline-flex size-9 items-center justify-center rounded-xl bg-brand-navy text-white">
+            <MessageSquare className="size-5" />
+          </span>
+          <div>
+            <h2 className="font-display text-xl font-semibold tracking-tight text-foreground">Practice sentences</h2>
+            <p className="text-xs text-muted-foreground">Pick a lesson above and get practice sentences on it — in Urdu, Sindhi, English, or any language.</p>
+          </div>
+        </div>
+        <GeneratorShell
+          title="Sentence Generator"
+          subtitle="Pick a lesson below and get practice sentences on it — in Urdu, Sindhi, English, or any other language. You can also type your own topic instead."
+          endpoint="/api/sentence-generator"
+          fields={[
+            {
+              key: "lesson",
+              label: "Lesson (optional — pick a lesson to get practice sentences on it)",
+              type: "select",
+              options: ["(no lesson — use my own topic)", ...LESSON_DROPDOWN_OPTIONS],
+            },
+            {
+              key: "topic",
+              label: "Topic (or leave blank if you picked a lesson above)",
+              placeholder: "e.g. The importance of trees, کرنسی کی کمی, Friendship, Climate change…",
+            },
+            {
+              key: "language",
+              label: "Language",
+              type: "select",
+              options: [
+                "Urdu",
+                "Sindhi",
+                "English",
+                "Hindi",
+                "Arabic",
+                "Persian",
+                "Pashto",
+                "Punjabi",
+                "Bengali",
+                "Spanish",
+                "French",
+                "German",
+                "Italian",
+                "Portuguese",
+                "Russian",
+                "Turkish",
+                "Chinese",
+                "Japanese",
+                "Korean",
+                "Indonesian",
+                "Malay",
+                "Dutch",
+                "Swedish",
+              ],
+            },
+            {
+              key: "count",
+              label: "How many sentences",
+              type: "select",
+              options: ["3", "5", "8", "10", "15", "20"],
+            },
+            {
+              key: "sentenceType",
+              label: "Sentence type",
+              type: "select",
+              options: [
+                "Mixed",
+                "Simple",
+                "Compound",
+                "Complex",
+                "Question",
+                "Affirmative",
+                "Negative",
+                "Imperative",
+              ],
+            },
+            {
+              key: "level",
+              label: "Level",
+              type: "select",
+              options: ["Beginner", "Intermediate", "Advanced"],
+            },
+            {
+              key: "tone",
+              label: "Tone / style hint (optional)",
+              placeholder: "e.g. formal, conversational, poetic, funny…",
+            },
+          ]}
+          showLibrary
+        />
+      </div>
+
       {/* Upsell for higher tiers */}
       {userRank < tierRank("elite_senior") && (
         <div className="mt-10 rounded-xl border border-border bg-surface-cream p-6">
           <h3 className="font-display text-lg font-semibold text-foreground">More lessons at higher badges</h3>
           <div className="mt-3 space-y-2 text-sm text-muted-foreground">
-            {(["senior", "elite_senior"] as BadgeTier[]).map((t) => {
+            {(["junior", "senior", "elite_senior"] as BadgeTier[]).map((t) => {
               if (tierRank(t) <= userRank) return null;
               return (
                 <div key={t} className="flex items-center gap-2">
@@ -298,6 +402,36 @@ function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
             )}
           </div>
         ))}
+
+        {/* Vocabulary — trilingual key terms introduced in this lesson */}
+        {lesson.vocabulary && lesson.vocabulary.length > 0 && (
+          <div className="mt-2 rounded-xl border border-brand-emerald/20 bg-accent/20 p-4">
+            <h3 className="font-display text-base font-semibold text-foreground flex items-center gap-2">
+              <BookA className="size-4 text-brand-emerald-deep" />
+              Words in this lesson
+              <span className="text-xs font-normal text-muted-foreground">— English · اردو · سنڌي</span>
+            </h3>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {lesson.vocabulary.map((v, vIdx) => (
+                <div key={vIdx} className="rounded-lg border border-border bg-card p-3">
+                  <p className="text-sm font-medium text-foreground">{v.term}</p>
+                  {v.ur && (
+                    <p className="mt-1 text-sm text-foreground" dir="auto">
+                      <span className="mr-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">UR</span>
+                      {v.ur}
+                    </p>
+                  )}
+                  {v.sd && (
+                    <p className="mt-0.5 text-sm text-foreground" dir="auto">
+                      <span className="mr-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">SD</span>
+                      {v.sd}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

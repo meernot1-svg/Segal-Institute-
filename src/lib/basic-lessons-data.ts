@@ -8,6 +8,12 @@ export type Lesson = {
   subtitle: string;
   icon: string; // lucide icon name
   sections: LessonSection[];
+  /**
+   * Key terms / words introduced in this lesson, each with its Urdu and
+   * Sindhi translation. Rendered as a "Words in this lesson" card on the
+   * lessons page so students see the trilingual meaning of every new term.
+   */
+  vocabulary?: { term: string; ur: string; sd: string }[];
 };
 
 export type LessonSection = {
@@ -32,11 +38,11 @@ export const BASIC_LESSONS: Lesson[] = [
     sections: [
       {
         heading: "Definition",
-        body: "A verb is a word that shows an action, a state, or an occurrence. In English, every verb has three main forms: <strong>V1 (Base Form)</strong>, <strong>V2 (Past Simple)</strong>, and <strong>V3 (Past Participle)</strong>. These three forms are the foundation of all English tenses.",
+        body: "A verb is a word that shows an <strong>action</strong> (run, eat, write), a <strong>state</strong> (be, seem, belong), or an <strong>occurrence</strong> (happen, become, change). Without verbs, no sentence in English is complete — they tell us what the subject is doing or what is happening to it. In English, every verb has three main forms: <strong>V1 (Base Form)</strong>, <strong>V2 (Past Simple)</strong>, and <strong>V3 (Past Participle)</strong>. These three forms are the foundation of all English tenses, so learning them first makes every later lesson easier. For example, the verb <em>go</em> appears as <em>go (V1)</em>, <em>went (V2)</em>, and <em>gone (V3)</em> depending on the tense you need.",
       },
       {
         heading: "The Three Forms",
-        body: "Every English verb can be expressed in three forms. Regular verbs follow a pattern; irregular verbs must be memorized.",
+        body: "Every English verb can be expressed in three forms — V1, V2, and V3 — and together they let you talk about the present, the past, and the perfect (completed) past. <strong>Regular verbs</strong> follow a clear pattern: just add <em>-ed</em> for V2 and V3, so <em>work</em> becomes <em>work / worked / worked</em>. <strong>Irregular verbs</strong> do not follow the pattern and must be memorized one by one, like <em>go / went / gone</em>. Mixing up V2 and V3 is a common mistake, so always learn all three forms together as a set rather than as separate words.",
         table: {
           headers: ["Form", "Name", "Use", "Example (go)"],
           rows: [
@@ -48,7 +54,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Example Sentences",
-        body: "See how the three forms are used in real sentences:",
+        body: "See how the three forms are used in real sentences below. Notice that V1 is used for present and habitual actions, V2 for finished past actions, and V3 with <em>have / has / had</em> to show something completed before another time. Reading these three sentences aloud — one for each form — is the fastest way to remember which form fits which tense. If you can say all three fluently, you already understand the heart of this lesson.",
         examples: [
           "V1: I <strong>go</strong> to school every day.",
           "V2: Yesterday I <strong>went</strong> to school.",
@@ -73,6 +79,18 @@ export const BASIC_LESSONS: Lesson[] = [
         ],
       },
     ],
+    vocabulary: [
+      { term: "Verb", ur: "فعل", sd: "فعل" },
+      { term: "Action", ur: "عمل", sd: "عمل" },
+      { term: "State", ur: "حالت", sd: "حالت" },
+      { term: "Occurrence", ur: "واقعہ", sd: "واقعو" },
+      { term: "Base Form (V1)", ur: "بنیادی شکل (V1)", sd: "بنيادي شڪل (V1)" },
+      { term: "Past Simple (V2)", ur: "ماضی بسیط (V2)", sd: "ماضي ساده (V2)" },
+      { term: "Past Participle (V3)", ur: "ماضی بعید (V3)", sd: "ماضي بعيد (V3)" },
+      { term: "Regular Verb", ur: "باقاعدہ فعل", sd: "باقاعده فعل" },
+      { term: "Irregular Verb", ur: "نا باقاعدہ فعل", sd: "غير باقاعده فعل" },
+      { term: "Tense", ur: "زمان", sd: "زمانو" },
+    ],
   },
   {
     title: "Regular Verbs",
@@ -81,11 +99,11 @@ export const BASIC_LESSONS: Lesson[] = [
     sections: [
       {
         heading: "What is a Regular Verb?",
-        body: "Regular verbs form their V2 (Past Simple) and V3 (Past Participle) by adding <strong>-ed</strong> to the base form. The V2 and V3 forms are always the <strong>same</strong> for regular verbs.",
+        body: "Regular verbs form their V2 (Past Simple) and V3 (Past Participle) by adding <strong>-ed</strong> to the base form. Because the same rule applies to both forms, the V2 and V3 of a regular verb are always <strong>identical</strong> — for example, <em>work / worked / worked</em> and <em>play / played / played</em>. This is great news for students: once you know the base form and the spelling rule, you automatically know two more forms for free. Just be careful with the spelling rules below, because the last letters of the verb can change exactly how <em>-ed</em> is added.",
       },
       {
         heading: "Rules for Adding -ed",
-        body: "There are four rules depending on how the verb ends:",
+        body: "There are four rules depending on how the verb ends. The reason for these rules is pronunciation — English avoids awkward consonant clusters by adding or changing letters. Read each rule carefully, because applying the wrong one (for example, writing <em>stoped</em> instead of <em>stopped</em>) is one of the most common spelling mistakes in beginner writing. The table below shows each rule with a clear example so you can match a new verb to the right rule at a glance.",
         table: {
           headers: ["Rule", "How", "V1", "V2 / V3"],
           rows: [
@@ -98,7 +116,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Examples",
-        body: "Common regular verbs and their forms:",
+        body: "Common regular verbs and their forms are listed below. Notice that for every entry the V2 and V3 columns are exactly the same — that identical pair is the signature of a regular verb. Try covering the V2 and V3 columns with your hand and predicting them from V1; if your guess matches, you have understood the rules above. These six verbs cover all four spelling patterns, so they are excellent practice words for any beginner.",
         examples: [
           "accept → accepted → accepted (قبول کرنا)",
           "finish → finished → finished (مکمل کرنا)",
@@ -141,6 +159,18 @@ export const BASIC_LESSONS: Lesson[] = [
         ],
       },
     ],
+    vocabulary: [
+      { term: "Regular Verb", ur: "باقاعدہ فعل", sd: "باقاعده فعل" },
+      { term: "Base Form (V1)", ur: "بنیادی شکل (V1)", sd: "بنيادي شڪل (V1)" },
+      { term: "Past Simple (V2)", ur: "ماضی بسیط (V2)", sd: "ماضي ساده (V2)" },
+      { term: "Past Participle (V3)", ur: "ماضی بعید (V3)", sd: "ماضي بعيد (V3)" },
+      { term: "Suffix (-ed)", ur: "لاحقہ (-ed)", sd: "لاحقي (-ed)" },
+      { term: "Consonant", ur: "حرفِ ساکن", sd: "ساکن اکر" },
+      { term: "Vowel", ur: "حرفِ علت", sd: "سُر" },
+      { term: "Doubling", ur: "دگنا کرنا", sd: "دوهري ڪرڻ" },
+      { term: "Spelling", ur: "املا", sd: "املاء" },
+      { term: "Rule", ur: "قاعدہ", sd: "قاعدو" },
+    ],
   },
   {
     title: "Irregular Verbs",
@@ -149,11 +179,11 @@ export const BASIC_LESSONS: Lesson[] = [
     sections: [
       {
         heading: "What is an Irregular Verb?",
-        body: "Irregular verbs do <strong>not</strong> follow the -ed pattern. Their V2 (Past Simple) and V3 (Past Participle) forms change in unique ways and must be <strong>memorized</strong>. Some irregular verbs have the same V2 and V3; others have three different forms.",
+        body: "Irregular verbs do <strong>not</strong> follow the -ed pattern. Their V2 (Past Simple) and V3 (Past Participle) forms change in unique ways and must be <strong>memorized</strong> one verb at a time. Some irregular verbs have the same V2 and V3 (like <em>build / built / built</em>); others have three different forms (like <em>go / went / gone</em>); and a few even keep the same form for all three (like <em>cut / cut / cut</em>). There is no shortcut — but these verbs are also the most common in everyday English, so learning them pays off immediately in your reading, writing, and speaking. A daily five-minute review of the table below is enough to master them within a few weeks.",
       },
       {
         heading: "Types of Irregular Verbs",
-        body: "Irregular verbs fall into several patterns:",
+        body: "Irregular verbs fall into several patterns that you can see in the table below. Grouping them by pattern — instead of memorizing them at random — makes the task much easier, because your brain can remember one rule and then apply it to many verbs. Each row shows the pattern with one clear example, so you can see at a glance what \"all three different\" or \"V2 = V3\" actually looks like. If you can place a new irregular verb into one of these groups, you already know whether its V2 and V3 will be the same or different.",
         table: {
           headers: ["Pattern", "V1", "V2", "V3"],
           rows: [
@@ -167,7 +197,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Common Irregular Verbs",
-        body: "These are the most important irregular verbs to memorize:",
+        body: "These are the most important irregular verbs to memorize. They appear again and again in everyday speech, story-books, and exams, so learning them well will make almost every English sentence easier to read and write. A good study tip is to learn five at a time, say each one out loud as <em>V1 → V2 → V3</em>, and only move to the next five once the first five feel automatic. The Urdu and Sindhi meanings alongside each verb will help you connect the English form to a word you already know from home.",
         examples: [
           "be → was/were → been (ہونا)",
           "go → went → gone (جانا)",
@@ -282,6 +312,18 @@ export const BASIC_LESSONS: Lesson[] = [
         ],
       },
     ],
+    vocabulary: [
+      { term: "Irregular Verb", ur: "نا باقاعدہ فعل", sd: "غير باقاعده فعل" },
+      { term: "Base Form (V1)", ur: "بنیادی شکل (V1)", sd: "بنيادي شڪل (V1)" },
+      { term: "Past Simple (V2)", ur: "ماضی بسیط (V2)", sd: "ماضي ساده (V2)" },
+      { term: "Past Participle (V3)", ur: "ماضی بعید (V3)", sd: "ماضي بعيد (V3)" },
+      { term: "Memorize", ur: "یاد کرنا", sd: "ياد ڪرڻ" },
+      { term: "Pattern", ur: "نمونہ", sd: "نمونو" },
+      { term: "Same V2 and V3", ur: "V2 اور V3 ایک جیسے", sd: "V2 ۽ V3 هڪجهڙا" },
+      { term: "Three Different Forms", ur: "تین مختلف شکلیں", sd: "ٽي مختلف شڪلون" },
+      { term: "Alternate Form", ur: "متبادل شکل", sd: "متبادل شڪل" },
+      { term: "Verb Form", ur: "فعل کی شکل", sd: "فعل جي شڪل" },
+    ],
   },
   {
     title: "Singular and Plural Nouns",
@@ -290,11 +332,11 @@ export const BASIC_LESSONS: Lesson[] = [
     sections: [
       {
         heading: "What are Singular and Plural Nouns?",
-        body: "A <strong>singular noun</strong> refers to one person, place, or thing (e.g., <em>cat</em>, <em>book</em>, <em>city</em>). A <strong>plural noun</strong> refers to more than one (e.g., <em>cats</em>, <em>books</em>, <em>cities</em>). There are several rules for forming plurals in English.",
+        body: "A <strong>singular noun</strong> refers to one person, place, or thing (e.g., <em>cat</em>, <em>book</em>, <em>city</em>). A <strong>plural noun</strong> refers to more than one (e.g., <em>cats</em>, <em>books</em>, <em>cities</em>). Knowing how to switch between singular and plural is essential, because English sentences must agree in number — <em>one cat sleeps</em> but <em>two cats sleep</em>. There are several rules for forming plurals in English, and most of them depend on the last letter or letters of the singular noun. The rest of this lesson walks through each rule with examples so you can apply them confidently in your own writing.",
       },
       {
         heading: "Regular Plurals (-s)",
-        body: "Most nouns simply add <strong>-s</strong> to form the plural:",
+        body: "Most nouns simply add <strong>-s</strong> to form the plural. This is the most common plural rule in English and the one you will use every day. If a noun does not fit one of the special rules below, adding <em>-s</em> is almost always correct. Notice that the spelling of the word does not change in any other way — only the <em>-s</em> is added at the end, so the singular and plural look almost the same.",
         examples: [
           "cat → cats",
           "dog → dogs",
@@ -332,7 +374,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Ending in -s, -ss, -sh, -ch, -x, -z (-es)",
-        body: "Nouns ending in these sounds add <strong>-es</strong>:",
+        body: "Nouns ending in these hissing or buzzing sounds add <strong>-es</strong> instead of just <em>-s</em>. The reason is pronunciation: adding only <em>-s</em> to words like <em>bus</em> or <em>watch</em> would create an awkward cluster that is hard to say clearly. The <em>-es</em> adds a short vowel sound that makes the plural easy to pronounce. A useful trick is to listen — if the singular ends in a sound like <em>ss</em>, <em>sh</em>, <em>ch</em>, <em>x</em>, or <em>z</em>, you almost always need <em>-es</em>.",
         examples: [
           "bus → buses",
           "glass → glasses",
@@ -376,7 +418,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Consonant + y (-ies)",
-        body: "If a noun ends in a <strong>consonant + y</strong>, change <strong>y → ies</strong>:",
+        body: "If a noun ends in a <strong>consonant + y</strong>, change <strong>y → ies</strong> to form the plural. The <em>y</em> turns into <em>ie</em> because English prefers not to leave a <em>y</em> directly before a plural <em>-s</em> in this position. This rule is the source of many common spelling mistakes, so it is worth practising until it feels automatic. Remember the simple test: if there is a consonant right before the <em>y</em>, the <em>y</em> must change to <em>ies</em>.",
         examples: [
           "baby → babies",
           "city → cities",
@@ -420,7 +462,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Vowel + y (-s)",
-        body: "If a noun ends in a <strong>vowel + y</strong>, just add <strong>-s</strong>:",
+        body: "If a noun ends in a <strong>vowel + y</strong>, just add <strong>-s</strong> — the <em>y</em> does <em>not</em> change. This is the mirror image of the previous rule, and the vowel in front of the <em>y</em> is what tells you which rule to apply. A quick way to remember is: <em>consonant + y</em> becomes <em>ies</em>, but <em>vowel + y</em> simply gets an extra <em>s</em>. Compare <em>city → cities</em> (consonant + y) with <em>boy → boys</em> (vowel + y) to see the difference side by side.",
         examples: [
           "boy → boys",
           "key → keys",
@@ -458,7 +500,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Ending in -f / -fe (-ves)",
-        body: "Nouns ending in <strong>-f</strong> or <strong>-fe</strong> change to <strong>-ves</strong>:",
+        body: "Nouns ending in <strong>-f</strong> or <strong>-fe</strong> change to <strong>-ves</strong> in the plural. The <em>f</em> softens into a <em>v</em> sound, which is why the spelling also changes. There are a few exceptions that simply add <em>-s</em> (like <em>roof → roofs</em> and <em>chief → chiefs</em>), so when in doubt it is wise to check a dictionary. For grade-school writing, the eight examples below are the most common ones you will meet in stories and textbooks.",
         examples: [
           "leaf → leaves",
           "wolf → wolves",
@@ -514,7 +556,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Ending in -o (-oes)",
-        body: "Some nouns ending in <strong>-o</strong> add <strong>-oes</strong>:",
+        body: "Some nouns ending in <strong>-o</strong> add <strong>-oes</strong> to form the plural. This rule is the least consistent of all the plural rules, because some <em>-o</em> words take only <em>-s</em> (like <em>photo → photos</em> and <em>radio → radios</em>). A helpful guideline is that nouns related to people, animals, or natural objects often take <em>-oes</em>, while newer or borrowed words take <em>-s</em>. When a word is unfamiliar, checking the dictionary is always the safest choice.",
         examples: [
           "potato → potatoes",
           "tomato → tomatoes",
@@ -558,7 +600,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Irregular Plurals",
-        body: "Some nouns change completely in the plural:",
+        body: "Some nouns change completely in the plural instead of adding an ending. These are inherited from Old English and are very common, so they must be learned as whole words rather than as a rule. Notice that the inside of the word often changes — a vowel shift from <em>a</em> to <em>e</em> (man → men) or from <em>oo</em> to <em>ee</em> (tooth → teeth). Children learn these words very early in school, so they should feel familiar, but their spelling still needs careful practice.",
         table: {
           headers: ["Singular", "Plural"],
           rows: [
@@ -576,7 +618,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Foreign / Irregular Plurals",
-        body: "Some words from other languages keep their foreign plural forms:",
+        body: "Some words borrowed from Latin, Greek, and other languages keep their foreign plural forms in English. These words usually belong to school subjects like science and maths, so students meet them in textbooks long before they meet them in everyday speech. The plural ending often tells you which language the word came from: <em>-i</em> for some Latin nouns (cactus → cacti) and <em>-a</em> for Greek neuter plurals (phenomenon → phenomena). They look strange at first, but with practice they become easy to recognise and use correctly.",
         table: {
           headers: ["Singular", "Plural"],
           rows: [
@@ -597,7 +639,7 @@ export const BASIC_LESSONS: Lesson[] = [
       },
       {
         heading: "Unchanging Plurals",
-        body: "Some nouns have the <strong>same</strong> singular and plural form:",
+        body: "Some nouns have the <strong>same</strong> singular and plural form. The word does not change at all — only the context (and the words around it, like <em>one</em> or <em>many</em>) tells you whether it is singular or plural. This is most common with animals (sheep, deer, fish) and with words that already describe a group (series, species, aircraft). When you write these words, the verb will tell the reader the number: <em>one sheep is</em> but <em>two sheep are</em>.",
         examples: [
           "sheep → sheep",
           "deer → deer",
@@ -639,6 +681,18 @@ export const BASIC_LESSONS: Lesson[] = [
           },
         ],
       },
+    ],
+    vocabulary: [
+      { term: "Noun", ur: "اسم", sd: "اسم" },
+      { term: "Singular", ur: "واحد", sd: "واحد" },
+      { term: "Plural", ur: "جمع", sd: "جمع" },
+      { term: "Regular Plural", ur: "باقاعدہ جمع", sd: "باقاعده جمع" },
+      { term: "Irregular Plural", ur: "نا باقاعدہ جمع", sd: "غير باقاعده جمع" },
+      { term: "Suffix (-s / -es)", ur: "لاحقہ (-s / -es)", sd: "لاحقي (-s / -es)" },
+      { term: "Consonant", ur: "حرفِ ساکن", sd: "ساکن اکر" },
+      { term: "Vowel", ur: "حرفِ علت", sd: "سُر" },
+      { term: "Unchanging Plural", ur: "غیر تبدیل ہونے والی جمع", sd: "غير تبديل ٿيندڙ جمع" },
+      { term: "Foreign Plural", ur: "غیر ملکی جمع", sd: "غير ملڪي جمع" },
     ],
   },
 ];

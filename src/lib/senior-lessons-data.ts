@@ -7,9 +7,20 @@
 import type { Lesson } from "./basic-lessons-data";
 
 export const SENIOR_LESSONS: Lesson[] = [
-  { title: "1. Mind If", subtitle: "Polite permission", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Polite permission." },
-    { heading: "Sentence Formation", body: "Would you mind if + Subject + V2 + Object?" },
+  { title: "1. Mind If", subtitle: "Polite permission", icon: "Clock",
+    vocabulary: [
+      { term: "Polite permission", ur: "مہذبانہ اجازت", sd: "مهذبانه اجازت" },
+      { term: "Would you mind", ur: "کیا آپ کو اعتراض ہوگا", sd: "ڇا اوھين کي اعتراض ٿيندو" },
+      { term: "Permission", ur: "اجازت", sd: "اجازت" },
+      { term: "Object (disapprove)", ur: "اعتراض", sd: "اعتراض" },
+      { term: "Polite", ur: "مہذب", sd: "مهذب" },
+      { term: "Disturb", ur: "تنگ کرنا", sd: "تنگ ڪرڻ" },
+      { term: "Hesitate", ur: "جھجھک", sd: "جهجھڪ" },
+      { term: "Past tense (V2)", ur: "ماضی کا فعل", sd: "ماضي جو فعل" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Polite permission — used to ask for something respectfully, especially from a teacher, elder, or stranger, when the request might cause them slight inconvenience or disturbance. This pattern matters because direct questions like 'Can I open the door?' can sound abrupt in formal situations, whereas 'Would you mind if I opened the door?' shows consideration for the other person's comfort. For example, in a classroom you may ask, 'Would you mind if I sat here?' before taking a seat next to a classmate. Note that despite the past-tense verb (V2) in the 'if' clause, the meaning is present — and the answer 'No, I don't mind' actually means permission is granted, which often confuses new learners." },
+    { heading: "Sentence Formation", body: "Would you mind if + Subject + V2 + Object? The verb after 'if' takes the past form (V2) even though the request refers to now, as a mark of politeness — for example, 'opened', 'sat', 'came' instead of 'open', 'sit', 'come'. To refuse politely, reply 'I'd rather you didn't' or 'Actually, I do mind'; to agree, say 'No, not at all' or 'Of course not'." },
     { heading: "Key Patterns", body: "", examples: [
       "Would you mind if I opened the door?",
       "Would you mind if I did not open the door?",
@@ -23,9 +34,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Wouldn't you mind if I sat here?", ur: "کیا آپ کو اعتراض نہیں ہوگا اگر میں یہاں بیٹھ جاؤں؟", sd: "ڇا اوھين کي اعتراض نه ٿيندو هجي جيڪڏهن مان هتي ويهان؟" },
     ]},
   ]},
-  { title: "2. What If — Supposition", subtitle: "Possible situation/result", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Possible situation or result." },
-    { heading: "Sentence Formation", body: "What if + Subject + V1/V2…?" },
+  { title: "2. What If — Supposition", subtitle: "Possible situation/result", icon: "Clock",
+    vocabulary: [
+      { term: "Supposition", ur: "فرض", sd: "فرض" },
+      { term: "Possible situation", ur: "ممکنہ صورتحال", sd: "ممڪن صورتحال" },
+      { term: "Result", ur: "نتیجہ", sd: "نتيجو" },
+      { term: "What if", ur: "کیا ہو اگر", sd: "ڇا ٿئي جيڪڏهن" },
+      { term: "Imagine", ur: "تصور کرنا", sd: "تصور ڪرڻ" },
+      { term: "Possibility", ur: "امکان", sd: "امڪان" },
+      { term: "Backup plan", ur: "متبادل منصوبہ", sd: "متبادل منصوبو" },
+      { term: "Future", ur: "مستقبل", sd: "مستقبل" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "A supposition — used to suggest a possible situation and ask what its result would be, without yet knowing whether it will actually happen. This pattern matters because it lets speakers prepare for different outcomes in everyday planning: 'What if it rains tomorrow?' quickly expresses both a worry and a need for a backup plan. For example, before a school trip a student may ask, 'What if we miss the bus?' so the group can decide what to do. Note that 'What if' is short for 'What will happen if' — so the answer is usually an instruction or a plan, not a yes/no reply." },
+    { heading: "Sentence Formation", body: "What if + Subject + V1/V2…? Use V1 for a likely future outcome ('What if he comes late?') and V2 for a hypothetical or unlikely one ('What if he failed the test?'). The phrase always ends with a question mark even though it has no auxiliary verb, because the listener's imagination is being asked to fill in the result." },
     { heading: "Key Patterns", body: "", examples: [
       "What if it rains tomorrow?",
       "What if he does not come?",
@@ -39,9 +61,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "What if we do not reach on time?", ur: "اگر ہم وقت پر نہ پہنچیں تو؟", sd: "جيڪڏهن اسان وقت تي نه پهٽون ته؟" },
     ]},
   ]},
-  { title: "3. What If — Showing Fear", subtitle: "Worry and fear", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Worry or fear." },
-    { heading: "Sentence Formation", body: "What if + feared situation?" },
+  { title: "3. What If — Showing Fear", subtitle: "Worry and fear", icon: "Clock",
+    vocabulary: [
+      { term: "Fear", ur: "خوف", sd: "ڀاءُ" },
+      { term: "Worry", ur: "فکر", sd: "فڪر" },
+      { term: "Anxiety", ur: "تشویش", sd: "تشويش" },
+      { term: "Fail the exam", ur: "امتحان میں ناکام ہونا", sd: "امتحان ۾ ناڪام ٿيڻ" },
+      { term: "Return", ur: "واپس آنا", sd: "موٽي اچڻ" },
+      { term: "Concern", ur: "تشویش", sd: "تشويش" },
+      { term: "Disaster", ur: "آفت", sd: "آفت" },
+      { term: "Afraid", ur: "ڈرنا", sd: "ڊڄڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Worry or fear — used to voice an anxious 'what will happen if' question about something the speaker dreads. This pattern matters because naming a fear openly lets students plan for the worst case instead of just worrying silently: a student who says 'What if I fail the exam?' can then ask the teacher for extra help. For example, before results day a pupil might ask, 'What if he does not return?' showing real concern about a friend who went missing. Note that this is the same structure as the supposition use, but the tone and context are emotional rather than neutral planning." },
+    { heading: "Sentence Formation", body: "What if + feared situation? The clause after 'What if' describes the bad outcome you are afraid of, in the present or future tense. The question is left open — there is no answer clause — because the speaker is expressing worry, not asking for a literal yes/no." },
     { heading: "Key Patterns", body: "", examples: [
       "What if I fail the exam?",
       "What if he does not return?",
@@ -55,9 +88,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "What if we do not get a ticket?", ur: "اگر ہم کو ٹکٹ نہ ملے تو؟", sd: "جيڪڏهن اسان کي ٽڪيٽ نه ملي ته؟" },
     ]},
   ]},
-  { title: "4. Unless", subtitle: "Negative condition", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Negative condition (if not)." },
-    { heading: "Sentence Formation", body: "Main clause + unless + Subject + V1. Normally do not add 'not' after unless." },
+  { title: "4. Unless", subtitle: "Negative condition", icon: "Clock",
+    vocabulary: [
+      { term: "Negative condition", ur: "منفی شرط", sd: "منفي شرط" },
+      { term: "Unless", ur: "جب تک نہ", sd: "جيستائين نه" },
+      { term: "If not", ur: "اگر نہ", sd: "جيڪڏهن نه" },
+      { term: "Condition", ur: "شرط", sd: "شرط" },
+      { term: "Fail", ur: "ناکام ہونا", sd: "ناڪام ٿيڻ" },
+      { term: "Alternative", ur: "متبادل", sd: "متبادل" },
+      { term: "Necessary", ur: "ضروری", sd: "ضروري" },
+      { term: "Requirement", ur: "ضرورت", sd: "ضرورت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Negative condition — 'unless' means exactly 'if not' and is used to say that something can happen only when the stated condition is met. This pattern matters because it makes warnings and rules firmer and shorter: 'You will fail unless you study' is more emphatic than 'You will fail if you do not study.' For example, a teacher may say, 'I will not go unless he comes' to make attendance a clear requirement. Note the common mistake: never add 'not' after 'unless' (don't say 'unless you do not study') — the word already carries the negative meaning, so a double negative would reverse your message." },
+    { heading: "Sentence Formation", body: "Main clause + unless + Subject + V1. Normally do not add 'not' after unless. The verb after 'unless' stays in the simple present (V1) even when the main clause talks about the future, just like a normal 'if' clause. Remember: 'unless' = 'if not', so 'You will fail unless you study' = 'You will fail if you do not study' — adding another 'not' would flip the meaning." },
     { heading: "Key Patterns", body: "", examples: [
       "You will fail unless you study.",
       "I will not go unless he comes.",
@@ -71,9 +115,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Won't you go unless he comes?", ur: "کیا تم نہیں جاؤ گے جب تک وہ نہ آئے؟", sd: "ڇا اوھين نه ويندا جيستائين هوءَ نه اچي؟" },
     ]},
   ]},
-  { title: "5. Either…Or", subtitle: "Two alternatives, one choice", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Two alternatives; one choice." },
-    { heading: "Sentence Formation", body: "Subject + V + either + A + or + B." },
+  { title: "5. Either…Or", subtitle: "Two alternatives, one choice", icon: "Clock",
+    vocabulary: [
+      { term: "Alternatives", ur: "متبادل", sd: "متبادل" },
+      { term: "Choice", ur: "انتخاب", sd: "چونڊ" },
+      { term: "Either", ur: "یا تو", sd: "يا ته" },
+      { term: "Or", ur: "یا", sd: "يا" },
+      { term: "Option", ur: "اختیار", sd: "اختيار" },
+      { term: "Select", ur: "منتخب کرنا", sd: "چونڊڻ" },
+      { term: "One of two", ur: "دو میں سے ایک", sd: "ٻن مان هڪڙو" },
+      { term: "Prefer", ur: "ترجیح دینا", sd: "ترجيح ڏيڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Two alternatives where only one option can be chosen — 'either…or' presents a clear choice between two things, persons, or actions. This pattern matters because it forces the listener to pick exactly one path, which is essential in instructions, offers, and rules: 'You can either study or play' tells a child that both at once are not allowed. For example, a shopkeeper may say, 'You can either pay now or pay on delivery.' Note that when both options are negative, you switch to 'neither…nor' instead — 'either…or' itself should not be used together with 'not' to mean 'none of the two.'" },
+    { heading: "Sentence Formation", body: "Subject + V + either + A + or + B. The verb agrees with the subject, not with the options after 'either…or', and the two options (A and B) should be of the same grammatical kind (both nouns, both verbs, both adjectives). For example, 'She can either sing or dance' joins two verbs, but 'She can either sing or a dancer' would be wrong because it mixes a verb with a noun." },
     { heading: "Key Patterns", body: "", examples: [
       "You can either study or play.",
       "You cannot either study or play.",
@@ -87,9 +142,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Can't you either study or play?", ur: "کیا تم نہ پڑھ سکتے ہو نہ کھیل سکتے ہو؟", sd: "ڇا اوھين نه پڙهي سگهو ٿا نه کائي سگهو ٿا؟" },
     ]},
   ]},
-  { title: "6. Neither…Nor", subtitle: "Reject both options", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Reject both options or persons." },
-    { heading: "Sentence Formation", body: "Neither + A + nor + B. Avoid double negatives." },
+  { title: "6. Neither…Nor", subtitle: "Reject both options", icon: "Clock",
+    vocabulary: [
+      { term: "Reject", ur: "مسترد کرنا", sd: "مسترد ڪرڻ" },
+      { term: "Neither", ur: "نہ یہ", sd: "نه هي" },
+      { term: "Nor", ur: "نہ وہ", sd: "نه ته" },
+      { term: "Double negative", ur: "دوہری منفی", sd: "ٻٽي منفي" },
+      { term: "Both", ur: "دونوں", sd: "ٻئي" },
+      { term: "Present", ur: "حاضر", sd: "حاضر" },
+      { term: "Avoid", ur: "گریز کرنا", sd: "پرهيز ڪرڻ" },
+      { term: "Negative", ur: "منفی", sd: "منفي" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Reject both of two options or persons — 'neither…nor' is the negative counterpart of 'either…or' and is used when you want to say that two things are both NOT true or both NOT present. This pattern matters because saying 'not A and not B' as one neat phrase is clearer and more elegant than two separate negative sentences: 'Neither Ali nor Ahmed came' is sharper than 'Ali did not come and Ahmed did not come.' For example, a teacher taking attendance may report, 'Neither Ali nor Ahmed is present.' Note the common mistake of double negatives: do not add another 'not' — 'Neither Ali nor Ahmed did not come' is wrong because 'neither…nor' already carries the negative." },
+    { heading: "Sentence Formation", body: "Neither + A + nor + B. Avoid double negatives. The verb agrees with the subject that is closer to it (the 'proximity rule'): 'Neither Ali nor his friends are coming' uses 'are' because 'friends' is plural, while 'Neither Ali nor Ahmed is present' uses 'is' because both names are singular. Remember: 'neither…nor' itself is already negative, so never pair it with 'not' or 'never'." },
     { heading: "Key Patterns", body: "", examples: [
       "Neither Ali nor Ahmed is present.",
       "Neither Ali nor Ahmed came.",
@@ -103,9 +169,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Didn't either Ali or Ahmed come?", ur: "کیا علی یا احمد میں سے کوئی نہیں آیا؟", sd: "ڇا علي يا احمد مان ڪو به نه آيو؟" },
     ]},
   ]},
-  { title: "7. As Well As", subtitle: "Add extra information", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Add extra information." },
-    { heading: "Sentence Formation", body: "A + as well as + B. Verb follows the main subject." },
+  { title: "7. As Well As", subtitle: "Add extra information", icon: "Clock",
+    vocabulary: [
+      { term: "Addition", ur: "اضافہ", sd: "واڌارو" },
+      { term: "As well as", ur: "کے ساتھ ساتھ", sd: "سان گڏوگڏ" },
+      { term: "Extra", ur: "اضافی", sd: "واڌارو" },
+      { term: "In addition to", ur: "کے علاوہ", sd: "کان علاوه" },
+      { term: "Besides", ur: "کے سوا", sd: "کان سواءِ" },
+      { term: "Together", ur: "اکٹھے", sd: "گڏجي" },
+      { term: "Main subject", ur: "مرکزی فاعل", sd: "مرڪزي فاعل" },
+      { term: "Verb agreement", ur: "فعل کی مطابقت", sd: "فعل جي مطابقت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Add extra information — 'as well as' is used to attach an additional item, person, or quality to what has just been mentioned, similar to 'in addition to' or 'besides.' This pattern matters because it lets you pile on related details without starting a new sentence: 'He plays cricket as well as football' tells the listener about two sports in one neat line. For example, in a CV a candidate may write, 'She speaks Urdu as well as English.' Note the key grammar rule: the verb agrees with the FIRST subject, not with the phrase after 'as well as' — 'He, as well as his friends, is coming' uses 'is', not 'are'." },
+    { heading: "Sentence Formation", body: "A + as well as + B. Verb follows the main subject. The phrase 'as well as' just adds extra information; it does not turn the sentence into a compound subject, so the verb matches A only. For example, 'The teacher as well as the students was happy' uses 'was' because the main subject is 'the teacher' (singular), even though 'students' is plural." },
     { heading: "Key Patterns", body: "", examples: [
       "He plays cricket as well as football.",
       "He doesn't play cricket as well as football.",
@@ -119,9 +196,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Doesn't he play cricket as well as football?", ur: "کیا وہ کرکٹ کے ساتھ ساتھ فٹ بال بھی نہیں کھیلتا؟", sd: "ڇا هوءَ ڪرڪيٽ سان گڏوگڏ فٽ بال به نه کائيندو آهي؟" },
     ]},
   ]},
-  { title: "8. Lest", subtitle: "Formal warning or fear", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Formal warning or fear." },
-    { heading: "Sentence Formation", body: "Main clause + lest + Subject + should + V1." },
+  { title: "8. Lest", subtitle: "Formal warning or fear", icon: "Clock",
+    vocabulary: [
+      { term: "Formal warning", ur: "رسمی تنبیہ", sd: "رسمي تنبيه" },
+      { term: "Fear", ur: "خوف", sd: "ڀاءُ" },
+      { term: "Lest", ur: "کہیں ایسا نہ ہو کہ", sd: "متان" },
+      { term: "Should (modal)", ur: "گهرجي", sd: "گهرجي" },
+      { term: "Hurry", ur: "جلدی", sd: "جلدي" },
+      { term: "Fall ill", ur: "بیمار ہونا", sd: "بيمار ٿيڻ" },
+      { term: "Cautious", ur: "محتاط", sd: "محتاط" },
+      { term: "Avoid", ur: "بچنا", sd: "بچڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Formal warning or fear — 'lest' is a literary, formal word meaning 'for fear that' or 'so that…not', used to show what bad outcome the speaker wants to avoid. This pattern matters because it appears in formal writing, instructions, and classic literature: 'Work hard lest you should fail' sounds more serious and elegant than 'Work hard so you do not fail.' For example, a doctor may warn, 'Do not go outside lest you should fall ill.' Note the strict grammar: 'lest' is always followed by 'should + V1', never by 'will', 'can', or 'do not' — and 'lest' is rarely used in casual spoken English today." },
+    { heading: "Sentence Formation", body: "Main clause + lest + Subject + should + V1. The auxiliary 'should' is fixed and cannot be replaced by other modals, and the verb after it is always in the base form (V1). For example, 'Hurry lest we should miss the train' — never 'Hurry lest we will miss the train' or 'Hurry lest we miss the train' (in formal writing)." },
     { heading: "Key Patterns", body: "", examples: [
       "Work hard lest you should fail.",
       "Do not go outside lest you should fall ill.",
@@ -135,9 +223,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Shouldn't we hurry lest we should miss the train?", ur: "کیا ہمیں جلدی نہیں کرنی چاہیے کہیں ایسا نہ ہو کہ ہم ٹرین نہ پا سکیں؟", sd: "ڇا اسان کي جلدي نه ڪرڻ گهرجي متان اسان ريٽرهي وڃائجي؟" },
     ]},
   ]},
-  { title: "9. Has To / Have To", subtitle: "Present necessity", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Present necessity." },
-    { heading: "Sentence Formation", body: "He/She/It + has to + V1; I/You/We/They + have to + V1." },
+  { title: "9. Has To / Have To", subtitle: "Present necessity", icon: "Clock",
+    vocabulary: [
+      { term: "Necessity", ur: "ضرورت", sd: "ضرورت" },
+      { term: "Present", ur: "حال", sd: "حال" },
+      { term: "Has to", ur: "ضرور کرنا (وہ)", sd: "ضرور ڪرڻ (هو)" },
+      { term: "Have to", ur: "ضرور کرنا (ہم/تم)", sd: "ضرور ڪرڻ (اسان/اوھين)" },
+      { term: "Obligation", ur: "پابندی", sd: "پابندي" },
+      { term: "Compulsion", ur: "مجبوری", sd: "مجبوري" },
+      { term: "Must", ur: "لازمی", sd: "لازامي" },
+      { term: "Required", ur: "مطلوب", sd: "گهرج" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Present necessity — 'has to' and 'have to' express a duty or compulsion in the present, something the subject cannot avoid doing. This pattern matters because it is the everyday way to talk about rules, obligations, and requirements where there is no choice: 'He has to study' is more neutral than 'He must study' (which adds the speaker's own feeling). For example, a parent may tell a child, 'You have to finish your homework before dinner.' Note the subject agreement: he/she/it takes 'has to', while I/you/we/they take 'have to', and the negative 'does not have to' means 'not necessary', not 'must not' (which is prohibition)." },
+    { heading: "Sentence Formation", body: "He/She/It + has to + V1; I/You/We/They + have to + V1. The verb after 'has to / have to' is always the base form (V1), and the auxiliary 'do/does' is needed for questions and negatives — 'Does he have to go?' not 'Has he to go?'. Remember the meaning difference: 'don't have to' = not necessary, while 'must not' = not allowed." },
     { heading: "Key Patterns", body: "", examples: [
       "He has to study.",
       "He doesn't have to study.",
@@ -151,9 +250,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Doesn't he have to study?", ur: "کیا اسے نہیں پڑھنا؟", sd: "ڇا کيس پڙهڻو ڪانهي؟" },
     ]},
   ]},
-  { title: "10. Had To", subtitle: "Past necessity", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Past necessity." },
-    { heading: "Sentence Formation", body: "Subject + had to + V1. Negative: did not have to + V1." },
+  { title: "10. Had To", subtitle: "Past necessity", icon: "Clock",
+    vocabulary: [
+      { term: "Past necessity", ur: "ماضی کی ضرورت", sd: "ماضي جي ضرورت" },
+      { term: "Had to", ur: "پڑا (ماضی میں)", sd: "پيو (ماضي ۾)" },
+      { term: "Compulsion", ur: "مجبوری", sd: "مجبوري" },
+      { term: "Obligation", ur: "پابندی", sd: "پابندي" },
+      { term: "Past", ur: "ماضی", sd: "ماضي" },
+      { term: "Was necessary", ur: "ضروری تھا", sd: "ضروري هو" },
+      { term: "Compelled", ur: "مجبور", sd: "مجبور" },
+      { term: "Bound", ur: "پابند", sd: "پابند" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Past necessity — 'had to' expresses a duty or compulsion in the past, something the subject was obliged to do and could not avoid. This pattern matters because it is the only correct past form of both 'has to' and 'have to', since 'must' has no proper past tense of its own: 'I had to leave early' describes a real past obligation. For example, a student may report, 'I had to walk home because the bus broke down.' Note that the negative 'did not have to' means the obligation did not exist (it was not necessary), and questions are formed with 'did' — 'Did you have to leave early?' not 'Had you to leave early?'." },
+    { heading: "Sentence Formation", body: "Subject + had to + V1. Negative: did not have to + V1. The form 'had to' is the same for all subjects (I, you, he, she, we, they), and questions are made with 'did' — 'Did you have to go?' not 'Had you to go?'. The verb after 'had to' is always the base form (V1)." },
     { heading: "Key Patterns", body: "", examples: [
       "I had to leave early.",
       "I did not have to leave early.",
@@ -167,9 +277,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Didn't you have to leave early?", ur: "کیا آپ کو جلدی نہیں جانا پڑا؟", sd: "ڇا اوھين کي جلدي وڃڻو ڪو نه پيو؟" },
     ]},
   ]},
-  { title: "11. Will Have To / Shall Have To", subtitle: "Future necessity", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Future necessity." },
-    { heading: "Sentence Formation", body: "Subject + will have to + V1." },
+  { title: "11. Will Have To / Shall Have To", subtitle: "Future necessity", icon: "Clock",
+    vocabulary: [
+      { term: "Future necessity", ur: "مستقبل کی ضرورت", sd: "مستقبل جي ضرورت" },
+      { term: "Will have to", ur: "پڑے گا", sd: "پوندو" },
+      { term: "Shall have to", ur: "پڑے گا (I/we)", sd: "پوندو (مان/اسان)" },
+      { term: "Future", ur: "مستقبل", sd: "مستقبل" },
+      { term: "Obligation", ur: "پابندی", sd: "پابندي" },
+      { term: "Compulsory", ur: "لازمی", sd: "لازامي" },
+      { term: "Required", ur: "مطلوب", sd: "گهرج" },
+      { term: "Bound", ur: "پابند", sd: "پابند" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Future necessity — 'will have to' and 'shall have to' express a duty or compulsion in the future, something the subject will be obliged to do. This pattern matters because it is the standard way to talk about upcoming obligations that have not started yet: 'I will have to study next year' describes a duty that lies ahead. For example, a student preparing for board exams may say, 'I will have to wake up early every day.' Note that 'shall' is now used mostly with 'I' and 'we' in formal British English, while 'will' is the everyday form for all subjects in both speech and writing." },
+    { heading: "Sentence Formation", body: "Subject + will have to + V1. The verb after 'will have to' is always the base form (V1), and the negative 'will not have to' means the future obligation does not exist (it will not be necessary), not 'must not' (prohibition). For example, 'I will not have to wear a uniform next year' means the rule will not apply to me." },
     { heading: "Key Patterns", body: "", examples: [
       "I will have to study.",
       "I will not have to study.",
@@ -183,9 +304,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Won't I have to study?", ur: "کیا مجھے نہیں پڑھنا پڑے گا؟", sd: "ڇا مون کي پڙهڻو نه پوندو؟" },
     ]},
   ]},
-  { title: "12. As If / As Though", subtitle: "Appearance or unreal comparison", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Appearance or unreal comparison." },
-    { heading: "Sentence Formation", body: "S + V + as if/as though + clause." },
+  { title: "12. As If / As Though", subtitle: "Appearance or unreal comparison", icon: "Clock",
+    vocabulary: [
+      { term: "Appearance", ur: "ظاہری شکل", sd: "ظاهري شڪل" },
+      { term: "Unreal comparison", ur: "غیر حقیقی موازنہ", sd: "غير حقيقي مقابلو" },
+      { term: "As if", ur: "جیسے", sd: "ڄڻ ته" },
+      { term: "As though", ur: "گویا", sd: "ڄڻ" },
+      { term: "Behave", ur: "برتاؤ کرنا", sd: "اچار رکڻ" },
+      { term: "Imaginary", ur: "خیالی", sd: "خيالي" },
+      { term: "Were (subjunctive)", ur: "ہوتا (فرضی)", sd: "هجي" },
+      { term: "Pretend", ur: "دکھانا", sd: "ڏيکارڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Appearance or unreal comparison — 'as if' and 'as though' are used to describe how a situation seems, especially when the speaker believes it is not actually true. This pattern matters because it lets you describe behaviour, looks, or sound with a vivid, often imaginary comparison: 'He behaves as if he were rich' shows that he acts rich but probably is not. For example, a tired student may walk 'as though he had not slept for days.' Note the key grammar rule: when the comparison is unreal (not true), the verb after 'as if/as though' takes the past subjunctive — 'were' for all subjects, not 'was' — so 'as if he were rich', not 'as if he was rich', in formal English." },
+    { heading: "Sentence Formation", body: "S + V + as if/as though + clause. When the comparison is clearly unreal or imaginary, use the past subjunctive 'were' for all subjects ('He talks as if he were the boss'). When the comparison could be true, a normal tense is fine ('It looks as if it is going to rain')." },
     { heading: "Key Patterns", body: "", examples: [
       "He behaves as if he were rich.",
       "He does not behave as if he were rich.",
@@ -199,9 +331,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Use the natural negative-question form; some fixed structures are normally not split.", ur: "قدرتی نفی-سوال کی شکل استعمال کریں؛ کچھ مستحکم ساختوں کو عام طور پر نہیں توڑا جاتا۔", sd: "قدرتي منفي-سوال واري شڪل استعمال ڪريو؛ ڪي به مستحڪم بناوتن کي عام طور نه ڀڃيو ويندو آهي." },
     ]},
   ]},
-  { title: "13. Remove 'To'", subtitle: "Modals, let, make, had better, would rather", icon: "Clock", sections: [
-    { heading: "Where Used", body: "After modals, let, make, had better, would rather — 'to' is removed." },
-    { heading: "Sentence Formation", body: "Modal + V1 / Let + O + V1 / had better + V1" },
+  { title: "13. Remove 'To'", subtitle: "Modals, let, make, had better, would rather", icon: "Clock",
+    vocabulary: [
+      { term: "Bare infinitive", ur: "خالی مصدر", sd: "خالي مصدر" },
+      { term: "Modal verb", ur: "ماڈل فعل", sd: "ماڊل فعل" },
+      { term: "Let", ur: "اجازت دینا", sd: "اجازت ڏيڻ" },
+      { term: "Make", ur: "مجبور کرنا", sd: "مجبور ڪرڻ" },
+      { term: "Had better", ur: "بہتر ہوگا", sd: "بهتر ٿيندو" },
+      { term: "Would rather", ur: "پسند کروں گا", sd: "پسند ڪريان" },
+      { term: "Omit 'to'", ur: "'to' حذف کریں", sd: "'to' حذف ڪريو" },
+      { term: "Direct verb", ur: "براہ راست فعل", sd: "سڌو فعل" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "After modals, let, make, had better, and would rather — the word 'to' is removed and the verb that follows is the bare infinitive (V1 without 'to'). This pattern matters because adding 'to' in these cases is one of the most common mistakes Pakistani learners make: 'I can to swim' is wrong; the correct form is 'I can swim.' For example, a teacher may correct a student's sentence 'Let me to go' to 'Let me go.' Note that other verbs such as want, need, hope, decide, learn, and refuse DO keep the 'to' — this rule applies only to the fixed group of modals and the four expressions listed above." },
+    { heading: "Sentence Formation", body: "Modal + V1 / Let + O + V1 / had better + V1 / would rather + V1. In all four patterns the verb stays in its base form (V1) without 'to'. For example, 'I can swim' (modal), 'Let me go' (let + object + V1), 'You had better study' (had better + V1), and 'I would rather stay' (would rather + V1) — never write 'can to swim', 'let me to go', 'had better to study', or 'would rather to stay'." },
     { heading: "Key Patterns", body: "", examples: [
       "I can swim. (not: I can to swim)",
       "Let me go. (not: Let me to go)",
@@ -215,9 +358,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "I would rather stay. (not: would rather to stay)", ur: "میں رہنا پسند کروں گا۔ (نہیں: would rather to stay)", sd: "مان رهڻ پسند ڪريان. (نه: would rather to stay)" },
     ]},
   ]},
-  { title: "14. Know How To", subtitle: "Skill or method", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Skill or method." },
-    { heading: "Sentence Formation", body: "know/knows + how to + V1" },
+  { title: "14. Know How To", subtitle: "Skill or method", icon: "Clock",
+    vocabulary: [
+      { term: "Skill", ur: "مہارت", sd: "مهارت" },
+      { term: "Method", ur: "طریقہ", sd: "طريقو" },
+      { term: "Know how to", ur: "جاننا کیسے", sd: "ڄاڻڻ ڪيئن" },
+      { term: "Ability", ur: "قابلیت", sd: "قابليت" },
+      { term: "Knowledge", ur: "علم", sd: "علم" },
+      { term: "Swim", ur: "تیرنا", sd: "ترڻ" },
+      { term: "Cook", ur: "کھانا بنانا", sd: "کاڌو ٺاهڻ" },
+      { term: "Capability", ur: "اہلیت", sd: "اهليت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Skill or method — 'know how to' is used to say that someone has learned the way of doing something, the technique, or the process. This pattern matters because plain 'know' (with a noun) means knowing a fact, but 'know how to' (with a verb) means having the skill: 'I know swimming' is wrong; the correct form is 'I know how to swim.' For example, a student may say, 'She knows how to cook biryani.' Note that 'know how to' is always followed by the base form (V1), and the question is formed with do/does — 'Do you know how to swim?' not 'Know you how to swim?'." },
+    { heading: "Sentence Formation", body: "know/knows + how to + V1. The 'to' here is part of the infinitive and is NOT removed (unlike with modals and 'let'), because 'know how to' is a fixed phrase meaning 'possess the skill of'. For example, 'He knows how to drive' (skill), compared with 'He knows the answer' (fact) — the verb after 'how to' is always V1." },
     { heading: "Key Patterns", body: "", examples: [
       "I know how to swim.",
       "I do not know how to swim.",
@@ -231,9 +385,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Does she know how to cook?", ur: "کیا اسے کھانا بنانا آتا ہے؟", sd: "ڇا کيس کاڌو ٺاهڻ ايندو آهي؟" },
     ]},
   ]},
-  { title: "15. Not To Talk / Speak / Mention", subtitle: "Negative infinitive or reported command", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Negative infinitive or reported command." },
-    { heading: "Sentence Formation", body: "verb + object + not to + V1" },
+  { title: "15. Not To Talk / Speak / Mention", subtitle: "Negative infinitive or reported command", icon: "Clock",
+    vocabulary: [
+      { term: "Negative infinitive", ur: "منفی مصدر", sd: "منفي مصدر" },
+      { term: "Reported command", ur: "منقول حکم", sd: "منقول حڪم" },
+      { term: "Not to", ur: "نہ کرنا", sd: "نه ڪرڻ" },
+      { term: "Warn", ur: "تنبیہ کرنا", sd: "تنبيه ڪرڻ" },
+      { term: "Ask", ur: "کہنا", sd: "چوڻ" },
+      { term: "Tell", ur: "بتانا", sd: "ٻڌائڻ" },
+      { term: "Mention", ur: "ذکر کرنا", sd: "ذڪر ڪرڻ" },
+      { term: "Prohibition", ur: "ممانعت", sd: "ممانعت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Negative infinitive or reported command — 'not to + V1' is used to report a negative order, request, or instruction that someone gave to somebody else. This pattern matters because in reported speech a direct command like 'Don't talk' becomes 'He told me not to talk', and this is the standard way to report refusals, warnings, and prohibitions. For example, a teacher may say, 'I told him not to talk in class.' Note that 'not' is placed BEFORE 'to', not after the verb — 'I told him to not talk' is wrong in standard English; the correct order is 'not to talk'." },
+    { heading: "Sentence Formation", body: "verb + object + not to + V1. The reporting verb (tell, ask, warn, order, advise) is followed by the object (the person told) and then 'not to + V1'. For example, 'She asked me not to mention it' (not 'to not mention it'), and 'He warned them not to speak loudly' (not 'to not speak loudly')." },
     { heading: "Key Patterns", body: "", examples: [
       "I told him not to talk in class.",
       "She asked me not to mention it.",
@@ -247,9 +412,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Did she tell you not to go?", ur: "کیا اس نے آپ سے کہا کہ نہ جائیں؟", sd: "ڇا هن اوھين کي چيو ته نه وڃو؟" },
     ]},
   ]},
-  { title: "16. Not Only…But Also", subtitle: "Parallel addition or emphasis", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Parallel addition or emphasis." },
-    { heading: "Sentence Formation", body: "not only A but also B" },
+  { title: "16. Not Only…But Also", subtitle: "Parallel addition or emphasis", icon: "Clock",
+    vocabulary: [
+      { term: "Parallel addition", ur: "متوازی اضافہ", sd: "هموار واڌارو" },
+      { term: "Emphasis", ur: "تاکید", sd: "تاڪيد" },
+      { term: "Not only", ur: "نہ صرف", sd: "نه رڳو" },
+      { term: "But also", ur: "بلکہ", sd: "پر به" },
+      { term: "Correlative", ur: "باہمی تعلق", sd: "باهمي تعلق" },
+      { term: "Both", ur: "دونوں", sd: "ٻئي" },
+      { term: "Combined", ur: "مل کر", sd: "گڏجي" },
+      { term: "Emphasize", ur: "تاکید کرنا", sd: "تاڪيد ڪرڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Parallel addition or emphasis — 'not only…but also' is used to highlight TWO qualities or actions of the same subject, often to praise or to stress that something is even better/worse than expected. This pattern matters because it adds rhetorical force to a sentence: 'He is not only intelligent but also hardworking' feels stronger than 'He is intelligent and hardworking.' For example, a teacher may write, 'She not only sings but also dances.' Note the parallelism rule: the words after 'not only' and after 'but also' must be the same grammatical kind — both adjectives, both nouns, or both verbs; mixing kinds (e.g., 'not only intelligent but also sings') is wrong." },
+    { heading: "Sentence Formation", body: "not only A but also B. The two parts (A and B) must be grammatically parallel — both adjectives, both nouns, or both verbs — so that the sentence stays balanced. For example, 'He is not only intelligent but also hardworking' (two adjectives) is correct; 'He not only is intelligent but also hardworking' is wrong because the first part has a verb and the second does not." },
     { heading: "Key Patterns", body: "", examples: [
       "He is not only intelligent but also hardworking.",
       "She not only sings but also dances.",
@@ -263,9 +439,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Did he not only write the book but also publish it?", ur: "کیا اس نے نہ صرف کتاب لکھی بلکہ شائع بھی کی؟", sd: "ڇا هن نه رڳو ڪتاب لکيو پر شايع به ڪيو؟" },
     ]},
   ]},
-  { title: "17. In Spite Of", subtitle: "Contrast", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Contrast — similar to 'despite' but always followed by 'of'." },
-    { heading: "Sentence Formation", body: "in spite of + noun/pronoun/V-ing" },
+  { title: "17. In Spite Of", subtitle: "Contrast", icon: "Clock",
+    vocabulary: [
+      { term: "Contrast", ur: "تضاد", sd: "تضاد" },
+      { term: "In spite of", ur: "کے باوجود", sd: "جي باوجود" },
+      { term: "Obstacle", ur: "رکاوٹ", sd: "رڪاوٽ" },
+      { term: "Hindrance", ur: "رکاوٹ", sd: "رڪاوٽ" },
+      { term: "Rain", ur: "بارش", sd: "وسڪارو" },
+      { term: "Illness", ur: "بیماری", sd: "بيماري" },
+      { term: "Poor", ur: "غریب", sd: "غريب" },
+      { term: "Succeed", ur: "کامیاب ہونا", sd: "ڪامياب ٿيڻ" },
+      { term: "Concession", ur: "رعایت", sd: "رعايت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Contrast — 'in spite of' is used to show that something happens even though there is an obstacle or difficulty; it means the same as 'despite' but is always followed by 'of'. This pattern matters because it lets you express real-life struggle and victory in one neat phrase: 'She succeeded in spite of being poor' shows that poverty did not stop her. For example, a cricket report may say, 'In spite of the rain, we played cricket.' Note that 'in spite of' is followed by a noun, pronoun, or V-ing (gerund) — never by a full clause; to join a clause use 'although' instead. The common mistake is dropping 'of' or adding a clause: 'in spite of he was ill' is wrong; correct it to 'in spite of his illness' or 'although he was ill'." },
+    { heading: "Sentence Formation", body: "in spite of + noun/pronoun/V-ing. The word after 'in spite of' is a noun, a pronoun, or a gerund (V-ing) — never a full subject+verb clause. For example, 'in spite of the rain' (noun), 'in spite of being poor' (gerund) are correct; 'in spite of he was ill' is wrong and should become 'in spite of his illness' or 'although he was ill'." },
     { heading: "Key Patterns", body: "", examples: [
       "In spite of the rain, we played cricket.",
       "He passed in spite of his illness.",
@@ -279,9 +467,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Did they come in spite of the storm?", ur: "کیا وہ طوفان کے باوجود آئے؟", sd: "ڇا هو طوفان جي باوجود آيا؟" },
     ]},
   ]},
-  { title: "18. Despite", subtitle: "Contrast (no 'of')", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Contrast; no 'of' after despite." },
-    { heading: "Sentence Formation", body: "despite + noun/pronoun/V-ing" },
+  { title: "18. Despite", subtitle: "Contrast (no 'of')", icon: "Clock",
+    vocabulary: [
+      { term: "Contrast", ur: "تضاد", sd: "تضاد" },
+      { term: "Despite", ur: "کے باوجود", sd: "جي باوجود" },
+      { term: "No 'of'", ur: "'of' نہیں آتا", sd: "'of' نه اچي" },
+      { term: "Obstacle", ur: "رکاوٹ", sd: "رڪاوٽ" },
+      { term: "Overcome", ur: "قابو پانا", sd: "قابو پوڄڻ" },
+      { term: "Difficulty", ur: "مشکل", sd: "مشڪل" },
+      { term: "Storm", ur: "طوفان", sd: "طوفان" },
+      { term: "Achievement", ur: "کامیابی", sd: "ڪاميابي" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Contrast — 'despite' means exactly the same as 'in spite of' but is NEVER followed by 'of', because the 'of' meaning is already built into the word. This pattern matters because 'despite' is shorter and more formal than 'in spite of', and is preferred in academic and journalistic writing: 'Despite the rain, we played' sounds tidier than 'In spite of the rain, we played.' For example, a news report may say, 'Despite his illness, he passed the exam.' Note the most common mistake Pakistani students make: writing 'despite of' (mixing up 'despite' with 'in spite of') — never add 'of' after 'despite'." },
+    { heading: "Sentence Formation", body: "despite + noun/pronoun/V-ing. Like 'in spite of', 'despite' is followed by a noun, pronoun, or gerund (V-ing) — never by a full clause and never by 'of'. For example, 'despite the rain' (noun), 'despite being poor' (gerund) are correct; 'despite of the rain' is wrong, and 'despite he was ill' should become 'despite his illness' or 'although he was ill'." },
     { heading: "Key Patterns", body: "", examples: [
       "Despite the rain, we played cricket.",
       "He passed despite his illness.",
@@ -295,9 +494,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Did they come despite the storm?", ur: "کیا وہ طوفان کے باوجود آئے؟", sd: "ڇا هو طوفان جي باوجود آيا؟" },
     ]},
   ]},
-  { title: "19. As Soon As", subtitle: "Immediate sequence", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Immediate sequence." },
-    { heading: "Sentence Formation", body: "as soon as + present, will + V1" },
+  { title: "19. As Soon As", subtitle: "Immediate sequence", icon: "Clock",
+    vocabulary: [
+      { term: "Immediate sequence", ur: "فوری ترتیب", sd: "فوري ترتيب" },
+      { term: "As soon as", ur: "جیسے ہی", sd: "جيئن ئي" },
+      { term: "Sequence", ur: "ترتیب", sd: "ترتيب" },
+      { term: "Immediate", ur: "فوری", sd: "فوري" },
+      { term: "Arrive", ur: "پہنچنا", sd: "پهچڻ" },
+      { term: "Bell rings", ur: "گھنٹی بجنا", sd: "گهنٽي وڄڻ" },
+      { term: "Reach home", ur: "گھر پہنچنا", sd: "گهر پهچڻ" },
+      { term: "At once", ur: "فوراً", sd: "فوراً" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Immediate sequence — 'as soon as' is used to say that the second action happens the moment the first one is completed, with no delay. This pattern matters because it is the everyday way to describe tight timing: 'I will call you as soon as I reach home' reassures the listener that the call will happen right away. For example, a teacher may tell a class, 'As soon as the bell rings, the class will start.' Note the tense rule: when the first clause talks about the future, the 'as soon as' clause stays in the present simple (not 'will'): 'As soon as he arrives, I will tell him' — never 'As soon as he will arrive'." },
+    { heading: "Sentence Formation", body: "as soon as + present, will + V1. When the main clause is future ('will + V1'), the 'as soon as' clause stays in the present simple even though it refers to a future event — this is a strict time-clause rule in English. For example, 'As soon as he arrives, I will tell him' (not 'As soon as he will arrive'); 'I will call you as soon as I reach home' (not 'as soon as I will reach')." },
     { heading: "Key Patterns", body: "", examples: [
       "As soon as he arrives, I will tell him.",
       "As soon as the bell rings, the class will start.",
@@ -311,9 +521,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Will you tell me as soon as you get the result?", ur: "کیا آپ مجھے نتیجہ ملتے ہی بتائیں گے؟", sd: "ڇا اوھين مون کي نتيجو ملندي ئي ٻڌايو؟" },
     ]},
   ]},
-  { title: "20. No Sooner…Than", subtitle: "Formal immediate sequence with inversion", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Formal immediate sequence; requires inversion." },
-    { heading: "Sentence Formation", body: "No sooner had + S + V3 + than + S + V2" },
+  { title: "20. No Sooner…Than", subtitle: "Formal immediate sequence with inversion", icon: "Clock",
+    vocabulary: [
+      { term: "Formal", ur: "رسمی", sd: "رسمي" },
+      { term: "Immediate sequence", ur: "فوری ترتیب", sd: "فوري ترتيب" },
+      { term: "No sooner", ur: "جیسے ہی", sd: "جيئن ئي" },
+      { term: "Than (linking)", ur: "تھین (لنکنگ)", sd: "تهه (ڳنڍڻ)" },
+      { term: "Inversion", ur: "الٹی ترتیب", sd: "اُٺي ترتيب" },
+      { term: "Past perfect", ur: "ماضی بعید", sd: "ماضي بعيد" },
+      { term: "Phone rang", ur: "فون بج گیا", sd: "فون وڄي پيو" },
+      { term: "Stood up", ur: "کھڑے ہو گئے", sd: "کڙا ٿيا" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Formal immediate sequence — 'No sooner…than' is the literary, formal way to say 'as soon as', used mostly in writing, news reports, and literature to make the timing feel dramatic. This pattern matters because it forces a special word order (inversion) that students must learn: the auxiliary 'had' comes BEFORE the subject, so 'No sooner had I arrived than the phone rang' (not 'No sooner I had arrived'). For example, a news report may say, 'No sooner had the teacher entered than the students stood up.' Note that 'than' (not 'then') is used after 'no sooner', and the verb in the first part is always 'had + V3' (past perfect); the second clause uses the simple past (V2)." },
+    { heading: "Sentence Formation", body: "No sooner had + S + V3 + than + S + V2. The auxiliary 'had' is placed BEFORE the subject (inversion), and the verb after it is the past participle (V3); the conjunction is 'than', not 'then'. For example, 'No sooner had I arrived than the phone rang' — never 'No sooner I had arrived than the phone rang' or 'No sooner had I arrived then the phone rang'." },
     { heading: "Key Patterns", body: "", examples: [
       "No sooner had I arrived than the phone rang.",
       "No sooner had she sat down than the bell rang.",
@@ -327,9 +548,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "No sooner had the teacher entered than the students stood up.", ur: "جیسے ہی استاد اندر آیا، طلباء کھڑے ہو گئے۔", sd: "جيئن ئي استاد اندر آيو، تيئن شاگرد کڙا ٿيا." },
     ]},
   ]},
-  { title: "21. Can't Help", subtitle: "Uncontrollable reaction", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Uncontrollable reaction." },
-    { heading: "Sentence Formation", body: "can't help + V-ing" },
+  { title: "21. Can't Help", subtitle: "Uncontrollable reaction", icon: "Clock",
+    vocabulary: [
+      { term: "Uncontrollable", ur: "غیر قابو", sd: "غير قابو" },
+      { term: "Reaction", ur: "ردعمل", sd: "ردعمل" },
+      { term: "Can't help", ur: "روکا نہیں جا سکتا", sd: "نه روڪي سگهجي" },
+      { term: "Gerund (V-ing)", ur: "فعل جاری", sd: "جاري فعل" },
+      { term: "Laughing", ur: "ہنسنا", sd: "کلڻ" },
+      { term: "Crying", ur: "رونا", sd: "روئڻ" },
+      { term: "Wondering", ur: "حیرت", sd: "حيرت" },
+      { term: "Control", ur: "قابو", sd: "قابو" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Uncontrollable reaction — 'can't help + V-ing' is used to say that someone is unable to stop themselves from doing something, even if they try, because the feeling is too strong. This pattern matters because it is the idiomatic way to express an automatic reaction: 'I can't help laughing at his jokes' means his jokes are so funny that laughter just happens. For example, a fan watching a sad film may say, 'I can't help crying when I watch this movie.' Note the strict grammar: the verb after 'can't help' is always the gerund (V-ing), never the infinitive — 'I can't help to laugh' is wrong; the correct form is 'I can't help laughing'." },
+    { heading: "Sentence Formation", body: "can't help + V-ing. The verb after 'can't help' is always in the -ing form (gerund), never the infinitive with 'to'. For example, 'I can't help laughing' (not 'I can't help to laugh'); 'She can't help crying' (not 'She can't help to cry'). The phrase means 'I am unable to stop myself from doing it'." },
     { heading: "Key Patterns", body: "", examples: [
       "I can't help laughing at his jokes.",
       "She can't help crying when she watches sad movies.",
@@ -343,9 +575,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Can you help feeling sorry for him?", ur: "کیا آپ اس پر افسوس محسوس کیے بغیر نہیں رہ سکتے؟", sd: "ڇا اوھين کيس افسوس محسوس ڪرڻ کان سواءِ نه رهي سگهو ٿا؟" },
     ]},
   ]},
-  { title: "22. Supposed To", subtitle: "Duty, expectation, or schedule", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Duty, expectation, or schedule." },
-    { heading: "Sentence Formation", body: "be supposed to + V1" },
+  { title: "22. Supposed To", subtitle: "Duty, expectation, or schedule", icon: "Clock",
+    vocabulary: [
+      { term: "Duty", ur: "فرض", sd: "فرض" },
+      { term: "Expectation", ur: "توقّع", sd: "توقع" },
+      { term: "Schedule", ur: "شیڈول", sd: "شيڊول" },
+      { term: "Be supposed to", ur: "ہونا چاہیے", sd: "هجڻ گهرجي" },
+      { term: "Obligation", ur: "پابندی", sd: "پابندي" },
+      { term: "Submit", ur: "جمع کرانا", sd: "جمع ڪرڻ" },
+      { term: "Meet", ur: "ملنا", sd: "ملڻ" },
+      { term: "Expected", ur: "متوقع", sd: "متوقع" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Duty, expectation, or schedule — 'be supposed to + V1' is used to talk about what is expected, planned, or required of someone, even if it does not actually happen. This pattern matters because it lets you describe rules and timetables gently, without sounding bossy: 'He is supposed to be here by 9 AM' states the expectation, while leaving room for the possibility that he is late. For example, a teacher may tell a class, 'You are not supposed to use phones during the lesson.' Note that 'was/were supposed to' often implies that the duty was NOT carried out: 'We were supposed to meet at 5' usually means we did not actually meet." },
+    { heading: "Sentence Formation", body: "be supposed to + V1. The verb after 'supposed to' is always the base form (V1), and the 'be' verb changes with the subject and tense (am/is/are supposed to, was/were supposed to). For example, 'She is supposed to submit the report today' (present expectation); 'We were supposed to meet at the station' (past expectation, often unfulfilled)." },
     { heading: "Key Patterns", body: "", examples: [
       "He is supposed to be here by 9 AM.",
       "She is not supposed to use her phone in class.",
@@ -359,9 +602,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "We were supposed to meet at the station.", ur: "ہمیں اسٹیشن پر ملنا تھا۔", sd: "اسان کي اسٽيشن تي ملڻو هو." },
     ]},
   ]},
-  { title: "23. While", subtitle: "Simultaneous or background action", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Simultaneous or background action." },
-    { heading: "Sentence Formation", body: "while + clause" },
+  { title: "23. While", subtitle: "Simultaneous or background action", icon: "Clock",
+    vocabulary: [
+      { term: "Simultaneous", ur: "ایک ساتھ", sd: "هڪ ئي وقت" },
+      { term: "Background", ur: "پس منظر", sd: "پس منظر" },
+      { term: "While", ur: "جب", sd: "جڏهن" },
+      { term: "Action", ur: "عمل", sd: "عمل" },
+      { term: "Continuous", ur: "جاری", sd: "جاري" },
+      { term: "Cook", ur: "کھانا بنانا", sd: "کاڌو ٺاهڻ" },
+      { term: "Fall asleep", ur: "سو جانا", sd: "کڀرو ٿيڻ" },
+      { term: "During", ur: "کے دوران", sd: "جي دوران" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Simultaneous or background action — 'while' is used to talk about two actions happening at the same time, or one longer action during which a shorter one occurs. This pattern matters because it is the everyday way to describe overlap: 'While I was studying, she was cooking' shows two parallel past actions, and 'He fell asleep while watching TV' shows a short event inside a longer one. For example, a child may report, 'While they were playing, it started to rain.' Note that 'while' is followed by a clause (subject + verb), not by a noun — 'while the study' is wrong; it should be 'while studying' or 'while I was studying'." },
+    { heading: "Sentence Formation", body: "while + clause. 'While' is followed by a full subject+verb clause, or by a V-ing phrase in which the subject is dropped (e.g., 'while watching TV' = 'while he was watching TV'). For example, 'While I was studying, she was cooking' (full clause) and 'He fell asleep while watching TV' (reduced clause) are both correct." },
     { heading: "Key Patterns", body: "", examples: [
       "While I was studying, she was cooking.",
       "He fell asleep while watching TV.",
@@ -375,9 +629,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Did she call while I was out?", ur: "کیا اس نے فون کیا جب میں باہر تھا؟", sd: "ڇا هن فون ڪيو جڏهن مان ٻاهر هوس؟" },
     ]},
   ]},
-  { title: "24. Hardly / Scarcely / Barely", subtitle: "Immediate past sequence with inversion", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Immediate past sequence; requires inversion." },
-    { heading: "Sentence Formation", body: "Hardly/Scarcely/Barely + had + S + V3 + when + S + V2" },
+  { title: "24. Hardly / Scarcely / Barely", subtitle: "Immediate past sequence with inversion", icon: "Clock",
+    vocabulary: [
+      { term: "Immediate past", ur: "فوری ماضی", sd: "فوري ماضي" },
+      { term: "Sequence", ur: "ترتیب", sd: "ترتيب" },
+      { term: "Hardly", ur: "بمشکل", sd: "مشڪل سان" },
+      { term: "Scarcely", ur: "شاید ہی", sd: "شايد ئي" },
+      { term: "Barely", ur: "بالکل نہیں", sd: "بالڪل نه" },
+      { term: "Inversion", ur: "الٹی ترتیب", sd: "اُٺي ترتيب" },
+      { term: "When (linking)", ur: "جب (لنکنگ)", sd: "جڏهن (ڳنڍڻ)" },
+      { term: "Train left", ur: "ٹرین نکل گئی", sd: "ريٽرهي نڪري وئي" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Immediate past sequence — 'Hardly/Scarcely/Barely + had + S + V3 + when + S + V2' is the literary, formal way to say 'as soon as', used to show that one past action happened almost immediately after another. This pattern matters because, like 'no sooner…than', it forces inversion: the auxiliary 'had' comes BEFORE the subject, so 'Hardly had I reached the station when the train left' (not 'Hardly I had reached'). For example, a story may begin, 'Scarcely had she finished speaking when the bell rang.' Note the conjunction is 'when' (not 'than' — that is for 'no sooner'), and the verb in the first clause is always 'had + V3' (past perfect); the second clause uses the simple past (V2)." },
+    { heading: "Sentence Formation", body: "Hardly/Scarcely/Barely + had + S + V3 + when + S + V2. The auxiliary 'had' is placed BEFORE the subject (inversion), the verb after it is V3 (past participle), and the linking word is 'when' — not 'than'. For example, 'Hardly had I reached the station when the train left' (not 'Hardly I had reached'); 'Scarcely had she finished speaking when the bell rang' (not 'Scarcely she had finished')." },
     { heading: "Key Patterns", body: "", examples: [
       "Hardly had I reached the station when the train left.",
       "Scarcely had she finished speaking when the bell rang.",
@@ -391,9 +656,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Hardly had the teacher entered when the students stood up.", ur: "استاد اندر آتے ہی طلباء کھڑے ہو گئے۔", sd: "استاد اندر اچڻ سانئي شاگرد کڙا ٿيا." },
     ]},
   ]},
-  { title: "25. May / Might", subtitle: "Possibility; may also permission", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Possibility; may also permission." },
-    { heading: "Sentence Formation", body: "may/might + V1" },
+  { title: "25. May / Might", subtitle: "Possibility; may also permission", icon: "Clock",
+    vocabulary: [
+      { term: "Possibility", ur: "امکان", sd: "امڪان" },
+      { term: "May", ur: "ہو سکتا ہے", sd: "ٿي سگهي ٿو" },
+      { term: "Might", ur: "شاید", sd: "شايد" },
+      { term: "Permission", ur: "اجازت", sd: "اجازت" },
+      { term: "Probability", ur: "امکان", sd: "امڪان" },
+      { term: "Rain", ur: "بارش", sd: "وسڪارو" },
+      { term: "Borrow", ur: "قرض لینا", sd: "اڌارو وٺڻ" },
+      { term: "Attend", ur: "شریک ہونا", sd: "شريڪ ٿيڻ" },
+      { term: "Uncertain", ur: "غیر یقینی", sd: "غير يقيني" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Possibility — 'may' and 'might' are modal verbs used to say that something is possible, with 'might' being slightly less certain than 'may'; 'may' is also used to ask for formal permission. This pattern matters because it is the polite way to talk about uncertainty: 'It may rain today' = there is a real chance; 'She might come tomorrow' = the chance is smaller. For example, a teacher may say, 'He might not attend the meeting.' Note that 'may' for permission ('May I borrow your pen?') is formal and polite, while 'might' is NOT used for permission — it is only for possibility. In modern speech 'might' is replacing 'may' for weak possibilities." },
+    { heading: "Sentence Formation", body: "may/might + V1. The verb after both modals is the base form (V1), and 'may/might' never change with the subject (no 's' for he/she/it). For example, 'It may rain today' (possibility) and 'May I borrow your pen?' (formal permission) are correct; 'She mights come' is wrong — the correct form is 'She might come'." },
     { heading: "Key Patterns", body: "", examples: [
       "It may rain today.",
       "She might come tomorrow.",
@@ -407,9 +684,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "He might not attend the meeting.", ur: "وہ اجلاس میں شاید نہ آئے۔", sd: "هوءَ شايد اجلاس ۾ نه اچي." },
     ]},
   ]},
-  { title: "26. Though / Although / Even Though", subtitle: "Contrast", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Contrast." },
-    { heading: "Sentence Formation", body: "Though/Although/Even though + clause, main clause" },
+  { title: "26. Though / Although / Even Though", subtitle: "Contrast", icon: "Clock",
+    vocabulary: [
+      { term: "Contrast", ur: "تضاد", sd: "تضاد" },
+      { term: "Though", ur: "اگرچہ", sd: "جيتوڻي" },
+      { term: "Although", ur: "اگرچہ", sd: "جيتوڻي" },
+      { term: "Even though", ur: "باوجود اس کے", sd: "جيتوڻي" },
+      { term: "Concession", ur: "رعایت", sd: "رعايت" },
+      { term: "Despite", ur: "کے باوجود", sd: "جي باوجود" },
+      { term: "Tired", ur: "تھکا ہوا", sd: "ٿڪل" },
+      { term: "Snowing", ur: "برف باری", sd: "برفباري" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Contrast — 'though', 'although', and 'even though' are used to introduce a surprising or unexpected result: the main clause happens DESPITE the clause with these words. This pattern matters because it is the everyday way to express real-life contrast: 'Although it was raining, we played cricket' shows that the rain did not stop the game. For example, a teacher may say, 'Even though she was tired, she finished her homework.' Note that all three mean the same thing, but 'even though' is the strongest (most emphatic), 'although' is formal, and 'though' is the most common in speech; never pair them with 'but' in the same sentence — 'Although it was raining, but we played' is wrong, because 'although' already carries the contrast." },
+    { heading: "Sentence Formation", body: "Though/Although/Even though + clause, main clause. A full subject+verb clause follows these connectors, and the main clause can come first or second; but you must never use 'but' or 'yet' together with 'although/even though/though' in the same sentence, because the contrast is already expressed once. For example, 'Although it was raining, we played cricket' (correct) but 'Although it was raining, but we played cricket' (wrong)." },
     { heading: "Key Patterns", body: "", examples: [
       "Although it was raining, we played cricket.",
       "Even though she was tired, she finished her homework.",
@@ -423,9 +711,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Did they come although it was snowing?", ur: "کیا وہ آئے اگرچہ برف باری ہو رہی تھی؟", sd: "ڇا هو آيا جيتوڻي برفباري پي رهي هئي؟" },
     ]},
   ]},
-  { title: "27. Provided That", subtitle: "Condition or requirement", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Condition or requirement." },
-    { heading: "Sentence Formation", body: "provided that + clause" },
+  { title: "27. Provided That", subtitle: "Condition or requirement", icon: "Clock",
+    vocabulary: [
+      { term: "Condition", ur: "شرط", sd: "شرط" },
+      { term: "Requirement", ur: "ضرورت", sd: "ضرورت" },
+      { term: "Provided that", ur: "بشرطیکہ", sd: "بشرطيڪه" },
+      { term: "As long as", ur: "جب تک", sd: "جيستائين" },
+      { term: "On condition that", ur: "بشرطیکہ", sd: "بشرطيڪه" },
+      { term: "Finish", ur: "مکمل کرنا", sd: "مڪمل ڪرڻ" },
+      { term: "Register", ur: "رجسٹر", sd: "رجسٽر" },
+      { term: "Invite", ur: "دعوت دینا", sd: "دعوت ڏيڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Condition or requirement — 'provided that' means 'only if' or 'on the condition that', and is used to make one thing depend on another in formal, business, or legal contexts. This pattern matters because it sets clear terms: 'You may go provided that you finish your work' tells the listener exactly what they must do first. For example, a school rule may state, 'They can join provided that they register first.' Note that 'provided that' can often be shortened to just 'provided' in speech, and that it is interchangeable with 'as long as' or 'on condition that'. The clause after 'provided that' uses normal present tense even when the main clause is future." },
+    { heading: "Sentence Formation", body: "provided that + clause. A full subject+verb clause follows 'provided that', and the condition is strict — if the clause is not met, the main action is not allowed. For example, 'You may go provided that you finish your work' = 'You may go only if you finish your work'; the word 'that' can be dropped in informal speech: 'provided you finish your work'." },
     { heading: "Key Patterns", body: "", examples: [
       "You may go provided that you finish your work.",
       "I will help you provided that you help me.",
@@ -439,9 +738,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Will she come provided that we invite her?", ur: "کیا وہ آئے گی بشرطیکہ ہم اسے دعوت دیں؟", sd: "ڇا هوءَ اچي بشرطيڪه اسان کيس دعوت ڏيون؟" },
     ]},
   ]},
-  { title: "28. Having", subtitle: "Completed action before main clause", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Completed action before the main clause." },
-    { heading: "Sentence Formation", body: "Having + V3, main clause" },
+  { title: "28. Having", subtitle: "Completed action before main clause", icon: "Clock",
+    vocabulary: [
+      { term: "Completed action", ur: "مکمل عمل", sd: "مڪمل عمل" },
+      { term: "Having + V3", ur: "مکمل کر کے", sd: "مڪمل ڪري" },
+      { term: "Perfect participle", ur: "مکمل اسم فاعلی", sd: "مڪمل اسم فاعلي" },
+      { term: "Before main clause", ur: "مرکزی جملے سے پہلے", sd: "مرڪزي جملي کان اڳ" },
+      { term: "Sequence", ur: "ترتیب", sd: "ترتيب" },
+      { term: "Finish homework", ur: "ہوم ورک مکمل کرنا", sd: "گهرڙو ڪم مڪمل ڪرڻ" },
+      { term: "Eat dinner", ur: "رات کا کھانا کھانا", sd: "رات جو کاڌو کائڻ" },
+      { term: "Submit", ur: "جمع کرنا", sd: "جمع ڪرڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Completed action before the main clause — 'having + V3' (the perfect participle) is used to show that one action was fully finished BEFORE the main action started. This pattern matters because it lets you join two past actions in one neat sentence, instead of using two separate clauses joined by 'after' or 'because': 'Having finished his homework, he went to play' is shorter and more elegant than 'After he had finished his homework, he went to play.' For example, a story may begin, 'Having eaten dinner, they went for a walk.' Note that the subject of the 'having' clause and the main clause must be the same — 'Having finished his homework, the teacher praised him' is wrong, because 'finished' was done by the student but 'praised' was done by the teacher." },
+    { heading: "Sentence Formation", body: "Having + V3, main clause. The verb after 'having' is always the past participle (V3), and the understood subject of the 'having' phrase is the same as the subject of the main clause. For example, 'Having finished his homework, he went to play' = 'After he had finished his homework, he went to play'; both verbs refer to the same 'he'." },
     { heading: "Key Patterns", body: "", examples: [
       "Having finished his homework, he went to play.",
       "Having eaten dinner, they went for a walk.",
@@ -455,9 +765,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Having read the book, I can discuss it.", ur: "کتاب پڑھ چکے ہوئے، میں اس پر بات کر سکتا ہوں۔", sd: "ڪتاب پڙهي چڪو مان، ان تي ڳالهائي سگهان ٿو." },
     ]},
   ]},
-  { title: "29. Able To / In A Position To", subtitle: "Ability or capacity", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Ability or capacity." },
-    { heading: "Sentence Formation", body: "be + able to + V1 / be + in a position to + V1" },
+  { title: "29. Able To / In A Position To", subtitle: "Ability or capacity", icon: "Clock",
+    vocabulary: [
+      { term: "Ability", ur: "قابلیت", sd: "قابليت" },
+      { term: "Capacity", ur: "صلاحیت", sd: "صلاحيت" },
+      { term: "Able to", ur: "کرنے کے قابل", sd: "ڪرڻ جي لائق" },
+      { term: "In a position to", ur: "حالت میں", sd: "حالت ۾" },
+      { term: "Solve", ur: "حل کرنا", sd: "حل ڪرڻ" },
+      { term: "Pass", ur: "پاس کرنا", sd: "پاس ڪرڻ" },
+      { term: "Help", ur: "مدد", sd: "مدد" },
+      { term: "Attend", ur: "شریک ہونا", sd: "شريڪ ٿيڻ" },
+      { term: "Circumstance", ur: "حالت", sd: "حالت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Ability or capacity — 'able to' and 'in a position to' are used to talk about having the skill, strength, or circumstance needed to do something. This pattern matters because they are the standard substitutes for 'can/could' in tenses where modals cannot go (future, perfect): 'I will be able to attend' is correct, but 'I will can attend' is wrong because 'can' has no future form. For example, a student may say, 'I am able to solve this problem.' Note that 'able to' focuses on skill or power, while 'in a position to' is more about circumstances (often used in polite refusals): 'I am not in a position to help you' means circumstances do not allow it, not that I lack the ability." },
+    { heading: "Sentence Formation", body: "be + able to + V1 / be + in a position to + V1. The 'be' verb changes with tense (am/is/are, was/were, will be, have been), and the verb after both phrases is the base form (V1). For example, 'She was able to pass the test' (past ability); 'They are not in a position to help us' (present circumstantial inability)." },
     { heading: "Key Patterns", body: "", examples: [
       "I am able to solve this problem.",
       "She was able to pass the test.",
@@ -471,9 +793,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Will you be able to attend the meeting?", ur: "کیا آپ اجلاس میں شامل ہونے کے قابل ہوں گے؟", sd: "ڇا اوھين اجلاس ۾ شامل ٿيڻ جي لائق هوندا؟" },
     ]},
   ]},
-  { title: "30. Let", subtitle: "Permission or allowing", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Permission or allowing." },
-    { heading: "Sentence Formation", body: "Let + object + V1 (no 'to')" },
+  { title: "30. Let", subtitle: "Permission or allowing", icon: "Clock",
+    vocabulary: [
+      { term: "Permission", ur: "اجازت", sd: "اجازت" },
+      { term: "Allow", ur: "اجازت دینا", sd: "اجازت ڏيڻ" },
+      { term: "Let + object + V1", ur: "کسی کو جانے دو", sd: "ڪنهن کي وڃڻ ڏيو" },
+      { term: "Without 'to'", ur: "'to' کے بغیر", sd: "'to' کان سواءِ" },
+      { term: "Permit", ur: "اجازت دینا", sd: "اجازت ڏيڻ" },
+      { term: "Use", ur: "استعمال کرنا", sd: "استعمال ڪرڻ" },
+      { term: "Enter", ur: "اندر آنا", sd: "اندر اچڻ" },
+      { term: "Allowance", ur: "اجازت", sd: "اجازت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Permission or allowing — 'let + object + V1' is used to say that someone allows somebody to do something, with the verb after 'let' in the base form (no 'to'). This pattern matters because it is the everyday way to give or refuse permission in informal speech: 'Let me go' is shorter and more natural than 'Allow me to go.' For example, a parent may say, 'She let him use her phone.' Note that 'let' takes NO 'to' before the second verb (it is a true bare infinitive), and the past tense of 'let' is still 'let' (no change): 'She let him go' (not 'she lets him went' or 'she letted him go'). In questions and negatives 'let' behaves like a normal verb — 'Did the teacher let you leave early?' not 'Let the teacher you leave early?'." },
+    { heading: "Sentence Formation", body: "Let + object + V1 (no 'to'). The verb after 'let' is a bare infinitive (V1) without 'to', and the past tense of 'let' is still 'let' (it does not change). For example, 'Let me go' (present) and 'She let him use her phone' (past) — never 'Let me to go' or 'She lets him went'." },
     { heading: "Key Patterns", body: "", examples: [
       "Let me go.",
       "She let him use her phone.",
@@ -487,9 +820,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Did the teacher let you leave early?", ur: "کیا استاد نے آپ کو جلدی جانے دیا؟", sd: "ڇا استاد اوھين کي جلدي وڃڻ ڏنو؟" },
     ]},
   ]},
-  { title: "31. Let's", subtitle: "Suggestion", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Suggestion." },
-    { heading: "Sentence Formation", body: "let's + V1; let's not + V1" },
+  { title: "31. Let's", subtitle: "Suggestion", icon: "Clock",
+    vocabulary: [
+      { term: "Suggestion", ur: "تجویز", sd: "تجويز" },
+      { term: "Let's", ur: "چلیں", sd: "اچو" },
+      { term: "Let us", ur: "آئیے", sd: "اچو" },
+      { term: "Let's not", ur: "نہ کریں", sd: "نه ڪريون" },
+      { term: "Walk", ur: "سیر", sd: "سير" },
+      { term: "Argue", ur: "بحث کرنا", sd: "بحث ڪرڻ" },
+      { term: "Study together", ur: "مل کر پڑھنا", sd: "گڏجي پڙهڻ" },
+      { term: "Waste time", ur: "وقت ضائع کرنا", sd: "وقت ضايع ڪرڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Suggestion — 'let's' (short for 'let us') is used to make a friendly suggestion that includes the speaker and the listener(s) together: 'Let's go for a walk' is a warm invitation, not a command. This pattern matters because it is the most natural way to suggest a joint action in everyday English — much friendlier than 'We should go for a walk' or 'I suggest we go for a walk.' For example, a classmate may say, 'Let's study together for the exam.' Note that the verb after 'let's' is always the base form (V1) with no 'to', and the negative is 'let's not + V1' (not 'let's don't'): 'Let's not argue about this' is correct; 'Let's don't argue' is wrong." },
+    { heading: "Sentence Formation", body: "let's + V1; let's not + V1. The verb after 'let's' is the base form (V1) with no 'to', and the negative is formed by 'let's not + V1' (never 'let's don't'). For example, 'Let's go for a walk' (positive suggestion) and 'Let's not waste time' (negative suggestion) are correct; 'Let's to go' and 'Let's don't waste time' are wrong." },
     { heading: "Key Patterns", body: "", examples: [
       "Let's go for a walk.",
       "Let's not argue about this.",
@@ -503,9 +847,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "Let's not waste time.", ur: "آئیے وقت ضائع نہ کریں۔", sd: "اچو وقت ضايع نه ڪريون." },
     ]},
   ]},
-  { title: "32. Zero Conditional", subtitle: "Facts, rules, and general truths", icon: "GitBranch", sections: [
-    { heading: "Where Used", body: "Facts, rules, and general truths." },
-    { heading: "Sentence Formation", body: "If + present, present" },
+  { title: "32. Zero Conditional", subtitle: "Facts, rules, and general truths", icon: "GitBranch",
+    vocabulary: [
+      { term: "Fact", ur: "حقیقت", sd: "حقيقت" },
+      { term: "Rule", ur: "اصول", sd: "اصول" },
+      { term: "General truth", ur: "عام سچ", sd: "عام سچ" },
+      { term: "If + present", ur: "اگر + حال", sd: "جيڪڏهن + حال" },
+      { term: "Result", ur: "نتیجہ", sd: "نتيجو" },
+      { term: "Heat ice", ur: "برف گرم کرنا", sd: "برف گرم ڪرڻ" },
+      { term: "Melt", ur: "پگھلنا", sd: "پگهڙڻ" },
+      { term: "Boil", ur: "ابلنا", sd: "اُڀلڻ" },
+      { term: "Scientific", ur: "سائنسی", sd: "سائنسي" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Facts, rules, and general truths — the zero conditional is used to describe things that are always true whenever the condition is met, especially scientific facts and natural laws. This pattern matters because it lets you state cause and effect with full confidence: 'If you heat ice, it melts' is not a guess — it is a fact. For example, a science teacher may say, 'If water reaches 100°C, it boils.' Note that both clauses use the present simple, and you can swap the order without changing the meaning ('It melts if you heat ice' is also correct); 'when' can replace 'if' in many zero-conditional sentences with no change in meaning." },
+    { heading: "Sentence Formation", body: "If + present, present. Both the 'if' clause and the main clause use the present simple, and the order can be swapped ('If you heat ice, it melts' = 'It melts if you heat ice'). For example, 'If you mix blue and yellow, you get green' (scientific fact) and 'If people eat too much, they get fat' (general rule) are both zero conditionals." },
     { heading: "Key Patterns", body: "", examples: [
       "If you heat ice, it melts.",
       "If water reaches 100°C, it boils.",
@@ -519,9 +875,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "If people eat too much, they get fat.", ur: "اگر لوگ بہت زیادہ کھائیں تو وہ موٹے ہو جاتے ہیں۔", sd: "جيڪڏهن ماڻهو گهڻو کائين ته هو موٽا ٿي وڃن ٿا." },
     ]},
   ]},
-  { title: "33. First Conditional", subtitle: "Real or possible future", icon: "GitBranch", sections: [
-    { heading: "Where Used", body: "Real or possible future condition." },
-    { heading: "Sentence Formation", body: "If + present, will + V1" },
+  { title: "33. First Conditional", subtitle: "Real or possible future", icon: "GitBranch",
+    vocabulary: [
+      { term: "Real future", ur: "حقیقی مستقبل", sd: "حقيقي مستقبل" },
+      { term: "Possible", ur: "ممکنہ", sd: "ممڪن" },
+      { term: "If + present", ur: "اگر + حال", sd: "جيڪڏهن + حال" },
+      { term: "Will + V1", ur: "مستقبل میں", sd: "مستقبل ۾" },
+      { term: "Likely", ur: "ممکن", sd: "ممڪن" },
+      { term: "Rain", ur: "بارش", sd: "وسڪارو" },
+      { term: "Stay home", ur: "گھر پر رہنا", sd: "گهر رهڻ" },
+      { term: "Pass the exam", ur: "امتحان پاس کرنا", sd: "امتحان پاس ڪرڻ" },
+      { term: "Answer", ur: "جواب دینا", sd: "جواب ڏيڻ" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Real or possible future condition — the first conditional is used to talk about a realistic future outcome that will happen if a certain condition is met. This pattern matters because it is the everyday way to make predictions, give warnings, and offer incentives: 'If you study hard, you will pass the exam' is a real, likely future link. For example, a friend may say, 'If it rains, I will stay home.' Note the tense rule: the 'if' clause stays in the present simple even though both clauses refer to the future — 'If it will rain, I will stay home' is wrong; the correct form is 'If it rains, I will stay home'." },
+    { heading: "Sentence Formation", body: "If + present, will + V1. The 'if' clause uses the present simple (not 'will'), and the main clause uses 'will + V1' for the future result. For example, 'If she calls, I will answer' (not 'If she will call, I will answer'); 'If they come early, we will start on time' — the future is shown only in the main clause." },
     { heading: "Key Patterns", body: "", examples: [
       "If it rains, I will stay home.",
       "If you study hard, you will pass the exam.",
@@ -535,9 +903,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "If they come early, we will start on time.", ur: "اگر وہ جلدی آئیں، تو ہم وقت پر شروع کریں گے۔", sd: "جيڪڏهن هو جلدي اچن ته اسان وقت تي شروع ڪنداسين." },
     ]},
   ]},
-  { title: "34. Second Conditional", subtitle: "Imaginary or unlikely present/future", icon: "GitBranch", sections: [
-    { heading: "Where Used", body: "Imaginary or unlikely present or future condition." },
-    { heading: "Sentence Formation", body: "If + past, would + V1" },
+  { title: "34. Second Conditional", subtitle: "Imaginary or unlikely present/future", icon: "GitBranch",
+    vocabulary: [
+      { term: "Imaginary", ur: "خیالی", sd: "خيالي" },
+      { term: "Unreal", ur: "غیر حقیقی", sd: "غير حقيقي" },
+      { term: "If + past", ur: "اگر + ماضی", sd: "جيڪڏهن + ماضي" },
+      { term: "Would + V1", ur: "ہوتا", sd: "ها" },
+      { term: "Hypothetical", ur: "فرضی", sd: "فرضي" },
+      { term: "Travel the world", ur: "دنیا گھومنا", sd: "دنيا گهمڻ" },
+      { term: "Were (subjunctive)", ur: "ہوتا (فرضی)", sd: "هجي" },
+      { term: "Apologize", ur: "معذرت چاہنا", sd: "معافي گهرڻ" },
+      { term: "Wish", ur: "خواہش", sd: "خواهش" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Imaginary or unlikely present or future condition — the second conditional is used to talk about unreal or hypothetical situations in the present/future: things that are NOT true now but you imagine. This pattern matters because it is the standard way to express dreams, wishes, and 'what-if' thinking: 'If I had money, I would travel the world' shows that I do not have money now. For example, a pupil may say, 'If I were you, I would apologize.' Note the strict grammar: the 'if' clause uses the past simple (V2), and the main clause uses 'would + V1'; with 'be' the formal form is 'were' for all subjects (I/he/she/it were), not 'was', in formal English." },
+    { heading: "Sentence Formation", body: "If + past, would + V1. The 'if' clause uses the past simple (V2), and the main clause uses 'would + V1'; with the verb 'be', formal English uses 'were' for all subjects. For example, 'If I had money, I would travel' (V2 'had'); 'If I were you, I would apologize' (formal 'were', not 'was')." },
     { heading: "Key Patterns", body: "", examples: [
       "If I had money, I would travel the world.",
       "If she were here, she would help us.",
@@ -551,9 +931,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "If they knew the truth, they would be angry.", ur: "اگر انہیں سچ پتہ ہوتا، تو وہ ناراض ہوتے۔", sd: "جيڪڏهن کين سچ معلوم هجي ها ته هو ناراض هجن ها." },
     ]},
   ]},
-  { title: "35. Third Conditional", subtitle: "Imagined past result (regret)", icon: "GitBranch", sections: [
-    { heading: "Where Used", body: "Imagined past result; regret." },
-    { heading: "Sentence Formation", body: "If + had + V3, would have + V3" },
+  { title: "35. Third Conditional", subtitle: "Imagined past result (regret)", icon: "GitBranch",
+    vocabulary: [
+      { term: "Regret", ur: "افسوس", sd: "افسوس" },
+      { term: "Imagined past", ur: "تصوراتی ماضی", sd: "تصوراتي ماضي" },
+      { term: "If + had + V3", ur: "اگر + ماضی بعید", sd: "جيڪڏهن + ماضي بعيد" },
+      { term: "Would have + V3", ur: "ہوتا", sd: "ها" },
+      { term: "Hypothetical", ur: "فرضی", sd: "فرضي" },
+      { term: "Catch the train", ur: "ٹرین پکڑنا", sd: "ريٽرهي وڃائڻ" },
+      { term: "Help", ur: "مدد", sd: "مدد" },
+      { term: "Ask", ur: "مانگنا", sd: "گهرڻ" },
+      { term: "Unfulfilled", ur: "پورا نہ ہوا", sd: "پورو نه ٿيل" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Imagined past result, regret — the third conditional is used to talk about a past situation that cannot be changed, often to express regret or to imagine how things would have been different. This pattern matters because it is the only way to talk about the past that did NOT happen: 'If I had studied, I would have passed' shows that I did not study and did not pass — but it imagines the opposite. For example, a disappointed student may say, 'If she had left earlier, she would have caught the train.' Note the strict grammar: the 'if' clause uses the past perfect (had + V3), and the main clause uses 'would have + V3'; both clauses refer to finished past time, so the situation can never actually be changed — only imagined." },
+    { heading: "Sentence Formation", body: "If + had + V3, would have + V3. The 'if' clause uses the past perfect (had + V3), and the main clause uses 'would have + V3' — both verbs are in past participle form. For example, 'If I had studied, I would have passed' (not 'If I would have studied, I had passed' or 'If I studied, I would pass'); this pattern only talks about imaginary past events." },
     { heading: "Key Patterns", body: "", examples: [
       "If I had studied, I would have passed.",
       "If she had left earlier, she would have caught the train.",
@@ -567,9 +959,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "If he had asked, I would have given it to him.", ur: "اگر اس نے مانگا ہوتا، تو میں اسے دے دیتا۔", sd: "جيڪڏهن هن گهريو هجي ها ته مان کيس ڏئي ڇڏيان ها." },
     ]},
   ]},
-  { title: "36. Mixed Conditional", subtitle: "Past cause + present consequence", icon: "GitBranch", sections: [
-    { heading: "Where Used", body: "Past cause with present consequence." },
-    { heading: "Sentence Formation", body: "If + had + V3, would + V1 (present result)" },
+  { title: "36. Mixed Conditional", subtitle: "Past cause + present consequence", icon: "GitBranch",
+    vocabulary: [
+      { term: "Past cause", ur: "ماضی کی وجہ", sd: "ماضي جي وجه" },
+      { term: "Present consequence", ur: "حال کا نتیجہ", sd: "حال جو نتيجو" },
+      { term: "If + had + V3", ur: "اگر + ماضی بعید", sd: "جيڪڏهن + ماضي بعيد" },
+      { term: "Would + V1 (present)", ur: "ہوتا اب", sd: "هاڻي هجان" },
+      { term: "Combination", ur: "مجموعہ", sd: "مجموعو" },
+      { term: "Doctor", ur: "ڈاکٹر", sd: "ڊاڪٽر" },
+      { term: "Karachi", ur: "کراچی", sd: "ڪراچي" },
+      { term: "Save money", ur: "پیسہ بچانا", sd: "پيسو بچائڻ" },
+      { term: "Rich", ur: "امیر", sd: "مالدار" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Past cause with present consequence — the mixed conditional is used when a past condition has a result that is still true NOW; it blends the third conditional's past 'if' clause with the second conditional's present 'would' result. This pattern matters because real-life regret often works this way: 'If I had studied medicine, I would be a doctor now' shows that the choice (past) still shapes my life today. For example, a friend may say, 'If they had saved money, they would be rich now.' Note the strict grammar: the 'if' clause uses the past perfect (had + V3) for the past condition, and the main clause uses 'would + V1' for the present result — never 'would have', because the result is still happening." },
+    { heading: "Sentence Formation", body: "If + had + V3, would + V1 (present result). The 'if' clause uses the past perfect (had + V3) for the past cause, and the main clause uses 'would + V1' for the present consequence. For example, 'If I had studied medicine, I would be a doctor now' (past cause, present result); 'If she had married him, she would live in Karachi today' (past choice, present life) — never mix 'would have' here, because the result is now." },
     { heading: "Key Patterns", body: "", examples: [
       "If I had studied medicine, I would be a doctor now.",
       "If she had married him, she would live in Karachi today.",
@@ -583,9 +987,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "If he had taken the job, he would be happier today.", ur: "اگر اس نے نوکری قبول کی ہوتی، تو آج زیادہ خوش ہوتا۔", sd: "جيڪڏهن هن نوکري قبول ڪئي هجي ها ته اڄ وڌيڪ خوش هجي." },
     ]},
   ]},
-  { title: "37. Had Better", subtitle: "Strong advice or warning", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Strong advice or warning." },
-    { heading: "Sentence Formation", body: "had better + V1; had better not + V1" },
+  { title: "37. Had Better", subtitle: "Strong advice or warning", icon: "Clock",
+    vocabulary: [
+      { term: "Strong advice", ur: "زور دار مشورہ", sd: "زور دار صلاح" },
+      { term: "Warning", ur: "تنبیہ", sd: "تنبيه" },
+      { term: "Had better", ur: "بہتر ہوگا", sd: "بهتر ٿيندو" },
+      { term: "Had better not", ur: "نہ کرنا بہتر", sd: "نه ڪرڻ بهتر" },
+      { term: "Study tonight", ur: "آج رات پڑھنا", sd: "اڄ رات پڙهڻ" },
+      { term: "Be late", ur: "دیر کرنا", sd: "دير ڪرڻ" },
+      { term: "Finish", ur: "مکمل کرنا", sd: "مڪمل ڪرڻ" },
+      { term: "Miss the bus", ur: "بس نہ پکڑ پانا", sd: "بسن وڃائي ڇڏڻ" },
+      { term: "Strongly", ur: "مضبوطی سے", sd: "مضبوطي سان" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Strong advice or warning — 'had better + V1' is used to give urgent, strong advice about what should be done to avoid a bad outcome; it is stronger than 'should' and often carries a sense of threat. This pattern matters because it is the everyday way to warn someone of immediate consequences: 'You had better study tonight' implies that not studying will lead to a bad result tomorrow. For example, a mother may say, 'You had better not be late.' Note that 'had better' looks like the past tense, but its meaning is present or future, and the negative is 'had better not + V1' (not 'had not better'); also, 'had better' is always followed by the base form (V1) with no 'to'." },
+    { heading: "Sentence Formation", body: "had better + V1; had better not + V1. Despite the word 'had', the meaning is present or future, the verb after it is the base form (V1) with no 'to', and the negative is 'had better not + V1' (not 'had not better'). For example, 'You had better study tonight' and 'You had better not be late' — never 'You had better to study' or 'You had not better be late'." },
     { heading: "Key Patterns", body: "", examples: [
       "You had better study tonight.",
       "You had better not be late.",
@@ -599,9 +1015,22 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "We had better leave now or we'll miss the bus.", ur: "ہمیں اب جانا چاہیے ورنہ ہم بس نہیں پا سکیں گے۔", sd: "اسان کي هاڻي وڃڻ گهرجي نه ته اسان بسن وڃائي ڇڏينداسين." },
     ]},
   ]},
-  { title: "38. Exclamatory Sentences", subtitle: "Joy, surprise, praise, regret", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Expressing joy, surprise, praise, or regret." },
-    { heading: "Sentence Formation", body: "What + a/an + adjective + noun! / How + adjective!" },
+  { title: "38. Exclamatory Sentences", subtitle: "Joy, surprise, praise, regret", icon: "Clock",
+    vocabulary: [
+      { term: "Joy", ur: "خوشی", sd: "خوشي" },
+      { term: "Surprise", ur: "حیرت", sd: "حيرت" },
+      { term: "Praise", ur: "تعریف", sd: "تعريف" },
+      { term: "Regret", ur: "افسوس", sd: "افسوس" },
+      { term: "What a", ur: "کیا", sd: "ڪهو" },
+      { term: "How", ur: "کتنا", sd: "ڪيتري" },
+      { term: "Beautiful", ur: "خوبصورت", sd: "سهڻو" },
+      { term: "Weather", ur: "موسم", sd: "موسم" },
+      { term: "Pity", ur: "افسوس", sd: "ارمان" },
+      { term: "Fast", ur: "تیز", sd: "تيز" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Expressing joy, surprise, praise, or regret — exclamatory sentences are used to show strong feelings suddenly and forcefully, ending with an exclamation mark (!). This pattern matters because ordinary statements cannot carry the same emotional force: 'The flower is beautiful' is flat, but 'What a beautiful flower!' is full of joy or wonder. For example, a child may exclaim, 'How fast she runs!' Note the two main patterns: 'What + (a/an) + adjective + noun!' ('What a beautiful flower!') for noun phrases, and 'How + adjective/adverb!' ('How wonderful the weather is!') for adjectives or adverbs; never mix them — 'How a beautiful flower!' and 'What wonderful the weather!' are both wrong." },
+    { heading: "Sentence Formation", body: "What + a/an + adjective + noun! / How + adjective! 'What' is used before a noun phrase (with 'a/an' for singular countable nouns), and 'How' is used before an adjective or adverb without a noun. For example, 'What a beautiful flower!' (What + noun phrase) and 'How wonderful the weather is!' (How + adjective + subject + verb) are correct; 'How a beautiful flower!' and 'What wonderful the weather!' are wrong because they mix the two structures." },
     { heading: "Key Patterns", body: "", examples: [
       "What a beautiful flower!",
       "How wonderful the weather is!",
@@ -615,9 +1044,22 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "How fast she runs!", ur: "وہ کتنی تیز دوڑتی ہے!", sd: "هوءَ ڪيتري تيز ڊوڙي ٿي!" },
     ]},
   ]},
-  { title: "39. Optative Sentences", subtitle: "Wish, prayer, blessing", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Wish, prayer, or blessing." },
-    { heading: "Sentence Formation", body: "May + Subject + V1…" },
+  { title: "39. Optative Sentences", subtitle: "Wish, prayer, blessing", icon: "Clock",
+    vocabulary: [
+      { term: "Wish", ur: "خواہش", sd: "خواهش" },
+      { term: "Prayer", ur: "دعا", sd: "دعا" },
+      { term: "Blessing", ur: "برکت", sd: "برکت" },
+      { term: "May (optative)", ur: "(دعا شروع)", sd: "(دعا شروع)" },
+      { term: "Live long", ur: "لمبی زندگی", sd: "ڊگهي زندگي" },
+      { term: "God bless", ur: "اللہ برکت دے", sd: "اللہ برکت ڏي" },
+      { term: "Succeed", ur: "کامیاب ہونا", sd: "ڪامياب ٿيڻ" },
+      { term: "Health", ur: "صحت", sd: "صحت" },
+      { term: "Happiness", ur: "خوشی", sd: "خوشي" },
+      { term: "Almighty", ur: "قادر مطلق", sd: "قادر مطلق" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Wish, prayer, or blessing — optative sentences express a strong wish, prayer, or hope for someone's well-being, often starting with 'May'. This pattern matters because it is the standard way to give blessings, good wishes, and prayers in formal and religious contexts: 'May you live long!' is more elegant and heartfelt than 'I hope you live long.' For example, a grandmother may say, 'May Allah give you health and happiness!' Note the structure: 'May + subject + V1' + exclamation mark (!); the subject comes AFTER 'May', and the verb is in the base form (V1). In older English you may also see 'May God bless you' with no exclamation mark, but in modern usage the mark is normal." },
+    { heading: "Sentence Formation", body: "May + Subject + V1…! The sentence starts with 'May', followed by the subject (the person blessed), then the base form of the verb (V1), and ends with an exclamation mark. For example, 'May you live long!' (May + you + live + !) and 'May God bless you!' (May + God + bless + you + !) — never 'May you lives long' or 'May God blessed you', because the verb is always V1." },
     { heading: "Key Patterns", body: "", examples: [
       "May you live long!",
       "May God bless you!",
@@ -631,9 +1073,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "May Allah give you health and happiness!", ur: "اللہ آپ کو صحت اور خوشی عطا کرے!", sd: "اللہ اوھين کي صحت ۽ خوشي عطا ڪري!" },
     ]},
   ]},
-  { title: "40. What If — Quick Review", subtitle: "Supposition or fear", icon: "Clock", sections: [
-    { heading: "Where Used", body: "Supposition or fear." },
-    { heading: "Sentence Formation", body: "What if + clause?" },
+  { title: "40. What If — Quick Review", subtitle: "Supposition or fear", icon: "Clock",
+    vocabulary: [
+      { term: "Supposition", ur: "فرض", sd: "فرض" },
+      { term: "Fear", ur: "خوف", sd: "ڀاءُ" },
+      { term: "What if", ur: "کیا ہو اگر", sd: "ڇا ٿئي جيڪڏهن" },
+      { term: "Lose", ur: "ہارنا", sd: "هارڻ" },
+      { term: "Reject", ur: "مسترد کرنا", sd: "مسترد ڪرڻ" },
+      { term: "Match", ur: "میچ", sd: "ميچ" },
+      { term: "Late", ur: "دیر سے", sd: "دير سان" },
+      { term: "Application", ur: "درخواست", sd: "درخواست" },
+      { term: "Possibility", ur: "امکان", sd: "امڪان" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Supposition or fear — a quick revision of 'What if', used to ask about a possible situation and its imagined result, or to express worry about a feared outcome. This pattern matters because 'What if' lets you do two things in one short phrase: name a possible scenario and ask what to do about it. For example, before a sports match a student may ask, 'What if we lose the match?' so the team can plan how to handle defeat. Note that the verb after 'What if' is in V1 for likely outcomes and V2 for unlikely ones, just like in the original 'What if' lessons; the question always ends with a question mark, even though no auxiliary verb is present." },
+    { heading: "Sentence Formation", body: "What if + clause? The clause after 'What if' describes the situation you are imagining or fearing, and the sentence always ends with a question mark. For example, 'What if we lose the match?' (possible loss); 'What if she doesn't come?' (possible absence); 'What if the train is late?' (possible delay) — all are correct, with V1 for likely outcomes and V2 for unlikely ones." },
     { heading: "Key Patterns", body: "", examples: [
       "What if we lose the match?",
       "What if she doesn't come?",
@@ -647,8 +1101,20 @@ export const SENIOR_LESSONS: Lesson[] = [
       { en: "What if they reject our application?", ur: "اگر وہ ہماری درخواست رد کر دیں تو؟", sd: "جيڪڏهن هو اسان جي درخواست رد ڪن ته؟" },
     ]},
   ]},
-  { title: "41. Conditional Sentences — Five-Part Revision", subtitle: "All five conditional patterns", icon: "GitBranch", sections: [
-    { heading: "Where Used", body: "Revision of all five conditional patterns." },
+  { title: "41. Conditional Sentences — Five-Part Revision", subtitle: "All five conditional patterns", icon: "GitBranch",
+    vocabulary: [
+      { term: "Conditional", ur: "شرطی", sd: "شرطي" },
+      { term: "Zero conditional", ur: "زیرو شرطی", sd: "زير شرطي" },
+      { term: "First conditional", ur: "پہلا شرطی", sd: "پهريون شرطي" },
+      { term: "Second conditional", ur: "دوسرا شرطی", sd: "ٻيو شرطي" },
+      { term: "Third conditional", ur: "تیسرا شرطی", sd: "ٽيون شرطي" },
+      { term: "Mixed conditional", ur: "مکس شرطی", sd: "ملائي شرطي" },
+      { term: "Revision", ur: "نظر ثانی", sd: "نظر ثاني" },
+      { term: "Pattern", ur: "پیٹرن", sd: "بناوت" },
+      { term: "Structure", ur: "ساخت", sd: "بناوت" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Revision of all five conditional patterns — a quick reference summary of the zero, first, second, third, and mixed conditionals in one place. This lesson matters because the five conditionals are easy to confuse: each one has a different tense combination and a different meaning (fact → possible future → imaginary present → imaginary past → mixed). For example, a student preparing for the board exam should be able to pick the correct conditional for 'If I ___ (study) harder, I ___ (pass)' depending on whether the meaning is real, imaginary, or regretful. Note the table below as a one-page reference; the same five patterns are explained in detail in lessons 32–36." },
     {
       heading: "All Five Conditionals",
       body: "",
@@ -664,8 +1130,21 @@ export const SENIOR_LESSONS: Lesson[] = [
       },
     },
   ]},
-  { title: "42. Master Grammar Pattern Review", subtitle: "Quick reference and error prevention", icon: "BookOpen", sections: [
-    { heading: "Where Used", body: "Quick reference and error prevention for all 42 lessons." },
+  { title: "42. Master Grammar Pattern Review", subtitle: "Quick reference and error prevention", icon: "BookOpen",
+    vocabulary: [
+      { term: "Quick reference", ur: "فوری حوالہ", sd: "فوري حوالو" },
+      { term: "Error prevention", ur: "غلطیوں سے بچاؤ", sd: "غلطين کان بچاءُ" },
+      { term: "Formula", ur: "فارمولا", sd: "فارمولا" },
+      { term: "Pattern", ur: "پیٹرن", sd: "بناوت" },
+      { term: "Common mistakes", ur: "عام غلطیاں", sd: "عام غلطيون" },
+      { term: "Mind if", ur: "اعتراض ہوگا", sd: "اعتراض ٿيندو" },
+      { term: "Unless", ur: "if not", sd: "جيستائين نه" },
+      { term: "Lest", ur: "should (formal)", sd: "متان" },
+      { term: "Despite", ur: "no 'of'", sd: "بغير of" },
+      { term: "No sooner", ur: "immediate past", sd: "فوري ماضي" },
+    ],
+    sections: [
+    { heading: "Where Used", body: "Quick reference and error prevention for all 42 lessons — a master summary of the key formulas from this senior grammar course, plus a list of the common mistakes that students should avoid. This lesson matters because it lets you revise 42 grammar patterns in one quick look, which is ideal before an exam or whenever you want to write correct English with confidence. For example, a student writing an essay can check the table below to remember whether 'unless' takes 'not' or not, or whether 'lest' is followed by 'should'. Note the 'Common Mistakes' section at the end of this lesson — those are the most frequent errors made in Pakistani and Sindh high-school exams; reviewing them once before the board exam can save many marks." },
     {
       heading: "Key Formulas Summary",
       body: "",
@@ -684,6 +1163,6 @@ export const SENIOR_LESSONS: Lesson[] = [
         ],
       },
     },
-    { heading: "Common Mistakes", body: "Use the exact formula of each lesson; do not add or remove 'to' or auxiliaries randomly. Remember: 'unless' already means 'if not' — don't use 'not' after it. 'Despite' does not take 'of'. After 'lest', always use 'should'." },
+    { heading: "Common Mistakes", body: "Use the exact formula of each lesson; do not add or remove 'to' or auxiliaries randomly. Remember the four most common senior-level mistakes Pakistani students make in board exams: (1) 'unless' already means 'if not' — never add 'not' after it ('unless you do not study' is wrong); (2) 'despite' does NOT take 'of' ('despite of the rain' is wrong — say 'despite the rain'); (3) after 'lest' always use 'should + V1' ('lest he should fail', never 'lest he fails' or 'lest he will fail'); (4) after modals (can, could, may, might, must, should, will, would) and the four expressions let, make, had better, would rather — never add 'to' before the verb ('I can to swim' is wrong). Also, in 'no sooner…than' and 'hardly…when', always invert the subject and 'had' ('No sooner had I arrived', not 'No sooner I had arrived'), and use 'than' with 'no sooner' but 'when' with 'hardly/scarcely/barely' — never mix them." },
   ]},
 ];

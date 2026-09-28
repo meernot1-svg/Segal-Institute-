@@ -171,10 +171,10 @@ export default async function DashboardPage() {
             body="Search, filter, favorite, and mark verbs learned or difficult."
           />
           <QuickAction
-            href="/sentence-generator"
+            href="/lessons#practice"
             icon={MessageSquare}
             title="Sentence Generator"
-            body="Generate original sentences on any topic, in any language."
+            body="Pick any lesson and get practice sentences in Urdu, Sindhi, English, or 20+ languages."
           />
           <QuickAction
             href="/chat"

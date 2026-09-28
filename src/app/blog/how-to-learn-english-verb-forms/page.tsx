@@ -51,7 +51,7 @@ export default function Page() {
       </p>
       <p>
         <strong>2. Sentence practice (5 min).</strong> Open the{" "}
-        <Link href="/sentence-generator" className="text-brand-emerald-deep underline-offset-4 hover:underline">
+        <Link href="/lessons#practice" className="text-brand-emerald-deep underline-offset-4 hover:underline">
           Sentence Generator
         </Link>{" "}
         and ask it for 10 sentences using today's verbs. Reading verbs in real
