@@ -180,7 +180,7 @@ export default async function DashboardPage() {
             href="/chat"
             icon={Bot}
             title="AI Tutor"
-            body="Ask anything about verbs, grammar, or usage."
+            body="Ask anything about English — grammar, tenses, articles, verb forms, vocabulary, sentences, writing, or conversation."
           />
           <QuickAction
             href="/speech-generator"

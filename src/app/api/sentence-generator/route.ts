@@ -8,7 +8,8 @@ import { complete, SENTENCE_SYSTEM_PROMPT, isMockMode } from "@/lib/ai";
 export const maxDuration = 300;
 
 const schema = z.object({
-  topic: z.string().min(1, "Topic is required").max(200),
+  topic: z.string().max(200).optional(),         // free-text topic OR the lesson title
+  lesson: z.string().max(200).optional(),        // optional lesson string like "Basic · 1. What are Verbs?"
   language: z.string().max(40).optional(),
   sentenceType: z.string().max(40).optional(), // Simple | Compound | Complex | Mixed | Question | Affirmative | Negative | Imperative
   level: z.string().max(40).optional(),        // Beginner | Intermediate | Advanced
@@ -28,6 +29,7 @@ export async function POST(req: NextRequest) {
   }
   const {
     topic,
+    lesson,
     language = "English",
     sentenceType = "Mixed",
     level = "Intermediate",
@@ -36,9 +38,32 @@ export async function POST(req: NextRequest) {
     save,
   } = parsed.data;
 
-  // Build the user prompt in the format the master prompt expects.
+  // Require either a topic OR a lesson. If only a lesson was picked, derive
+  // the topic from the lesson title (strip the "Basic · " prefix).
+  let effectiveTopic = (topic || "").trim();
+  let effectiveLesson = (lesson || "").trim();
+  if (!effectiveTopic && !effectiveLesson) {
+    return NextResponse.json({ error: "Please enter a topic or pick a lesson." }, { status: 400 });
+  }
+  if (!effectiveTopic && effectiveLesson) {
+    effectiveTopic = effectiveLesson.replace(/^\w+\s·\s/, "");
+  }
+  // Strip a leading "(no lesson…)" placeholder so it doesn't pollute the prompt.
+  if (effectiveLesson.startsWith("(no lesson")) {
+    effectiveLesson = "";
+  }
+
+  // Build the user prompt. If a lesson was picked, frame the request as
+  // "practice sentences on this lesson's grammar concept" — the AI then
+  // generates sentences that exercise the rule being taught.
   const lines: string[] = [];
-  lines.push(`Topic: ${topic}`);
+  if (effectiveLesson) {
+    lines.push(`Generate PRACTICE sentences that exercise the grammar concept taught in this lesson: "${effectiveTopic}".`);
+    lines.push(`The sentences should help a student practice the rule from the lesson — use a variety of contexts, but keep the grammar pattern clear.`);
+    lines.push(`Lesson tier: ${effectiveLesson.split(" · ")[0]}`);
+  } else {
+    lines.push(`Topic: ${effectiveTopic}`);
+  }
   lines.push(`Language: ${language}`);
   lines.push(`Sentence type: ${sentenceType}`);
   lines.push(`Level: ${level}`);
@@ -59,7 +84,7 @@ export async function POST(req: NextRequest) {
     const row = await db.generatedSentence.create({
       data: {
         profileId: user.id,
-        topic,
+        topic: effectiveTopic,
         language: language || "English",
         sentenceType: sentenceType || "Mixed",
         level: level || "Intermediate",

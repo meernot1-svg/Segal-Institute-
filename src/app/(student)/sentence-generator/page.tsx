@@ -1,4 +1,5 @@
 import { GeneratorShell } from "@/components/generator-shell";
+import { LESSON_DROPDOWN_OPTIONS } from "@/lib/lesson-options";
 
 export const dynamic = "force-dynamic";
 
@@ -6,23 +7,28 @@ export default function SentenceGeneratorPage() {
   return (
     <GeneratorShell
       title="Sentence Generator"
-      subtitle="Generate original sentences on any topic, in any language, at any level. Pick the topic, choose the language, set the count — the AI does the rest."
+      subtitle="Pick a lesson below and get practice sentences on it — in Urdu, Sindhi, English, or any other language. You can also type your own topic instead."
       endpoint="/api/sentence-generator"
       fields={[
         {
+          key: "lesson",
+          label: "Lesson (optional — pick a lesson to get practice sentences on it)",
+          type: "select",
+          options: ["(no lesson — use my own topic)", ...LESSON_DROPDOWN_OPTIONS],
+        },
+        {
           key: "topic",
-          label: "Topic",
+          label: "Topic (or leave blank if you picked a lesson above)",
           placeholder: "e.g. The importance of trees, کرنسی کی کمی, Friendship, Climate change…",
-          required: true,
         },
         {
           key: "language",
           label: "Language",
           type: "select",
           options: [
-            "English",
             "Urdu",
             "Sindhi",
+            "English",
             "Hindi",
             "Arabic",
             "Persian",
@@ -78,7 +84,6 @@ export default function SentenceGeneratorPage() {
           placeholder: "e.g. formal, conversational, poetic, funny…",
         },
       ]}
-      mockNotice
       showLibrary
     />
   );

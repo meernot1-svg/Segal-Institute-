@@ -38,7 +38,6 @@ export function GeneratorShell({
   subtitle,
   endpoint,
   fields,
-  mockNotice,
   renderSaved,
   showLibrary,
 }: {
@@ -46,7 +45,6 @@ export function GeneratorShell({
   subtitle: string;
   endpoint: string;
   fields: Field[];
-  mockNotice?: boolean;
   renderSaved?: (items: SavedItem[]) => React.ReactNode;
   // Server components can't pass a function to a client component, so we
   // also accept a plain boolean to enable the saved-library section.
@@ -64,18 +62,31 @@ export function GeneratorShell({
 
   async function generate(save = false) {
     const topic = values.topic?.trim();
-    if (!topic) {
-      toast.error("Please enter a topic.");
+    const lesson = values.lesson?.trim();
+    // Allow a lesson to substitute for the topic — the sentence generator
+    // accepts either a free-text topic OR a picked lesson (or both).
+    if (!topic && !lesson) {
+      toast.error("Please enter a topic or pick a lesson.");
       return;
     }
+    // If only a lesson was picked (no topic), use the lesson title as the topic
+    // so the user prompt has something concrete to work with. The lesson string
+    // looks like "Basic · 1. What are Verbs?" — strip the tier prefix for the
+    // display topic, but pass the full string too so the API can use it.
+    const effectiveTopic = topic || lesson.replace(/^\w+\s·\s/, "");
     setLoading(true);
     setOutput(null);
     setSavedId(null);
     try {
+      const payload = { ...values, topic: effectiveTopic, save };
+      // If the lesson field is the "(no lesson…)" placeholder, don't send it.
+      if (lesson && lesson.startsWith("(no lesson")) {
+        delete (payload as Record<string, string | boolean>).lesson;
+      }
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, save }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to generate");
@@ -83,9 +94,6 @@ export function GeneratorShell({
       if (data.savedId) {
         setSavedId(data.savedId);
         toast.success("Saved to your library.");
-      }
-      if (typeof data.mock === "boolean" && data.mock) {
-        toast.info("Mock mode — set AI_API_KEY for fully custom output.", { duration: 5000 });
       }
       if (save) await refreshSaved();
     } catch (e) {
@@ -204,11 +212,6 @@ export function GeneratorShell({
                 <RotateCw className="size-4" /> Regenerate
               </Button>
             </div>
-            {mockNotice && (
-              <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
-                Mock mode is on — outputs are original placeholders. Set AI_API_KEY for fully custom AI generation.
-              </p>
-            )}
           </CardContent>
         </Card>
 

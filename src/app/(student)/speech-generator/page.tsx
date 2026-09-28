@@ -17,7 +17,7 @@ export default function SpeechGeneratorPage() {
         { key: "style", label: "Style", type: "select", options: ["Formal", "Informal", "Inspirational", "Persuasive", "Storytelling"] },
         { key: "tone", label: "Tone", type: "select", options: ["Warm", "Confident", "Serious", "Playful", "Motivational"] },
       ]}
-      mockNotice
+      showLibrary
     />
   );
 }

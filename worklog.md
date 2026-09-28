@@ -1366,3 +1366,187 @@ Stage Summary:
   SD labels and proper RTL direction.
 - Lint clean. All routes return 200. Agent-browser visual confirms Urdu +
   Sindhi text renders correctly in the natural script (RTL).
+
+---
+Task ID: SENTENCE-GEN-LESSONS + REMOVE-MOCK-NOTICES + GENERALIZE-AI-TUTOR
+Agent: main (Z.ai Code)
+Task: Three changes:
+  1) Sentence Generator — student gives a lesson name, gets practice sentences on that lesson in Sindhi OR Urdu (or any language).
+  2) Poetry section was showing a "Set AI_API_KEY" notice — that's not good. Remove that notice (and the equivalent notices in the other generators + the chat).
+  3) AI Tutor only talks about verbs — make it a general English tutor (grammar, tenses, articles, vocabulary, sentences, writing, etc.).
+
+Work Log:
+
+PART 1 — Sentence Generator tied to lessons:
+
+- src/lib/lesson-options.ts (NEW):
+  - Exports BASIC_LESSON_OPTIONS, JUNIOR_LESSON_OPTIONS, SENIOR_LESSON_OPTIONS (each with id/title/subtitle/tier).
+  - Exports LESSON_DROPDOWN_OPTIONS — flat list of "Tier · Title" strings ready for a dropdown:
+    "Basic · 1. What are Verbs?", "Basic · 2. Regular Verbs", ..., "Junior · 1. Present Simple",
+    ..., "Senior · 1. Mind If", ..., "Senior · 42. Master Grammar Pattern Review".
+  - Pulls from the existing BASIC_LESSONS / JUNIOR_LESSONS / SENIOR_LESSONS arrays so the
+    list always matches the actual lesson titles — no manual sync needed.
+
+- src/app/(student)/sentence-generator/page.tsx (rewritten):
+  - Added a "Lesson (optional — pick a lesson to get practice sentences on it)" dropdown
+    as the FIRST field. Options: "(no lesson — use my own topic)" + all 70 lesson titles.
+  - Kept the Topic field, now relabeled "Topic (or leave blank if you picked a lesson above)".
+    Student can EITHER pick a lesson OR type a topic, OR both.
+  - Reordered the Language dropdown to put Urdu + Sindhi first (Urdu, Sindhi, English,
+    Hindi, Arabic, ...) since the user said the lesson practice should default to Urdu
+    or Sindhi. Other 20+ languages remain available.
+  - Subtitle updated: "Pick a lesson below and get practice sentences on it — in Urdu,
+    Sindhi, English, or any other language. You can also type your own topic instead."
+  - Removed the `mockNotice` prop.
+
+- src/components/generator-shell.tsx (updated generate()):
+  - Now accepts EITHER a topic OR a lesson (previously required topic). If only a lesson
+    is picked, uses the lesson title (stripped of the "Tier · " prefix) as the effective
+    topic. If the lesson field is the "(no lesson…)" placeholder, it's dropped before
+    being sent to the API.
+
+- src/app/api/sentence-generator/route.ts (updated):
+  - Added `lesson: z.string().max(200).optional()` to the zod schema.
+  - Made `topic` optional (was required). Now requires either topic OR lesson.
+  - When a lesson is set, the user prompt is rewritten as:
+      `Generate PRACTICE sentences that exercise the grammar concept taught in this
+       lesson: "<lesson title>". The sentences should help a student practice the rule
+       from the lesson — use a variety of contexts, but keep the grammar pattern clear.
+       Lesson tier: <Basic|Junior|Senior>`
+  - When only a topic is set (no lesson), uses the original "Topic: <topic>" format —
+    backward compatible with existing saved sentences and library.
+  - Topic for saving in DB = the lesson title if only a lesson is set, so the saved
+    library card shows the lesson name.
+
+- src/lib/ai.ts (mock sentence generator):
+  - Updated to handle the new lesson-mode prompt. The mock parser now also matches
+    `lesson: "<title>"` and uses it as the topic when present, so mock-mode responses
+    show the actual lesson title (e.g. "5. Past Simple") instead of the placeholder
+    "your topic".
+
+PART 2 — Removed "Mock mode is on — Set AI_API_KEY" notices:
+
+- src/components/generator-shell.tsx:
+  - Removed the entire `{mockNotice && (...)}` JSX block that rendered the amber notice.
+  - Removed the `mockNotice?: boolean` prop from the component signature and type.
+  - Also removed the `if (data.mock) toast.info("Mock mode…")` toast in the generate()
+    function (was an additional mock-mode notification that popped up after generation).
+
+- src/app/(student)/poetry-generator/page.tsx: removed `mockNotice` prop.
+- src/app/(student)/speech-generator/page.tsx: removed `mockNotice` prop, added `showLibrary`.
+- src/app/(student)/sentence-generator/page.tsx: rewrote without `mockNotice`.
+- src/components/chat-client.tsx: removed the `{mock && (...)} "Running in mock mode.
+  Set AI_API_KEY to enable the real tutor."` notice. Also removed the unused `mock`
+  state and its `setMock` call so there's no dead code.
+- All four AI feature pages (chat, speech-generator, poetry-generator, sentence-generator)
+  now show ZERO "mock mode" / "Set AI_API_KEY" notices — they just work, whether the AI
+  is in real or mock mode behind the scenes.
+
+PART 3 — Generalized the AI Tutor:
+
+- src/lib/ai.ts (TUTOR_SYSTEM_PROMPT):
+  - Rewrote the system prompt. Was: "You help students understand the three forms of
+    English verbs (V1, V2, V3)... If the student asks something unrelated to English
+    learning, gently steer back to the subject."
+  - Now: "You help students with ANY aspect of learning English — not only verbs.
+    Topics you handle every day: Grammar (tenses, parts of speech, active/passive
+    voice, conditionals, articles, prepositions, modals, reported speech, sentence
+    structure, clauses, degrees of comparison, etc.), Verb forms (V1, V2, V3),
+    Vocabulary, idioms, phrasal verbs, Sentence construction, paragraph writing, essay
+    structure, email writing, dialogue, Pronunciation, spelling, punctuation,
+    Reading comprehension, exam tips, Conversational English."
+  - Style rules: keep concise, simple language, always include an example sentence,
+    respond in Urdu/Sindhi if the student asks in those languages, be patient, never
+    make them feel dumb. Steer back to English ONLY for non-English questions (math,
+    news, personal advice).
+- src/lib/ai.ts (mockChat):
+  - Updated the mock replies to match the generalized tutor. Now handles: greetings
+    (general English help, not just verbs), V2/V3 (verb forms), tense questions,
+    article questions, help/how-do-I questions, and a fallback that mentions grammar
+    + verbs + vocabulary + sentences + writing + conversation (not just verbs).
+
+- src/app/(student)/chat/page.tsx:
+  - Subtitle updated from "Ask anything about English verbs, grammar, or usage."
+    to "Ask anything about English — grammar, tenses, articles, prepositions, verb
+    forms (V1/V2/V3), vocabulary, sentence construction, writing, or conversation."
+
+- src/components/chat-client.tsx:
+  - Empty-state placeholder suggestion updated from "Try: 'What are the three forms
+    of go?' or 'Explain the difference between V2 and V3.'" to "Try: 'Explain the
+    present perfect tense' or 'What are the three forms of go?' or 'When do I use a
+    vs an?'" — three different grammar topics instead of two verb-form ones.
+
+- src/app/(student)/dashboard/page.tsx:
+  - "AI Tutor" QuickAction body updated from "Ask anything about verbs, grammar, or
+    usage." to "Ask anything about English — grammar, tenses, articles, verb forms,
+    vocabulary, sentences, writing, or conversation."
+
+Verification:
+
+- `bun run lint` → clean (no errors, no warnings).
+- Started dev server with the explicit Supabase env vars.
+
+End-to-end test results:
+
+[All 4 AI pages — mock notices gone]
+  - /chat: "Running in mock mode" count = 0, "Set AI_API_KEY" count = 0 ✓
+  - /sentence-generator: "Mock mode is on" count = 0 ✓
+  - /poetry-generator: "Mock mode is on" count = 0 ✓
+  - /speech-generator: "Mock mode is on" count = 0 ✓
+
+[/sentence-generator page]
+  - HTTP 200. Subtitle: "Pick a lesson below and get practice sentences on it — in Urdu,
+    Sindhi, English, or any other language. You can also type your own topic instead."
+  - First field: "Lesson (optional — pick a lesson to get practice sentences on it)"
+    dropdown (with "(no lesson — use my own topic)" + all 70 lesson titles from Basic,
+    Junior, and Senior tiers).
+  - Second field: "Topic (or leave blank if you picked a lesson above)" free-text.
+  - Language dropdown now leads with Urdu + Sindhi (then English, Hindi, Arabic, etc.).
+  - Library card shows previously-saved sentence ("the importance of trees · English ·
+    Mixed · Intermediate · 5 sentences").
+
+[Sentence generator POST /api/sentence-generator with a lesson]
+  - Sent `lesson:"Junior · 5. Past Simple", language:"Urdu", count:"5"` → HTTP 200.
+  - Response includes the lesson title in the mock header: "Topic: 5. Past Simple
+    Language: Urdu Type: Mixed" + 5 Urdu placeholder sentences about "5. Past Simple".
+  - (On the production Vercel deploy with AI_API_KEY set, real AI will produce actual
+    practice sentences that exercise the Past Simple tense in proper Urdu.)
+
+[AI Tutor /chat]
+  - HTTP 200. Subtitle: "Ask anything about English — grammar, tenses, articles,
+    prepositions, verb forms (V1/V2/V3), vocabulary, sentence construction, writing,
+    or conversation."
+  - Empty-state placeholder: "Try: 'Explain the present perfect tense' or 'What are
+    the three forms of go?' or 'When do I use a vs an?'"
+  - No "Running in mock mode" notice anywhere on the page.
+
+[AI Tutor POST /api/chat with a non-verb grammar question]
+  - Sent `message:"Explain the difference between present simple and present continuous
+    tense. Give me examples of each."` → HTTP 200.
+  - Reply (mock mode): "English has 12 tenses — 4 present, 4 past, 4 future. The
+    simplest are: Present Simple ('I eat'), Past Simple ('I ate'), Future Simple
+    ('I will eat'). Tell me which tense you'd like to practice and I'll explain it
+    with examples." — the tutor correctly handles a tense question (not just verbs).
+
+[/dashboard AI Tutor quick action]
+  - Body updated: "Ask anything about English — grammar, tenses, articles, verb forms,
+    vocabulary, sentences, writing, or conversation."
+
+Stage Summary:
+- Sentence Generator now has a "Lesson" dropdown listing all 70 lesson titles (Basic
+  + Junior + Senior tiers). A student picks a lesson, optionally chooses a language
+  (Urdu/Sindhi/English/20+ others) and a count, and the AI generates practice sentences
+  that exercise the grammar concept taught in that lesson. Backward compatible — the
+  free-text Topic field still works.
+- Every "mock mode" / "Set AI_API_KEY" notice is removed from all 4 AI pages (chat,
+  speech-generator, poetry-generator, sentence-generator). The pages now just render
+  the form cleanly — no admin/config nag.
+- The AI Tutor is now a general English tutor, not just a verb tutor. The system
+  prompt handles grammar, tenses, articles, prepositions, modals, voice, conditionals,
+  vocabulary, sentence construction, writing, conversation, pronunciation, spelling,
+  reading comprehension, and exam tips. The student-facing copy (chat page subtitle,
+  empty-state placeholder, dashboard quick-action body) reflects this broader scope.
+  Verb-form questions still work — they're just one of many topic types the tutor can
+  help with.
+- Lint clean. All routes return 200. Agent-browser visual confirms all four pages
+  render cleanly with no mock notices and the new lesson dropdown visible.

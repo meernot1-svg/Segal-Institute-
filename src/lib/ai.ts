@@ -214,11 +214,16 @@ function mockComplete(systemPrompt: string, userPrompt: string): string {
 
   if (sp.includes("sentence generator") || sp.includes("sentence writing")) {
     // Parse a few fields from the user prompt so the mock feels relevant.
+    // Two prompt formats are supported:
+    //   1. Topic-mode:  "Topic: <topic>\nLanguage: <lang>\nSentence type: <type>..."
+    //   2. Lesson-mode: "Generate PRACTICE sentences that exercise the grammar
+    //      concept taught in this lesson: \"<lesson title>\".\n..."
+    const lessonMatch = userPrompt.match(/lesson:\s*"([^"]+)"/i);
     const topicMatch = userPrompt.match(/topic:\s*([^,\n]+)/i);
     const langMatch = userPrompt.match(/language:\s*([^,\n]+)/i);
     const countMatch = userPrompt.match(/count:\s*(\d+)/i);
     const typeMatch = userPrompt.match(/sentence type:\s*([^,\n]+)/i);
-    const topic = topicMatch ? topicMatch[1].trim() : "your topic";
+    const topic = lessonMatch ? lessonMatch[1].trim() : (topicMatch ? topicMatch[1].trim() : "your topic");
     const lang = langMatch ? langMatch[1].trim() : "English";
     const count = countMatch ? Math.min(Math.max(parseInt(countMatch[1], 10) || 5, 1), 20) : 5;
     const type = typeMatch ? typeMatch[1].trim() : "Mixed";
@@ -406,22 +411,46 @@ function mockChat(
 ): string {
   const m = message.toLowerCase();
   if (/(^|\s)(hi|hello|hey|salam|assalam)(\s|$|[!.?])/.test(m)) {
-    return `Hello! I'm your ${branding.name} English tutor. You can ask me to explain a verb form (e.g. "what's the V2 of go?"), give you a sentence using a verb, or help with grammar. (Mock mode — set AI_API_KEY to enable the real tutor.)`;
+    return `Hello! I'm your ${branding.name} English tutor. I can help you with grammar (tenses, articles, prepositions, conditionals, active/passive voice), verb forms (V1/V2/V3), vocabulary, sentence construction, writing, and conversation. What would you like to practice today? (Mock mode — set AI_API_KEY to enable the real tutor.)`;
   }
   if (m.includes("v2") || m.includes("v3") || m.includes("past simple") || m.includes("past participle")) {
-    return `The three forms of a verb are V1 (base), V2 (past simple), and V3 (past participle). For example: go / went / gone. Tell me the verb and I'll show all three. (Mock mode — set AI_API_KEY for the full tutor.)`;
+    return `The three forms of a verb are V1 (base), V2 (past simple), and V3 (past participle). For example: go / went / gone. Tell me the verb and I'll show all three forms plus an example sentence. (Mock mode — set AI_API_KEY for the full tutor.)`;
+  }
+  if (m.includes("tense") || m.includes("present") || m.includes("past") || m.includes("future")) {
+    return `English has 12 tenses — 4 present, 4 past, 4 future. The simplest are: Present Simple ("I eat"), Past Simple ("I ate"), Future Simple ("I will eat"). Tell me which tense you'd like to practice and I'll explain it with examples. (Mock mode — set AI_API_KEY for the full tutor.)`;
+  }
+  if (m.includes("article") || m.includes("a/an") || m.includes("the")) {
+    return `Articles in English: "a" + consonant sound (a book), "an" + vowel sound (an apple), "the" for specific things (the sun, the book I read yesterday). Ask me about a specific case and I'll explain. (Mock mode — set AI_API_KEY for the full tutor.)`;
   }
   if (m.includes("help") || m.includes("how do i")) {
-    return `Sure — happy to help. Ask me anything about English verbs, like "explain the verb 'take' in a sentence" or "what's the difference between V2 and V3?". (Mock mode.)`;
+    return `Sure — happy to help. I can help you with grammar (tenses, articles, prepositions, voice, conditionals), verb forms (V1/V2/V3), vocabulary, sentence construction, paragraph writing, and conversation. What would you like to practice? (Mock mode.)`;
   }
-  return `That's a good question. In a real deployment I'd answer with the AI tutor based on the ${branding.name} curriculum. Right now I'm running in mock mode (set AI_API_KEY to enable real AI). Meanwhile, try asking me about a specific verb form.`;
+  return `That's a good question. I'm your English tutor — I can help with grammar, verb forms, vocabulary, sentence construction, writing, and conversation. Try asking me about a specific topic like "explain the present perfect tense" or "what are the three forms of 'take'?" and I'll walk you through it. (Mock mode — set AI_API_KEY to enable the real AI.)`;
 }
 
 // ---------------------------------------------------------------------------
 // Shared system prompts
 // ---------------------------------------------------------------------------
 
-export const TUTOR_SYSTEM_PROMPT = `You are the friendly English tutor at ${branding.name}. You help students understand the three forms of English verbs (V1 = base, V2 = past simple, V3 = past participle), give example sentences, explain grammar simply, and encourage the student. Keep answers concise (2–5 sentences unless asked for more). If the student asks about a verb, give all three forms and a short example sentence. If the student asks something unrelated to English learning, gently steer back to the subject.`;
+export const TUTOR_SYSTEM_PROMPT = `You are the friendly English tutor at ${branding.name}, an English academy in Jacobabad, Sindh, Pakistan. Your students are Pakistani / Sindhi learners from grade school to college age, and they often speak Urdu or Sindhi at home.
+
+You help students with ANY aspect of learning English — not only verbs. Topics you handle every day:
+- Grammar (tenses, parts of speech, active/passive voice, conditionals, articles, prepositions, modals, reported speech, sentence structure, clauses, degrees of comparison, etc.)
+- Verb forms (V1, V2, V3 — base, past simple, past participle) — give all three forms plus a short example sentence when asked about a specific verb
+- Vocabulary, idioms, phrasal verbs, synonyms/antonyms
+- Sentence construction, paragraph writing, essay structure, email writing, dialogue
+- Pronunciation, spelling, punctuation, capitalization
+- Reading comprehension, common mistakes, exam tips
+- Conversational English, daily-use phrases
+
+Style rules:
+- Keep answers concise (2–5 sentences unless the student asks for more detail or a longer explanation).
+- Use simple, friendly language. Avoid jargon unless the student uses it first.
+- Always include a short example sentence when you teach a rule, a verb form, or a new word.
+- If the student asks in Urdu or Sindhi, you may answer in the same language, OR answer in English with a short Urdu/Sindhi gloss for the key idea — whichever helps them learn better.
+- If a student is confused, give a one-line plain-English summary first, then the longer explanation.
+- Encourage the student. Be patient. Never make them feel dumb for asking.
+- If the student asks something completely unrelated to English learning (e.g. math homework, news, personal advice), gently steer back to English: "I'm your English tutor — I can help with grammar, vocabulary, verbs, sentences, and writing. What would you like to practice?"`;
 
 export const SPEECH_SYSTEM_PROMPT = `You are a speechwriter for ${branding.name}. Given a topic and a few options (duration, language, level, audience, style, tone), write an ORIGINAL speech with clearly labeled sections: Opening, Introduction, Main points (3 numbered), Examples, Conclusion. Do not reproduce any existing speech, quote, or copyrighted text. Keep it genuine and appropriate to the audience and tone. Write in clear Markdown with **bold** section headers.`;
 

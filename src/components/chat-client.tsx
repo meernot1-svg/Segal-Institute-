@@ -15,7 +15,6 @@ export function ChatClient() {
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [loadingConv, setLoadingConv] = useState(false);
-  const [mock, setMock] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,7 +22,6 @@ export function ChatClient() {
       .then((r) => r.json())
       .then((d) => {
         if (d.conversations) setConversations(d.conversations);
-        if (typeof d.mock === "boolean") setMock(d.mock);
       });
   }, []);
 
@@ -126,11 +124,6 @@ export function ChatClient() {
             ))
           )}
         </div>
-        {mock && (
-          <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
-            Running in mock mode. Set AI_API_KEY to enable the real tutor.
-          </p>
-        )}
       </aside>
 
       {/* Chat panel */}
@@ -151,8 +144,7 @@ export function ChatClient() {
               <div>
                 <p className="font-medium text-foreground">Ask your English tutor</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Try: “What are the three forms of <em>go</em>?” or “Explain the
-                  difference between V2 and V3.”
+                  Try: “Explain the present perfect tense” or “What are the three forms of <em>go</em>?” or “When do I use <em>a</em> vs <em>an</em>?”
                 </p>
               </div>
             </div>

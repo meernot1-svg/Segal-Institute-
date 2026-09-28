@@ -59,7 +59,7 @@ export default function PoetryGeneratorPage() {
       subtitle="Generate original, technically structured Urdu ghazals and poems. The AI follows authentic ghazal principles — matla, sher, qaafiya, radif, maqta — with strong imagery and originality."
       endpoint="/api/poetry-generator"
       fields={fields}
-      mockNotice
+      showLibrary
     />
   );
 }
