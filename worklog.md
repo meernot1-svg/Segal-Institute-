@@ -2355,3 +2355,24 @@ Stage Summary:
   c) Push + deploy themselves using: git push origin main + vercel --prod
 - The local dev server is running correctly at http://localhost:3000 with
   all changes visible. The user can preview it via the Preview Panel.
+
+---
+Task ID: DEPLOY-BLOCKED-NO-CREDENTIALS
+Agent: main (Z.ai Code)
+Task: User reports changes still not showing on the live web. Confirmed: all changes are applied locally + committed (72 commits), but CANNOT deploy to Vercel without a token.
+
+Status:
+- Local dev server: RUNNING (http://localhost:3000) — all changes visible
+- Git: 72 commits ahead of origin/main (NOT pushed)
+- Vercel deployment: STALE (still shows old code with Flashcards + MCQ)
+- Blocker: No GitHub PAT or Vercel token available in this environment
+
+What the user needs to do:
+1. Provide a Vercel token (from https://vercel.com/account/tokens) — I'll deploy immediately
+2. OR provide a GitHub PAT (from https://github.com/settings/tokens) — I'll push, Vercel auto-deploys if connected
+3. OR push + deploy themselves: `git push origin main && npx vercel --prod`
+
+Verified locally (all HTTP 200):
+- /dashboard: 0 flashcard, 0 MCQ, 1 "Sentence Generator" QuickAction
+- /verbs: trilingual table (EN + اردو + سنڌي columns)
+- /lessons: expanded content + vocabulary cards + embedded Sentence Generator
