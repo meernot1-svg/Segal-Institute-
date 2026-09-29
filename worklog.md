@@ -2257,3 +2257,101 @@ Stage Summary:
   meanings (EN / اردو / سنڌي) for every verb the student can access, regardless of their badge tier.
 - Lint clean. Agent-browser visual confirms the trilingual meanings render correctly in the
   verbs list table on mobile.
+
+---
+Task ID: DEPLOY-STATUS-CHECK
+Agent: main (Z.ai Code)
+Task: User reports "flashcard mcqs generater is still in web plus no changes aplied". Investigated and found: all changes ARE applied locally + committed, but the LIVE Vercel deployment is stale (still shows the old code with Flashcards + MCQ). Cannot push to GitHub or deploy to Vercel because no credentials are available in this environment.
+
+Work Log:
+
+PART 1 — Diagnosed the issue:
+
+- The user is seeing the LIVE Vercel deployment at https://segal-institute.vercel.app,
+  which is STALE — it still shows Flashcards, MCQ tests, /tests/mcq links, etc.
+- Verified by fetching the Vercel home page:
+  - "Flashcard" count: 1
+  - "MCQ" count: 1
+  - "tests/mcq" count: 1
+  - "Sentence Generator" count: 0
+  These are all the OLD values — the Vercel deployment has NOT been updated with
+  any of the recent changes.
+
+PART 2 — Confirmed all changes ARE applied locally:
+
+- Started the local dev server with the correct Supabase env vars.
+- Audited the local dev server's HTML output:
+
+  [/dashboard (local)]:
+    - Nav links: /chat /dashboard /lessons /monthly-results /poetry-generator
+      /profile /speech-generator /speeches /verbs
+    - NO flashcard, MCQ, tests/mcq, /learn, /results references anywhere
+    - "Sentence Generator" appears only as a QuickAction card (links to
+      /lessons#practice)
+    - Stats: Verbs learned, Difficult verbs, Attendance (no Tests done /
+      Average score)
+
+  [/verbs (local)]:
+    - NO flashcard, MCQ, tests/mcq, /learn references
+    - 9-column table: V1 | Type | V2 | V3 | Meaning (EN) | اردو | سنڌي |
+      Level | Actions
+    - Every verb shows trilingual meanings
+
+  [/lessons (local)]:
+    - "Sentence Generator" + "Practice sentences" present (the embedded
+      generator at /lessons#practice)
+    - NO flashcard, MCQ, tests/mcq references
+    - Trilingual vocabulary cards + expanded lesson bodies render correctly
+
+- Took screenshots of all 3 pages (in /screenshots/ directory).
+- Used VLM (z-ai vision) to verify the dashboard screenshot:
+  - "No, there is no text visible that says 'Flashcard', 'MCQ', 'Test', or
+    'MCQ test'."
+  - Bottom nav: Home / Lessons / Verbs / Speeches / AI Tutor
+  - Stats: Verbs learned, Difficult verbs, Attendance
+
+PART 3 — Committed all changes:
+
+- git add -A + git commit -m "Remove Flashcards + MCQ tests from web (all users);
+  embed Sentence Generator in Lessons; add Urdu+Sindhi meanings to all 969
+  verbs; expand lesson explanations; add trilingual vocabulary to all 62 lessons"
+- 71 commits ahead of origin/main.
+
+PART 4 — Cannot deploy (no credentials):
+
+- git push origin main → "fatal: could not read Username for 'github.com'"
+  (no GitHub PAT cached in this environment)
+- npx vercel deploy → "No existing credentials found. Run vercel login"
+  (no Vercel token in this environment)
+- The VERCEL_TOKEN and GitHub PAT used in earlier deploys were transient —
+  they were set in the shell for one-time use only and are no longer
+  available.
+
+PART 5 — Restored the .env file (was overwritten):
+
+- The .env file was found to contain only "DATABASE_URL=file:.../custom.db"
+  (SQLite) instead of the Supabase Postgres URL. This was likely caused by
+  a sandbox reset. Restored the correct .env with:
+  - DATABASE_URL = Supabase Postgres pooled (port 6543)
+  - DIRECT_URL = Supabase Postgres session-mode (port 5432)
+  - AI_API_KEY = OpenRouter key
+  - AI_BASE_URL, AI_MODEL, AI_VISION_MODEL
+  - ENABLE_MOCK_AI = false
+  - NEXT_PUBLIC_SITE_URL = https://segal-institute.vercel.app
+- Restarted dev server with `env -u DATABASE_URL -u DIRECT_URL bun run dev`
+  (the shell had stale env vars that override the .env file).
+
+Stage Summary:
+- ALL requested changes ARE applied locally and committed (71 commits):
+  1. Flashcards + MCQ tests fully removed from the web (all users, all tiers)
+  2. Sentence Generator moved INTO the Lessons page (at /lessons#practice)
+  3. Urdu + Sindhi meanings added to ALL 969 verbs (all 4 badge tiers)
+  4. Lesson explanations expanded (3-5 sentences per section, was 1-2)
+  5. Trilingual vocabulary cards added to all 62 lessons (542 entries)
+- The user is seeing the STALE Vercel deployment which has NOT been updated.
+- To get the changes live, the user needs to either:
+  a) Provide a GitHub PAT so I can push (then Vercel auto-deploys if connected)
+  b) Provide a Vercel token so I can deploy directly
+  c) Push + deploy themselves using: git push origin main + vercel --prod
+- The local dev server is running correctly at http://localhost:3000 with
+  all changes visible. The user can preview it via the Preview Panel.
